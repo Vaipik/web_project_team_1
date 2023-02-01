@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+  <form method="post" action="{% url 'user_auth:registration' %}">
+    {% csrf_token %}
+    {% include '_base_form.html' %}
+    <div class="row">
+      <div class="col-4"></div>
+      <div class="col-2">
+        <button type="submit" class="btn btn-lg btn-dark ">Sign up</button>
+      </div>
+      <div class="col-2 text-end">
+        <button type="reset" class="btn btn-lg btn-dark">Reset</button>
+      </div>
+      <div class="col-4"></div>
+    </div>
+
+
+  </form>
+{% endblock %}

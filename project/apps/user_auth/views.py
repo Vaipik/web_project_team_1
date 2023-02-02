@@ -33,7 +33,7 @@ class SignInAjax(View):
 class SignUpView(CreateView):
     template_name = "user_auth/sign_up.html"
     form_class = SignUpForm
-    extra_context = {"title": "Registration page", "login_ajax": SignInForm()}
+    extra_context = {"title": "Registration page"}
 
     def get_success_url(self):
         return reverse_lazy("index")
@@ -43,4 +43,3 @@ class SignUpView(CreateView):
 def sign_out(request):
     logout(request)
     return redirect("index")
-

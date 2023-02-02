@@ -2,9 +2,19 @@ from uuid import uuid4
 
 from django.db import models
 from django.conf import settings
-from django.utils import timezone
 
 from ..libs import constants
+from .file_category import Categories
+
+
+def _get_folder_name(file: str) -> str:
+    """Creating folder with name according to category with year, month, day additions"""
+    extension = Path(file).suffix[1:]
+    for category in Categories:
+        if extension in category.value:
+            folder_type = category.name
+            break
+    return f"{folder_type}/%Y/%m/%d"  # Function called after form validation -> folder type 100% will be returned
 
 
 class File(models.Model):
@@ -20,7 +30,8 @@ class File(models.Model):
         null=True,
     )
     file = models.FileField(
-        upload_to="%Y/%m/%d"
+        upload_to=_get_folder_name,
+        verbose_name="File path"
     )
     created_at = models.DateTimeField(
         auto_now_add=True

@@ -33,8 +33,6 @@ class File(models.Model):
     description = models.CharField(
         max_length=constants.DESCRIPTION_MAX_LENGTH,
         verbose_name="File description",
-        blank=True,
-        null=True,
     )
     # It is IMPORTANT that _uploaded_at_ MUST BE BEFORE _file_ for _get_folder_name function because otherwise
     # it WILL BE NONE
@@ -62,6 +60,7 @@ class File(models.Model):
         db_table = "file_storage_files"
         verbose_name = "File"
         verbose_name_plural = "Files"
+        ordering = ["-category", "-uploaded_at"]
 
     def __str__(self) -> str:
         return f"{self.file} | {self.category}"

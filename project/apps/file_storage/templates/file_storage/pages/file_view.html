@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <div class="row">
+    <div class="col-3"></div>
+    <div class="col-6">
+      <table class="table table-dark table-striped caption-top">
+        <caption class="text-center">
+          This is detailed information about your file, {{ user.username }}
+        </caption>
+        <thead>
+        <tr>
+          <th scope="row">File description</th>
+          <th scope="row">File category</th>
+          <th scope="row">Uploaded time</th>
+          {% if file.category.name == "images" %}
+            <th scope="row">Picture</th>
+          {% endif %}
+        </tr>
+        </thead>
+
+        <tbody>
+        <tr>
+          <td>
+            {{ file.description|linebreaks }}
+          </td>
+          <td>
+            <a href="{% url 'file_storage:show_category_files' category_url=file.category.slug %}"
+               class="text-decoration-none">{{ file.category.name }}</a>
+          </td>
+          <td>{{ file.uploaded_at|date:"d E, Y H:m" }}</td>
+          <td>
+            {% if file.category.name == 'images' %}
+              <img src="{{ file.file.url }}" width="180px" height="320" alt="Whoops!">
+            {% endif %}
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="col-3"></div>
+  </div>
+
+{% endblock %}

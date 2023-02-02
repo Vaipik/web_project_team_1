@@ -13,3 +13,17 @@ def determine_file_category(file: str) -> str | None:
     for category in Categories:
         if extension in category.value:
             return category.name.lower()
+
+
+def upload_file(**kwargs) -> None:
+    """
+    Creating category if it does not exist and uploads a file
+    :param kwargs: kwargs received from file upload form
+    :return: None
+    """
+
+    filename = kwargs["file"]  # 100% must be in kwargs, because kwargs is valid data from upload form
+    file_category = determine_file_category(filename.name)
+
+    category, created = FileCategory.objects.get_or_create(name=file_category)
+    File.objects.create(**kwargs, category=category)

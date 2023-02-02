@@ -1,3 +1,19 @@
-from django.shortcuts import render
+from django.views.generic import FormView
+from django.urls import reverse
 
-# Create your views here.
+from .forms import FileForm
+from . import services
+
+
+class UploadFileView(FormView):
+    template_name = 'file_storage/pages/upload_page.html'
+    form_class = FileForm
+    success_url = "/files/"
+
+    def form_valid(self, form):
+        data = form.cleaned_data
+        services.upload_file(
+            **data,
+            owner=self.request.user
+        )
+        return super().form_valid(form)

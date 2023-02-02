@@ -1,3 +1,5 @@
+from __future__ import annotations
+from pathlib import Path
 from uuid import uuid4
 
 from django.db import models
@@ -7,14 +9,18 @@ from ..libs import constants
 from .file_category import Categories
 
 
-def _get_folder_name(file: str) -> str:
+def _get_folder_name(instance: File, filename) -> str:
     """Creating folder with name according to category with year, month, day additions"""
-    extension = Path(file).suffix[1:]
+    extension = Path(filename).suffix[1:]
     for category in Categories:
         if extension in category.value:
             folder_type = category.name
             break
-    return f"{folder_type}/%Y/%m/%d"  # Function called after form validation -> folder type 100% will be returned
+    new_filename = f"{instance.uuid}.{extension}"
+    date_path = f"{instance.created_at.date()}.strftime(%Y/%m/%d')"
+
+    path = f"{folder_type}/{date_path}/{new_filename}"  # MEDIA/created_date/UUID.EXT
+    return path
 
 
 class File(models.Model):
@@ -30,11 +36,7 @@ class File(models.Model):
         null=True,
     )
     file = models.FileField(
-        upload_to=_get_folder_name,
-        verbose_name="File path"
-    )
-    created_at = models.DateTimeField(
-        auto_now_add=True
+        upload_to=_get_folder_name
     )
     category = models.ForeignKey(
         to="file_storage.FileCategory",
@@ -52,7 +54,6 @@ class File(models.Model):
         db_table = "file_storage_files"
         verbose_name = "File"
         verbose_name_plural = "Files"
-        ordering = ["-created_at", ["-name"]]
 
     def __str__(self) -> str:
         return f"{self.file} | {self.category}"

@@ -17,7 +17,7 @@ def _get_folder_name(instance: File, filename) -> str:
             folder_type = category.name
             break
     new_filename = f"{instance.uuid}.{extension}"
-    date_path = f"{instance.created_at.date()}.strftime(%Y/%m/%d')"
+    date_path = instance.uploaded_at.date()  # Will be converted in models.FileField
 
     path = f"{folder_type}/{date_path}/{new_filename}"  # MEDIA/created_date/UUID.EXT
     return path
@@ -36,7 +36,12 @@ class File(models.Model):
         null=True,
     )
     file = models.FileField(
-        upload_to=_get_folder_name
+        upload_to=_get_folder_name,
+        verbose_name="File path"
+    )
+    uploaded_at = models.DateTimeField(
+        auto_now_add=True,
+        verbose_name="Uploaded at"
     )
     category = models.ForeignKey(
         to="file_storage.FileCategory",

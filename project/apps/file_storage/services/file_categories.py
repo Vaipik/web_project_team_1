@@ -12,7 +12,7 @@ def determine_file_category(file: str) -> str | None:
     extension = Path(file).suffix[1:]
     for category in Categories:
         if extension in category.value:
-            return category.name
+            return category.name.lower()
 
 
 def get_file_category(file: str) -> FileCategory:
@@ -24,3 +24,4 @@ def get_file_category(file: str) -> FileCategory:
     category_name = determine_file_category(file)
     category, created = FileCategory.objects.get_or_create(name=category_name)
     return category
+

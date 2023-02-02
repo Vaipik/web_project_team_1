@@ -1,7 +1,9 @@
+from uuid import UUID
+
 from django.conf import settings
 from django.db.models import QuerySet
 
-from ..models import File
+from ..models import File, FileCategory
 from ..libs.queries import query_debugger
 from .file_categories import get_file_category
 
@@ -22,4 +24,15 @@ def upload_file(**kwargs) -> None:
 @query_debugger
 def get_user_files(owner: User) -> QuerySet[File]:
     files = File.objects.select_related("category").filter(owner=owner)
+    return files
+
+
+def get_file(file_uuid: UUID) -> File:
+    file = File.objects.get(uuid=file_uuid)
+    return file
+
+
+def get_user_category_files(user: User, category_url: str) -> QuerySet[File]:
+    files = FileCategory.objects.prefetch_related("category").\
+        get(slug=category_url).category.filter(owner=user)
     return files

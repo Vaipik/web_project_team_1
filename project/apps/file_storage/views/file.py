@@ -1,11 +1,11 @@
 from django.views.generic import FormView, ListView, DetailView
 from django.urls import reverse
 
-from .forms import FileForm
-from . import services
+from ..forms import FileForm
+from .. import services
 
 
-class ShowFilesView(ListView):
+class FileListView(ListView):
     template_name = "file_storage/pages/file_list.html"
     context_object_name = "files"
     paginate_by = 10
@@ -14,17 +14,22 @@ class ShowFilesView(ListView):
         kwargs.update(
             title=f"{self.owner.username} files"
         )
-        context = super().get_context_data(**kwargs)
-        print(context)
-        return context
+        return super().get_context_data(**kwargs)
 
     def get_queryset(self):
         self.owner = self.request.user
         return services.get_user_files(owner=self.owner)
 
 
-class ShowSingleFileView(DetailView):
-    pass
+class FileDetailView(DetailView):
+    template_name = "file_storage/pages/file_view.html"
+    pk_url_kwarg = "file_uuid"
+    extra_context = {"title": "Detailed file description"}
+    context_object_name = "file"
+
+    def get_object(self, queryset=None):
+        print(self.kwargs["file_uuid"])
+        return services.get_file(self.kwargs["file_uuid"])
 
 
 class UploadFileView(FormView):

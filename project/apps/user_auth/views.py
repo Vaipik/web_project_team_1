@@ -6,7 +6,7 @@ from django.urls import reverse_lazy
 from django.views import View
 from django.views.generic import CreateView
 
-from .forms import SignUpForm
+from .forms import SignUpForm, SignInForm
 
 
 class SignInAjax(View):
@@ -33,7 +33,7 @@ class SignInAjax(View):
 class SignUpView(CreateView):
     template_name = "user_auth/sign_up.html"
     form_class = SignUpForm
-    extra_context = {"title": "Registration page"}
+    extra_context = {"title": "Registration page", "login_ajax": SignInForm()}
 
     def get_success_url(self):
         return reverse_lazy("index")

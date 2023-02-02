@@ -21,8 +21,7 @@ def upload_file(**kwargs) -> None:
     :param kwargs: kwargs received from file upload form
     :return: None
     """
-
-    filename = kwargs["file"]  # 100% must be in kwargs, because kwargs is valid data from upload form
+    filename = kwargs["file"]  # 100% will be in kwargs, because kwargs is valid data from upload form
     file_category = determine_file_category(filename.name)
 
     category, created = FileCategory.objects.get_or_create(name=file_category)

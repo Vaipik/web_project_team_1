@@ -1,8 +1,16 @@
-from django.views.generic import FormView
+from django.views.generic import FormView, ListView, DetailView
 from django.urls import reverse
 
 from .forms import FileForm
 from . import services
+
+
+class ShowFilesView(ListView):
+    pass
+
+
+class ShowSingleFileView(DetailView):
+    pass
 
 
 class UploadFileView(FormView):

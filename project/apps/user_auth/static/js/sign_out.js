@@ -8,7 +8,7 @@ $('#logout_modal').submit(function (e) {
         success: function (response) {
             console.log(response)
             const message = response.message
-            if (response.status === 200) {
+            if (response.status === 302) {
                 console.log(message)
                 window.location.href = response.url
             } else if (response.status === 400) {

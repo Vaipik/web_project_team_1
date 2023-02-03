@@ -2,9 +2,9 @@ from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import JsonResponse
 from django.shortcuts import redirect
-from django.urls import reverse_lazy
+from django.urls import reverse, reverse_lazy
 from django.views import View
-from django.views.generic import CreateView
+from django.views.generic import FormView, CreateView
 
 from .forms import SignUpForm
 
@@ -39,6 +39,7 @@ class SignUpView(CreateView):
     extra_context = {"title": "Registration page"}
 
     def get_success_url(self):
+        login(self.request, self.object)  # To login created user, self.object -> created user
         """Redirects user to created profile page"""
         return reverse_lazy("file_storage:file_list")  # profile/user_prfofile
 

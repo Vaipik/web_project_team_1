@@ -47,7 +47,7 @@ class SignUpForm(UserCreationForm):
     password2 = forms.CharField(
         min_length=constants.PASSWORD_MIN_LENGTH,
         max_length=constants.PASSWORD_MAX_LENGTH,
-        label="Enter your password",
+        label="Repeat your password",
         widget=forms.PasswordInput(attrs={
             "class": "form-control mt-3",
             "placeholder": "Repeat password"

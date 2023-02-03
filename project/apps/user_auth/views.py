@@ -1,26 +1,29 @@
 from django.contrib.auth import login, logout, authenticate
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import JsonResponse
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views import View
-from django.views.generic import CreateView, FormView
+from django.views.generic import CreateView
 
-from .forms import SignUpForm, SignInForm
+from .forms import SignUpForm
 
 
-class SignInAjax(View):
+class SignInAjaxView(View):
 
     def post(self, request):
         username = request.POST.get("username")
         password = request.POST.get("password")
-        print(request.POST.get("csrftoken"))
         if username and password:
-            user = authenticate(username=username, password=password)
+            user = authenticate(username=username, password=password)  # If user exists
             if user:
                 login(request, user)
                 return JsonResponse(
-                    data={"message": "Logged in", "status": 200},
+                    data={
+                        "message": "Logged in",
+                        "status": 200,
+                        # "url": redirect("user_profile:profile", username=username).url
+                    },
                     status=200
                 )
 
@@ -40,7 +43,15 @@ class SignUpView(CreateView):
         return reverse_lazy("file_storage:file_list")  # profile/user_prfofile
 
 
-@login_required
-def sign_out(request):
-    logout(request)
-    return redirect("user_auth:registration")
+class SignOutAjaxView(LoginRequiredMixin, View):
+
+    def post(self, request):
+        logout(request)
+        return JsonResponse(
+            data={
+                "message": "Logged out",
+                "status": 302,
+                "url": redirect("user_auth:registration").url
+            },
+            status=200
+        )

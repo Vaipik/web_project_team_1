@@ -1,4 +1,4 @@
-$('#login_modal').submit(function (e) {
+$('#logout_modal').submit(function (e) {
     e.preventDefault()
     $.ajax({
         type: this.method,
@@ -10,7 +10,7 @@ $('#login_modal').submit(function (e) {
             const message = response.message
             if (response.status === 200) {
                 console.log(message)
-                window.location.reload()
+                window.location.href = response.url
             } else if (response.status === 400) {
                 $('.alert-warning').text(message).removeClass('d-none')
             }

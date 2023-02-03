@@ -20,7 +20,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get("SECRET_KEY")
+# SECRET_KEY = os.environ.get("SECRET_KEY")
+SECRET_KEY = 123
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -70,7 +71,6 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                'apps.context_processors.get_context',
             ],
         },
     },
@@ -85,11 +85,16 @@ WSGI_APPLICATION = 'config.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': os.environ.get("DB_NAME"),
-        'USER': os.environ.get("DB_USER"),
-        'PASSWORD': os.environ.get("DB_PASSWORD"),
-        "HOST": "db",
-        "PORT": os.environ.get("DB_PORT")
+        # 'NAME': os.environ.get("DB_NAME"),
+        # 'USER': os.environ.get("DB_USER"),
+        # 'PASSWORD': os.environ.get("DB_PASSWORD"),
+        # "HOST": "db",
+        # "PORT": os.environ.get("DB_PORT")
+        'NAME': "postgres",
+        'USER': "postgres",
+        'PASSWORD': "root",
+        "HOST": "127.0.0.1",
+        "PORT": "5432"
     }
 }
 
@@ -142,3 +147,7 @@ MEDIA_ROOT = BASE_DIR / "media"
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+LOGIN_URL = 'user_auth:registration'
+LOGOUT_REDIRECT_URL = "user_auth:registration"

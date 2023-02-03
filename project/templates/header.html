@@ -24,9 +24,10 @@
             Logout
           </button>
         {% else %}
-          <a href="{% url 'user_auth:login' %}" class="btn btn-outline-light me-2">
+         <button type="button" class="btn btn-outline-light me-2"
+                  data-bs-toggle="modal" data-bs-target="#ajax_login">
             Login
-          </a>
+          </button>
           <a href="{% url 'user_auth:registration' %}" type="button" class="btn btn-warning">Sign-up</a>
         {% endif %}
       </div>

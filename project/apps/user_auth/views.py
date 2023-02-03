@@ -4,7 +4,7 @@ from django.http import JsonResponse
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views import View
-from django.views.generic import CreateView
+from django.views.generic import CreateView, FormView
 
 from .forms import SignUpForm, SignInForm
 
@@ -33,13 +33,14 @@ class SignInAjax(View):
 class SignUpView(CreateView):
     template_name = "user_auth/sign_up.html"
     form_class = SignUpForm
-    extra_context = {"title": "Registration page", "login_ajax": SignInForm()}
+    extra_context = {"title": "Registration page"}
 
     def get_success_url(self):
-        return reverse_lazy("index")
+        """Redirects user to created profile page"""
+        return reverse_lazy("file_storage:file_list")  # profile/user_prfofile
 
 
 @login_required
 def sign_out(request):
     logout(request)
-    return redirect("index")
+    return redirect("user_auth:registration")

@@ -1,57 +1,33 @@
 {% extends 'base.html' %}
+
 <main>
-    <nav style="margin-bottom: 20px; border-bottom: 2px solid; padding-left: 30px">
-        <ul>
-            <li><a href="{% url 'contacts:main' %}" role="button"> Contact Book </a></li>
-        </ul>
-    </nav>
+    {% block content %}
 
-    {% block messages %}
-        <ul class="messages" id="messages-list">
-            {% if messages %}
-                {% for message in messages %}
-                    <li>
-                        {% if message.tags %}
-                            <div class="alert alert-{{ message.tags }} msg fade show">{{ message }}</div>
-                        {% else %}
-                            <div class="alert alert-info msg fade show" role="alert">{{ message }}</div>
-                        {% endif %}
-                    </li>
-                {% endfor %}
-            {% endif %}
-        </ul>
+        {% block messages %}
+            <ul class="messages" id="messages-list">
+                {% if messages %}
+                    {% for message in messages %}
+                        <li>
+                            {% if message.tags %}
+                                <div class="alert alert-{{ message.tags }} msg fade show">{{ message }}</div>
+                            {% else %}
+                                <div class="alert alert-info msg fade show" role="alert">{{ message }}</div>
+                            {% endif %}
+                        </li>
+                    {% endfor %}
+                {% endif %}
+            </ul>
+        {% endblock %}
+
+        <div class="container" style="margin: 20px;">
+            <a class="btn btn-secondary" href="{% url 'contacts:main' %}" role="button">All Contacts</a>
+        </div>
+        <div class="container">
+            <form method="POST" action="{% url 'contacts:add_contact' %}">
+                {% csrf_token %}
+                <table class="table table-sm table-borderless">{{ form.as_table }}</table>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
     {% endblock %}
-
-    <form method="POST" action="{% url 'contacts:add_contact' %}">
-        {% csrf_token %}
-        <div style="padding: 10px">
-            <label>Name:
-                {{form.name}}
-            </label>
-        </div>
-        <div style="padding: 10px">
-            <label>Phones:
-                {{form.phones}}
-            </label>
-        </div>
-        <div style="padding: 10px">
-            <label>Email:
-                {{form.email}}
-            </label>
-        </div>
-        <div style="padding: 10px">
-            <label>Birthday:
-                {{form.birthday}}
-            </label>
-        </div>
-        <div style="padding: 10px">
-            <label>Address:
-                {{form.address}}
-            </label>
-        </div>
-        <div class="grid">
-            <button type="submit">Submit</button>
-            <button type="reset">Reset</button>
-        </div>
-    </form>
 </main>

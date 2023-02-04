@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Tech news</title>
+</head>
+<body>
+    <h1>Tech news</h1>
+    <div>
+        {% for i in tech_news %}
+            <p>
+                <span>{{ i.created }}</span>
+                <span><a href="{{ i.link }}">{{ i.title }}</a></span>
+            </p>
+        {% endfor %}
+    </div>
+</body>
+</html>

@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Ukrainian news</title>
+</head>
+<body>
+<h1>Ukrainian news</h1>
+<div>
+    {% for i in news %}
+        <p>
+            <span>{{ i.created }}</span>
+            <span><a href="{{ i.link }}">{{ i.title }}</a></span>
+        </p>
+    {% endfor %}
+</div>
+
+</body>
+</html>

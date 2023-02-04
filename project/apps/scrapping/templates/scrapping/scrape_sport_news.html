@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sport news</title>
+</head>
+<body>
+<h1>Sport news</h1>
+<div>
+    {% for i in sport_news %}
+        <p>
+            <span>{{ i.created }}</span>
+            <span><a href="{{ i.link }}">{{ i.title }}</a></span>
+            <span>{{ i.category }}</span>
+        </p>
+    {% endfor %}
+</div>
+
+</body>
+</html>

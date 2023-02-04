@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    "storages",  # django-storages
     "apps.contacts",
     "apps.file_storage",
     "apps.notes",
@@ -88,6 +89,11 @@ DATABASES = {
         'PASSWORD': os.environ.get("DB_PASSWORD"),
         "HOST": "db",
         "PORT": os.environ.get("DB_PORT"),
+        # 'NAME': "postgres",
+        # 'USER': "postgres",
+        # 'PASSWORD': "root",
+        # "HOST": "127.0.0.1",
+        # "PORT": "5432",
     }
 }
 
@@ -144,3 +150,11 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGIN_URL = 'user_auth:registration'
 LOGOUT_REDIRECT_URL = "user_auth:registration"
+
+
+# django-storages
+DEFAULT_FILE_STORAGE = "storages.backends.dropbox.DropBoxStorage"
+DROPBOX_ROOT_PATH = os.environ.get("DROPBOX_ROOT_PATH")
+DROPBOX_APP_KEY = os.environ.get("DROPBOX_APP_KEY")
+DROPBOX_APP_SECRET = os.environ.get("DROPBOX_APP_SECRET")
+DROPBOX_OAUTH2_REFRESH_TOKEN = os.environ.get("DROPBOX_OAUTH2_REFRESH_TOKEN")

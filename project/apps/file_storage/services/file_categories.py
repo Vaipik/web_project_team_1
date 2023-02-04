@@ -1,6 +1,7 @@
 from pathlib import Path
 
-from ..models import Categories, FileCategory
+from utils.file_categories import Categories
+from ..models import FileCategory
 
 
 def determine_file_category(file: str) -> str | None:

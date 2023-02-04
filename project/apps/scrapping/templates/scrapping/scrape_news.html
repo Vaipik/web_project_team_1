@@ -5,15 +5,19 @@
     <title>Ukrainian news</title>
 </head>
 <body>
-<h1>Ukrainian news</h1>
-<div>
-    {% for i in news %}
-        <p>
-            <span>{{ i.created }}</span>
-            <span><a href="{{ i.link }}">{{ i.title }}</a></span>
-        </p>
-    {% endfor %}
-</div>
-
+    <nav style="margin-bottom: 20px; border-bottom: 2px solid; padding-left: 30px">
+        <ul>
+            <li><a href="/scrapping" role="button">Back to main scrapping</a></li>
+        </ul>
+    </nav>
+    <h1>Ukrainian news</h1>
+    <div>
+        {% for i in news %}
+            <p>
+                <span>{{ i.created }}</span>
+                <span><a href="{{ i.link }}">{{ i.title }}</a></span>
+            </p>
+        {% endfor %}
+    </div>
 </body>
 </html>

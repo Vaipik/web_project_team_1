@@ -5,20 +5,24 @@
     <title>Best Python programming books</title>
 </head>
 <body>
-<h1>Best Python programming books</h1>
-<div>
-<ol>
-    {% for i in python_books %}
-            <li>
-                <img src="{{ i.image }}" alt="{{ i.title }}">
-                <span><a href="{{ i.link }}">{{ i.title }}</a></span>
-                <span>{{ i.author }}</span>
-                <span>{{ i.rating }}</span>
+    <nav style="margin-bottom: 20px; border-bottom: 2px solid; padding-left: 30px">
+        <ul>
+            <li><a href="/scrapping" role="button">Back to main scrapping</a></li>
+        </ul>
+    </nav>
+    <h1>Best Python programming books</h1>
+    <div>
+        <ol>
+            {% for i in python_books %}
+                <li>
+                    <img src="{{ i.image }}" alt="{{ i.title }}">
+                    <span><a href="{{ i.link }}">{{ i.title }}</a></span>
+                    <span>{{ i.author }}</span>
+                    <span>{{ i.rating }}</span>
 
-            </li>
-    {% endfor %}
-</ol>
+                </li>
+            {% endfor %}
+        </ol>
 </div>
-
 </body>
 </html>

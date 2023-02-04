@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% load search_app_tags  %}
+
+{% block content %}
+
+<div class="container" style="padding: 10px">
+        <div class="row row-cols-1 row-cols-md-3 gx-4 text-center">
+            <div class="col-md-4 themed-grid-col"><b>Description</b></div>
+                  <div class="col-md-4 themed-grid-col"><b>Text</b></div>
+                  <div class="col-md-4 themed-grid-col"><b>Tags</b></div>
+    </div>
+
+    {% for object in object_list %}
+    <div class="row row-cols-1 row-cols-md-3 gx-4 text-center">
+        <div class="col-md-4 themed-grid-col">{{ object.description|highlight:query }}</div>
+        <div class="col-md-4 themed-grid-col">{{ object.text|highlight:query }}</div>
+        <div class="col-md-4 themed-grid-col">{{ object.tags|highlight:query }}</div>
+    </div>
+    {% endfor %}
+</div>
+
+{% endblock %}

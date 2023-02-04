@@ -12,6 +12,7 @@ psycopg2 = "^2.9.5"
 django-autoslug = "^1.9.8"
 pytils = "^0.4.1"
 dropbox = "^11.36.0"
+black = {extras = ["d"], version = "^23.1.0"}
 
 
 [tool.poetry.group.dev.dependencies]

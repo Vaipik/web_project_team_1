@@ -18,7 +18,6 @@ def determine_file_category(file: str) -> str | None:
 
 def get_file_category(file: str) -> FileCategory:
     """
-
     :param file:
     :return:
     """

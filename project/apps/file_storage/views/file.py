@@ -1,5 +1,4 @@
 from django.views.generic import FormView, ListView, DetailView
-from django.urls import reverse
 
 from ..forms import FileForm
 from .. import services

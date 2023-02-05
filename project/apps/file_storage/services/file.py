@@ -4,7 +4,6 @@ from django.conf import settings
 from django.db.models import QuerySet
 
 from ..models import File, FileCategory
-from ..libs.queries import query_debugger
 from .file_categories import get_file_category
 
 User = settings.AUTH_USER_MODEL
@@ -21,7 +20,6 @@ def upload_file(**kwargs) -> None:
     File.objects.create(**kwargs, category=category)
 
 
-@query_debugger
 def get_user_files(owner: User) -> QuerySet[File]:
     files = File.objects.select_related("category").filter(owner=owner)
     return files

@@ -1,15 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Ukrainian news</title>
-</head>
-<body>
-    <nav style="margin-bottom: 20px; border-bottom: 2px solid; padding-left: 30px">
-        <ul>
-            <li><a href="/scrapping" role="button">Back to main scrapping</a></li>
-        </ul>
-    </nav>
+{% extends 'base.html' %}
+
+{% block content %}
     <h1>Ukrainian news</h1>
     <div>
         {% for i in news %}
@@ -19,5 +10,4 @@
             </p>
         {% endfor %}
     </div>
-</body>
-</html>
+{% endblock %}

@@ -1,15 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Best Python programming books</title>
-</head>
-<body>
-    <nav style="margin-bottom: 20px; border-bottom: 2px solid; padding-left: 30px">
-        <ul>
-            <li><a href="/scrapping" role="button">Back to main scrapping</a></li>
-        </ul>
-    </nav>
+{% extends 'base.html' %}
+
+{% block content %}
     <h1>Best Python programming books</h1>
     <div>
         <ol>
@@ -23,6 +14,5 @@
                 </li>
             {% endfor %}
         </ol>
-</div>
-</body>
-</html>
+    </div>
+{% endblock %}

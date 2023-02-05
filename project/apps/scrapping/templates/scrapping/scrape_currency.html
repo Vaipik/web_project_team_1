@@ -1,15 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Currency</title>
-</head>
-<body>
-    <nav style="margin-bottom: 20px; border-bottom: 2px solid; padding-left: 30px">
-        <ul>
-            <li><a href="/scrapping" role="button">Back to main scrapping</a></li>
-        </ul>
-    </nav>
+{% extends 'base.html' %}
+
+{% block content %}
     <h1>Currency</h1>
     <form action="{% url 'currency' %}" method="post">
         {% csrf_token %}
@@ -50,5 +41,4 @@
             {% endif %}
         </div>
     </form>
-</body>
-</html>
+{% endblock %}

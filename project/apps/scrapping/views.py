@@ -1,11 +1,5 @@
-from datetime import datetime
-
 from django.shortcuts import render
-from bs4 import BeautifulSoup
-import requests
 
-from .libs.scrapy_urls import URL
-from .libs.scrapy_headers import headers
 from .services.scrapy_news import scrapy_ukr_news, scrapy_sport_news, scrapy_tech_news, scrapy_python_books, \
     scrapy_currency
 

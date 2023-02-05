@@ -1,4 +1,4 @@
-$('#login_modal').submit(function (e) {
+$('#delete_file_modal').submit(function (e) {
     e.preventDefault()
     $.ajax({
         type: this.method,
@@ -8,9 +8,10 @@ $('#login_modal').submit(function (e) {
         success: function (response) {
             console.log(response)
             const message = response.message
-            if (response.status === 200) {
+
+            if (response.status === 204) {
                 console.log(message)
-                window.location.reload()
+                window.location.href = response.url
             } else if (response.status === 400) {
                 $('.alert-warning').text(message).removeClass('d-none')
             }

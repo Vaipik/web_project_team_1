@@ -1,0 +1,23 @@
+<div class="modal fade" id="ajax_delete_file" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Sign in form</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="alert alert-warning d-none" role="alert">
+      </div>
+
+      <form method="POST" action="{% url 'file_storage:delete_file' file_uuid=file.uuid %}" id="delete_file_modal">
+        <div class="modal-body">
+          Are you sure that you want to delete this file ?
+          {% csrf_token %}
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary">Sign out</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

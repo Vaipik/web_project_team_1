@@ -11,6 +11,8 @@ django = "^4.1.6"
 psycopg2 = "^2.9.5"
 django-autoslug = "^1.9.8"
 pytils = "^0.4.1"
+dropbox = "^11.36.0"
+django-storages = "^1.13.2"
 
 
 [tool.poetry.group.dev.dependencies]

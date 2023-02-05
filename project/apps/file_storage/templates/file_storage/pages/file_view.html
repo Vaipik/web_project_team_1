@@ -31,8 +31,14 @@
           <td>{{ file.uploaded_at|date:"d E, Y H:m" }}</td>
           <td>
             {% if file.category.name == 'images' %}
-              <img src="{{ file.file.url }}" width="180px" height="320" alt="Whoops!">
+              <img src="{{ file.file.url }}" width="320px" height="480px" alt="Whoops!">
             {% endif %}
+          </td>
+          <td>
+            <button type="button" class="btn btn-outline-light me-2"
+                    data-bs-toggle="modal" data-bs-target="#ajax_delete_file">
+              Delete file
+            </button>
           </td>
         </tr>
         </tbody>

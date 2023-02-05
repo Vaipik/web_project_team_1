@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block content %}
   <div class="row">
@@ -13,6 +14,7 @@
           <th scope="col">File description</th>
           <th scope="col">File category</th>
           <th scope="col">Uploaded time</th>
+          <th scope="col"></th>
         </tr>
         </thead>
 
@@ -29,7 +31,15 @@
                  class="text-decoration-none">{{ file.category.name }}</a>
             </td>
             <td>{{ file.uploaded_at|date:"d E, Y H:m" }}</td>
+            <td>
+              <button type="button" class="btn btn-outline-light me-2"
+                      data-bs-toggle="modal" data-bs-target="#ajax_delete_file">
+                Delete file
+              </button>
+            </td>
           </tr>
+          {% include 'file_storage/file_delete_ajax.html' %}
+
         {% endfor %}
         </tbody>
 
@@ -38,4 +48,5 @@
     <div class="col-3"></div>
   </div>
 
+  <script src="{% static 'js/delete_file.js' %}"></script>
 {% endblock %}

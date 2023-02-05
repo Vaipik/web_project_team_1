@@ -1,5 +1,5 @@
 from .file import upload_file, get_user_files, get_file, get_user_category_files
-from .file_categories import determine_file_category
+from .file_categories import determine_file_category, get_file_category
 
 
 __all__ = (
@@ -7,5 +7,6 @@ __all__ = (
     "get_user_files",
     "get_user_category_files",
     "get_file",
-    "upload_file"
+    "upload_file",
+    "get_file_category"
 )

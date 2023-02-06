@@ -1,4 +1,4 @@
-from .file import FileDetailView, FileListView, UploadFileView, DeleteFileView
+from .file import FileDetailView, FileListView, UploadFileView, DeleteFileView, EditFileDescriptionView
 from .file_category import FileByCategoryListView
 
 __all__ = (
@@ -6,5 +6,6 @@ __all__ = (
     "FileListView",
     "UploadFileView",
     "FileByCategoryListView",
-    "DeleteFileView"
+    "DeleteFileView",
+    "EditFileDescriptionView"
 )

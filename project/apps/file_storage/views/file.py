@@ -1,10 +1,12 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import JsonResponse
 from django.shortcuts import redirect
+from django.urls import reverse, reverse_lazy
 from django.views import View
-from django.views.generic import FormView, ListView, DetailView
+from django.views.generic import FormView, ListView, DetailView, UpdateView
 
-from ..forms import FileForm
+from ..forms import FileForm, EditFileForm
+from ..models import File
 from .. import services
 
 
@@ -38,7 +40,7 @@ class FileDetailView(LoginRequiredMixin, DetailView):
 class UploadFileView(LoginRequiredMixin, FormView):
     template_name = 'file_storage/pages/upload_page.html'
     form_class = FileForm
-    success_url = "/files/"
+    success_url = reverse_lazy("file_storage:file_list")
     extra_context = {"title": "Uploading file"}
 
     def form_valid(self, form):
@@ -63,3 +65,20 @@ class DeleteFileView(LoginRequiredMixin, View):
             },
             status=200
         )
+
+
+class EditFileDescriptionView(LoginRequiredMixin, UpdateView):
+    form_class = EditFileForm
+    model = File
+    template_name = "file_storage/pages/editing_file.html"
+    extra_context = {"title": "Editing file"}
+    pk_url_kwarg = "file_uuid"
+    success_url = reverse_lazy("file_storage:file_list")
+
+    def form_valid(self, form):
+        self.object.description = form.cleaned_data["description"]
+        self.object.save()
+        return super().form_valid(form)
+
+    def get_object(self, queryset=None):
+        return services.get_file(self.kwargs["file_uuid"])

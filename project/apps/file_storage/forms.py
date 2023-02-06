@@ -30,3 +30,18 @@ class FileForm(forms.ModelForm):
         if determine_file_category(file.name) is None:
             raise ValidationError("Not allowed file type")
         return file
+
+
+class EditFileForm(FileForm):
+    class Meta:
+        model = File
+        fields = ["description"]
+        widgets = {
+            "description": forms.TextInput(attrs={
+                "class": "form-control",
+                "placeholder": "Enter file description"
+            }),
+        }
+        labels = {
+            "description": "Enter the file description",
+        }

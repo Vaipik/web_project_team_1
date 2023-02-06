@@ -10,8 +10,12 @@ $('#delete_file_modal').submit(function (e) {
             const message = response.message
 
             if (response.status === 204) {
-                console.log(message)
-                window.location.href = response.url
+                if (window.location.href === response.url){
+                    window.location.reload()
+                }
+                else {
+                    window.location.href = response.url
+                }
             } else if (response.status === 400) {
                 $('.alert-warning').text(message).removeClass('d-none')
             }

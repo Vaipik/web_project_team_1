@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+  <form action="{% url 'file_storage:edit_file' file_uuid=file.uuid%}" method="post">
+    {% include '_base_form.html' %}
+      {% csrf_token %}
+    <button type="submit">Submit</button>
+  </form>
+
+{% endblock %}

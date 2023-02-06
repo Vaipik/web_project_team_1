@@ -25,7 +25,7 @@ class File(models.Model):
     )
     file = models.FileField(
         upload_to=_get_folder_name,
-        verbose_name="File path"
+        verbose_name="File path",
     )
     category = models.ForeignKey(
         to="file_storage.FileCategory",
@@ -47,3 +47,7 @@ class File(models.Model):
 
     def __str__(self) -> str:
         return f"{self.file} | {self.category}"
+
+    def delete(self, *args, **kwargs):
+        self.file.delete(save=False)  # Delete file in DropBox
+        super().delete(*args, **kwargs)

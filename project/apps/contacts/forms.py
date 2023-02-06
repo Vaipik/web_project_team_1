@@ -15,7 +15,7 @@ from apps.contacts.models import Contact
 
 def validate_birthdate(date):
     if date > timezone.now().date():
-        raise ValidationError(f"{date} is in future")
+        raise ValidationError(f"Birth date: {date} is in future")
     return date
 
 

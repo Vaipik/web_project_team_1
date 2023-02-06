@@ -61,7 +61,7 @@
                     }, function(errors) {
                         for (const fieldName in errors) {
                             var errorField = document.getElementById("error")
-                            errorField.textContent = `${fieldName}: ${errors[fieldName]}`
+                            errorField.textContent = `${errors[fieldName][0]}`
                             errorField.style.color = "red"
                         }
                     })
@@ -71,4 +71,3 @@
     }
 )
 ();
-

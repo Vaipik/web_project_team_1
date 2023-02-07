@@ -1,13 +1,18 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h1>News scrapper</h1>
-<h2>Choose your news category</h2>
-<ul>
-    <li><a href="news/">Ukrainian news</a></li>
-    <li><a href="sport_news/">Sport news</a></li>
-    <li><a href="tech_news/">Tech news</a></li>
-    <li><a href="python_books/">Best Python programming books</a></li>
-    <li><a href="currency/">Currency</a></li>
-</ul>
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="#">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Scrapping</li>
+        </ol>
+    </nav>
+    <h1 class="display-1" style="text-align: center">News scrapper</h1>
+    <div class="d-flex justify-content-center">
+        <a class="btn btn-primary btn-lg" href="news/" role="button" style="margin: 20px">Ukrainian news</a>
+        <a class="btn btn-secondary btn-lg" href="sport_news/" role="button" style="margin: 20px">Sport news</a>
+        <a class="btn btn-success btn-lg" href="tech_news/" role="button" style="margin: 20px">Tech news</a>
+        <a class="btn btn-warning btn-lg" href="python_books/" role="button" style="margin: 20px">Best Python programming books</a>
+        <a class="btn btn-info btn-lg" href="currency/" role="button" style="margin: 20px">Currency</a>
+    </div>
 {% endblock %}

@@ -16,7 +16,6 @@ class SignUpTest(TestCase):
         """Test for view access"""
         response = self.client.get(reverse("user_auth:registration"))
 
-        a = 1
         self.assertEqual(response.status_code, 200)
         self.assertIsInstance(response.context_data["form"], SignUpForm)
         self.assertIsInstance(response.context_data["view"], SignUpView)

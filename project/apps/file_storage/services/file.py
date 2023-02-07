@@ -31,6 +31,7 @@ def get_file(file_uuid: UUID) -> File:
 
 
 def get_user_category_files(user: User, category_url: str) -> QuerySet[File]:
-    files = FileCategory.objects.prefetch_related("category").\
-        get(slug=category_url).category.filter(owner=user)
+    files = File.objects.select_related("category").\
+        filter(category__slug=category_url, owner=user)
     return files
+

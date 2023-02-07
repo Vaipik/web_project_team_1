@@ -48,11 +48,4 @@ class SignOutAjaxView(LoginRequiredMixin, View):
 
     def post(self, request):
         logout(request)
-        return JsonResponse(
-            data={
-                "message": "Logged out",
-                "status": 302,
-                "url": redirect("user_auth:registration").url
-            },
-            status=200
-        )
+        return redirect("user_auth:registration")

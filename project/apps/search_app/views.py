@@ -1,38 +1,80 @@
+from operator import and_
+
+from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 # Create your views here.
+from django.shortcuts import redirect
 from django.views.generic import ListView
 
 from .models import TempNote, TempContact
-from .utils import SearchAppMixin
 from ..contacts.models import Contact
+from .utils import get_filter_query_conditions
 
 
-class SearchNotesView(LoginRequiredMixin, SearchAppMixin, ListView):
-    model = TempNote
-    template_name = "search_app/search_notes.html"
-    search_fields = [
-        "description",
-        "text",
-        "tags"
+class SearchUniView(LoginRequiredMixin, ListView):
+    template_name = "search_app/search_results.html"
+    """
+    "model" - model class name for search
+    "search_fields" - model fields for search. It should be CharField type or ArrayField type of CharField type
+    "auth_required" - if model stores personal users data, 
+        True - require authentication, 
+        False - not require authentication 
+    """
+    models = [
+        {
+            "model": TempNote,
+            "search_fields": ["description",
+                              "text",
+                              "tags"],
+            "auth_required": False
+        },
+        {
+            "model": "TempContact",
+            "search_fields": ["description",
+                              "text",
+                              "tags"],
+            "auth_required": False
+        },
+        {
+            "model": "Contact",
+            "search_fields": ["name",
+                              "address",
+                              "phones"],
+            "auth_required": False
+        },
     ]
 
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        query_string = self.request.GET.get("search", None)
+        if query_string:
+            query_list = query_string.split()
+            context.update({"query": query_list})
 
-class SearchTempContactView(LoginRequiredMixin, SearchAppMixin, ListView):
-    model = TempContact
-    template_name = "search_app/search_notes.html"
-    search_fields = [
-        "description",
-        "text",
-        "tags"
-    ]
+        context.update(
+            **self.get_pages(page_obj=context["page_obj"]),
+        )
+        return context
 
+    def get_queryset(self):
+        query = self.request.GET.get("search", None)
+        if query is None:
+            messages.error(self.request, "Please enter some keyword to search")
+            redirect(self.request.META.get("HTTP_REFERER"))
 
-class SearchContactsView(LoginRequiredMixin, SearchAppMixin, ListView):
-    model = Contact
-    template_name = "search_app/search_contacts.html"
-    search_fields = [
-        "name",
-        "address",
-        "phones"
-    ]
+        object_list = []
+        for model in self.models:
+
+            filter_conditions = get_filter_query_conditions(model["search_fields"], query)
+
+            model_class = globals()[model["model"]] if isinstance(model["model"], str) else model["model"]
+
+            if model["auth_required"]:
+                query_set = model_class.objects.filter(and_(model_class.user == self.request.user, filter_conditions))
+            else:
+                query_set = model_class.objects.filter(filter_conditions)
+
+            object_list.append((model_class.__name__, model["search_fields"], query_set))
+
+        return object_list

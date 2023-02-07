@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% load search_app_tags  %}
+
+{% block content %}
+
+<div class="container" style="padding: 10px">
+    {% for model_name, fields, query_set in object_list %}
+    <h3>{{ query_set|length }} results in {{ model_name }}</h3>
+    <div class="row row-cols-1 row-cols-md-3 gx-4 text-center">
+        {% for field in fields %}
+        <div class="col-md-2 themed-grid-col"><b>{{ field|capfirst }}</b></div>
+        {% endfor %}
+    </div>
+    {% for item in query_set %}
+    <div class="row row-cols-1 row-cols-md-3 gx-4 text-center">
+        {% for field in fields %}
+        <div class="col-md-2 themed-grid-col">{{ item|attr:field|highlight:query }}</div>
+        {% endfor %}
+    </div>
+    {% endfor %}
+    {% endfor %}
+</div>
+
+{% endblock %}

@@ -14,3 +14,9 @@ def highlight(text: str, searches: List[str]):
         else:
             text = text.replace(search, f'<mark>{search}</mark>')
     return mark_safe(text)
+
+
+@register.filter(name='attr')
+def attr(item, attribute):
+
+    return mark_safe(vars(item)[attribute])

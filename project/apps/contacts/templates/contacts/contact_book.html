@@ -37,19 +37,24 @@
                 <tbody>
                 {% for contact in contacts %}
                     <tr>
-                        <td><span>{{ contact.name }}</span>
-                            <input type="text" class="name" style="display: none" value="{{ contact.name }}"/> </td>
-                        <td><span>{{ contact.phones|join:', ' }}</span>
-                            <input type="text" style="display: none" class="phones" value="{{ contact.phones|join:', ' }}"/></td>
-                        <td><span>{{ contact.email }}</span>
-                            <input type="text" class="email"  style="display: none" value="{{ contact.email }}"/></td>
-                        <td><span>{{ contact.birthday|date:"Y-m-d" }}</span>
-                            <input type="date"  style="display: none" class="birthday" value="{{ contact.birthday|date:"Y-m-d"  }}"/></td>
-                        <td><span>{{ contact.address }}</span>
-                            <input type="text" class="address"  style="display: none" value="{{ contact.address }}"/></td>
+                        <td>{{ contact.name }}</td>
                         <td>
-                            <input type="hidden" value="{{ contact.id }}" class="id" />
-                            <a type="button" class="btn btn-warning update-button">Update</a>
+                            <ul>
+                            {% for phone in contact.phones.all %}
+                                <li>{{ phone.phone_number }}, {{ phone.type }} </li>
+                            {% endfor %}
+                            </ul>
+                        <td>
+                            <ul>
+                            {% for email in contact.emails.all %}
+                                <li>{{ email.email_addr }}, {{ email.type }}</li>
+                            {% endfor %}
+                            </ul>
+                        <td>{{ contact.birthday|date:"Y-m-d" }}</td>
+                        <td>{{ contact.address }}</td>
+                        <td>
+                            <a href="{% url 'contacts:update_contact' contact.id %}" type="button" class="btn btn-warning">
+                                Update</a>
                         </td>
                         <td>
                             <a href="{% url 'contacts:delete_contact' contact.id %}" type="button" class="btn btn-danger">

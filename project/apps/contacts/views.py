@@ -6,11 +6,6 @@ from apps.contacts.forms import ContactForm
 from apps.contacts.models import Contact
 
 
-def main(request):
-    contacts = Contact.objects.all()
-    return render(request, "contacts/contact_book.html", {"contacts": contacts})
-
-
 def add_contact(request):
     if request.method == "POST":
         form = ContactForm(request.POST)

@@ -15,6 +15,7 @@ dropbox = "^11.36.0"
 django-storages = "^1.13.2"
 beautifulsoup4 = "^4.11.2"
 requests = "^2.28.2"
+psycopg2-binary = "^2.9.5"
 
 
 

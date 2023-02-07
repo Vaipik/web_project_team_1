@@ -1,47 +1,61 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.http import JsonResponse
-from django.shortcuts import redirect
-from django.urls import reverse, reverse_lazy
-from django.views import View
-from django.views.generic import FormView, ListView, DetailView, UpdateView
+from django.urls import reverse_lazy
+from django.views.generic import FormView, ListView, DetailView, UpdateView, DeleteView
 
+from utils.pagination import PaginationMixin
 from ..forms import FileForm, EditFileForm
 from ..models import File
 from .. import services
+from ..mixins import UserCategoryMixin
 
 
-class FileListView(LoginRequiredMixin, ListView):
-    template_name = "file_storage/pages/file_list.html"
+class FileListView(LoginRequiredMixin, PaginationMixin, UserCategoryMixin, ListView):
+    template_name = "file_storage/pages/show_files.html"
     context_object_name = "files"
-    paginate_by = 10
+    paginate_by = 3
 
     def get_context_data(self, *, object_list=None, **kwargs):
-        kwargs.update(
-            title=f"{self.owner.username} files"
+        context = super().get_context_data(**kwargs, title=f"{self.owner.username} files")
+        context.update(
+            **self.get_pages(
+                page_obj=context["page_obj"],
+            ),
+            **self.get_user_categories()
+
         )
-        return super().get_context_data(**kwargs)
+        return context
 
     def get_queryset(self):
         self.owner = self.request.user
         return services.get_user_files(owner=self.owner)
 
 
-class FileDetailView(LoginRequiredMixin, DetailView):
+class FileDetailView(LoginRequiredMixin, UserCategoryMixin, DetailView):
     template_name = "file_storage/pages/file_view.html"
     pk_url_kwarg = "file_uuid"
-    extra_context = {"title": "Detailed file description"}
-    context_object_name = "file"
+    extra_context = {"title": "File data"}
+    model = File
 
-    def get_object(self, queryset=None):
-        print(self.kwargs["file_uuid"])
-        return services.get_file(self.kwargs["file_uuid"])
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context.update(
+            **self.get_user_categories()
+        )
+        return context
 
 
-class UploadFileView(LoginRequiredMixin, FormView):
+class UploadFileView(LoginRequiredMixin, UserCategoryMixin, FormView):
     template_name = 'file_storage/pages/upload_page.html'
     form_class = FileForm
     success_url = reverse_lazy("file_storage:file_list")
     extra_context = {"title": "Uploading file"}
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context.update(
+            **self.get_user_categories()
+        )
+        return context
 
     def form_valid(self, form):
         data = form.cleaned_data
@@ -52,33 +66,23 @@ class UploadFileView(LoginRequiredMixin, FormView):
         return super().form_valid(form)
 
 
-class DeleteFileView(LoginRequiredMixin, View):
-
-    def post(self, request, file_uuid):
-        file = services.get_file(file_uuid)
-        file.delete()
-        return JsonResponse(
-            data={
-                "message": "File deleted",
-                "status": "204",
-                "url": redirect("file_storage:file_list").url
-            },
-            status=200
-        )
-
-
-class EditFileDescriptionView(LoginRequiredMixin, UpdateView):
-    form_class = EditFileForm
-    model = File
-    template_name = "file_storage/pages/editing_file.html"
-    extra_context = {"title": "Editing file"}
+class DeleteFileView(LoginRequiredMixin, DeleteView):
     pk_url_kwarg = "file_uuid"
+    model = File
     success_url = reverse_lazy("file_storage:file_list")
 
-    def form_valid(self, form):
-        self.object.description = form.cleaned_data["description"]
-        self.object.save()
-        return super().form_valid(form)
 
-    def get_object(self, queryset=None):
-        return services.get_file(self.kwargs["file_uuid"])
+class EditFileDescriptionView(LoginRequiredMixin, UserCategoryMixin, UpdateView):
+    template_name = "file_storage/pages/editing_file.html"
+    pk_url_kwarg = "file_uuid"
+    form_class = EditFileForm
+    model = File
+    extra_context = {"title": "Editing file"}
+    success_url = reverse_lazy("file_storage:file_list")
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context.update(
+            **self.get_user_categories()
+        )
+        return context

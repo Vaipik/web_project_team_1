@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block app_header_content %}
+  <li><a href="{% url 'file_storage:upload_file' %}" class="btn btn-outline-warning ms-2 me-3">Upload new file</a></li>
+{% endblock %}
+
+{% block app_sidebar_content %}
+  {% include 'file_storage/_sidebar_content.html' %}
+{% endblock %}
+
+{% block content %}
+  {% include "file_storage/_files_list.html" %}
+{% endblock %}

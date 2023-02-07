@@ -1,11 +1,26 @@
 {% extends 'base.html' %}
 
+{% block app_header_content %}
+  <li><a href="{% url 'file_storage:file_list' %}" class="btn btn-outline-warning ms-2 me-3">Files list</a></li>
+  <li><a href="{% url 'file_storage:upload_file' %}" class="btn btn-outline-warning ms-2 me-3">Upload new file</a></li>
+{% endblock %}
+
+{% block app_sidebar_content %}
+  {% include 'file_storage/_sidebar_content.html' %}
+{% endblock %}
+
 {% block content %}
 
   <form action="{% url 'file_storage:edit_file' file_uuid=file.uuid%}" method="post">
     {% include '_base_form.html' %}
-      {% csrf_token %}
-    <button type="submit">Submit</button>
+      <div class="row">
+      <div class="col-4"></div>
+      <div class="col-4 text-center">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-outline-danger mt-3">Update file description</button>
+      </div>
+      <div class="col-4"></div>
+    </div>
   </form>
 
 {% endblock %}

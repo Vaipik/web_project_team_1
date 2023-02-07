@@ -17,8 +17,8 @@ class File(models.Model):
         max_length=constants.DESCRIPTION_MAX_LENGTH,
         verbose_name="File description",
     )
-    # It is IMPORTANT that _uploaded_at_ MUST BE BEFORE _file_ for _get_folder_name function because otherwise
-    # it WILL BE NONE
+    # It is IMPORTANT that 'uploaded_at' MUST BE BEFORE 'file' for _get_folder_name function because otherwise
+    # 'uploaded_at' WILL BE NONE
     uploaded_at = models.DateTimeField(
         auto_now_add=True,
         verbose_name="Uploaded at"
@@ -49,5 +49,5 @@ class File(models.Model):
         return f"{self.file} | {self.category}"
 
     def delete(self, *args, **kwargs):
-        self.file.delete(save=False)  # Delete file in DropBox
+        self.file.delete(save=False)  # Delete file directly from storage
         super().delete(*args, **kwargs)

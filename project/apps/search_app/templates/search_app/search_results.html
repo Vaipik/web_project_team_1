@@ -8,13 +8,13 @@
     <h3>{{ query_set|length }} results in {{ model_name }}</h3>
     <div class="row row-cols-1 row-cols-md-3 gx-4 text-center">
         {% for field in fields %}
-        <div class="col-md-2 themed-grid-col"><b>{{ field|capfirst }}</b></div>
+        <div class="col-md-{{ fields|width }} themed-grid-col"><b>{{ field|capfirst }}</b></div>
         {% endfor %}
     </div>
     {% for item in query_set %}
     <div class="row row-cols-1 row-cols-md-3 gx-4 text-center">
         {% for field in fields %}
-        <div class="col-md-2 themed-grid-col">{{ item|attr:field|highlight:query }}</div>
+        <div class="col-md-{{ fields|width }} themed-grid-col">{{ item|attr:field|highlight:query }}</div>
         {% endfor %}
     </div>
     {% endfor %}

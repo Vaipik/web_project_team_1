@@ -10,9 +10,10 @@ from django.views.generic import ListView
 from .models import TempNote, TempContact
 from ..contacts.models import Contact
 from .utils import get_filter_query_conditions
+from utils.pagination import PaginationMixin
 
 
-class SearchUniView(LoginRequiredMixin, ListView):
+class SearchUniView(LoginRequiredMixin, PaginationMixin, ListView):
     template_name = "search_app/search_results.html"
     """
     "model" - model class name for search
@@ -23,7 +24,7 @@ class SearchUniView(LoginRequiredMixin, ListView):
     """
     models = [
         {
-            "model": TempNote,
+            "model": "TempNote",
             "search_fields": ["description",
                               "text",
                               "tags"],

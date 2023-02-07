@@ -20,3 +20,9 @@ def highlight(text: str, searches: List[str]):
 def attr(item, attribute):
 
     return mark_safe(vars(item)[attribute])
+
+
+@register.filter(name='width')
+def width(fields):
+
+    return mark_safe(str(12 // len(fields)))

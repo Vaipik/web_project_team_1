@@ -1,7 +1,13 @@
 from pathlib import Path
 
+from django.db.models import QuerySet, Q
+from django.contrib.auth import get_user_model
+
 from utils.file_categories import Categories
 from ..models import FileCategory
+
+
+User = get_user_model()
 
 
 def determine_file_category(file: str) -> str | None:
@@ -18,11 +24,9 @@ def determine_file_category(file: str) -> str | None:
 
 def get_file_category(file: str) -> FileCategory:
     """
-
     :param file:
     :return:
     """
     category_name = determine_file_category(file)
     category, created = FileCategory.objects.get_or_create(name=category_name)
     return category
-

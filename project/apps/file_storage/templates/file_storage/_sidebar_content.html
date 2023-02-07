@@ -1,0 +1,16 @@
+<h6 class="sidebar-heading d-flex justify-content-center align-items-center px-3 mt-4 mb-1 text-success fw-bolder fs-5">
+  <span>FILE CATEGORIES</span>
+</h6>
+
+<ul class="nav flex-column mb-2 text-center">
+  {% for category in categories %}
+    <li class="nav-item">
+    {% if category_url == category.slug %}
+      <span class="text-capitalize text-success fw-bolder fs-5">{{ category.name }}</span>
+    {% else %}
+      <a class="nav-link" href="{% url 'file_storage:show_category_files' category_url=category.slug %}">
+        <span class="text-capitalize text-decoration-none text-muted text-success fw-bolder fs-5">{{ category.name }}</span>
+      </a>
+    {% endif %}
+  {% endfor %}
+</ul>

@@ -22,6 +22,7 @@ psycopg2-binary = "^2.9.5"
 [tool.poetry.group.dev.dependencies]
 ipython = "^8.9.0"
 factory-boy = "^3.2.1"
+python-dotenv = "^0.21.1"
 
 [build-system]
 requires = ["poetry-core"]

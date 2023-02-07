@@ -12,17 +12,15 @@ class FileForm(forms.ModelForm):
         fields = ["description", "file"]
         widgets = {
             "description": forms.TextInput(attrs={
-                "class": "form-control",
+                "class": "form-control mt-3",
                 "placeholder": "Enter file description"
             }),
             "file": forms.FileInput(attrs={
-                "class": "form-control",
-                "placeholder": "Choose the file to be uploaded"
+                "class": "form-control form-control-lg mt-3",
             })
         }
         labels = {
             "description": "Enter the file description",
-            "file": "Choose the file to be uploaded"
         }
 
     def clean_file(self):
@@ -30,3 +28,18 @@ class FileForm(forms.ModelForm):
         if determine_file_category(file.name) is None:
             raise ValidationError("Not allowed file type")
         return file
+
+
+class EditFileForm(forms.ModelForm):
+    class Meta:
+        model = File
+        fields = ["description"]
+        widgets = {
+            "description": forms.TextInput(attrs={
+                "class": "form-control mt-3",
+                "placeholder": "Edit file description"
+            }),
+        }
+        labels = {
+            "description": "Edit the file description",
+        }

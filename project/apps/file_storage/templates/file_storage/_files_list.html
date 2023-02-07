@@ -1,0 +1,74 @@
+<div class="row justify-content-center">
+  <h3 class="h5 text-center mt-3">
+  {% for category in categories %}
+    {% if category.slug == category_url %}
+      This is all your files in {{ category.name }} dear, {{ user.username }}
+    {% else %}
+      This is all your files dear, {{ user.username }}
+    {% endif %}
+  {% endfor %}
+  </h3>
+  <div class="col-2"></div>
+  <div class="col-8">
+    <div class="row  align-items-center fw-bold p-2">
+      <div class="col-4 text-center">Description</div>
+      <div class="col-2 text-center">Category</div>
+      <div class="col-4 text-center">Uploaded time</div>
+      <div class="col-2"></div>
+    </div>
+  </div>
+  <div class="col-2"></div>
+</div>
+
+{% for file in files %}
+  <div class="row justify-content-around">
+
+    <div class="col-2"></div>
+    <div class="col-8">
+      <div class="row align-items-center fw-normal m-2">
+
+        <div class="col-4 text-center">
+          <div class="row">
+            <div class="col-9 text-center">
+              {{ file.description|truncatechars:20 }}
+            </div>
+            <div class="col-3 text-center">
+              <a href="{% url 'file_storage:show_file' file_uuid=file.uuid %}"
+                 class="badge text-bg-warning text-decoration-none"
+              >Open
+              </a>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="col-2 text-center">
+          {% if category_url %}
+            {{ file.category.name }}
+          {% else %}
+            <a href="{% url 'file_storage:show_category_files' category_url=file.category.slug %}"
+               class="text-muted text-decoration-none">{{ file.category.name }}</a>
+          {% endif %}
+        </div>
+
+        <div class="col-4 fw-light text-center">
+          {{ file.uploaded_at|date:"d E, Y H:m" }}
+        </div>
+
+        <div class="col-2 text-end">
+          <button type="button" class="btn btn-outline-danger"
+                  data-bs-toggle="modal" data-bs-target="#ajax_delete_file">
+            Delete file
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="col-2">
+
+      {% include 'file_storage/file_delete_modal.html' %}
+    </div>
+
+  </div>
+{% endfor %}

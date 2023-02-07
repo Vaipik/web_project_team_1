@@ -5,10 +5,12 @@
     <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
 
       <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-        <li><a href="#" class="btn btn-outline-info">Home</a></li>
+        <li><a href="#" class="btn btn-outline-info ms-2 me-5">Home</a></li>
         <li><a href="#" class="btn btn-outline-info ms-2 me-5">About</a></li>
-        {% if user.is_authenticated %}
-          <li><a href="#" class="btn btn-outline-success">New account</a></li>
+
+        {% if user.is_authenticated %}}
+          {% block app_content %}
+          {% endblock app_content %}
         {% endif %}
       </ul>
 
@@ -24,7 +26,7 @@
             Logout
           </button>
         {% else %}
-         <button type="button" class="btn btn-outline-light me-2"
+          <button type="button" class="btn btn-outline-light me-2"
                   data-bs-toggle="modal" data-bs-target="#ajax_login">
             Login
           </button>

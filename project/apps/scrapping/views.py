@@ -1,5 +1,4 @@
 from django.contrib.auth.decorators import login_required
-from django.core.paginator import Paginator
 from django.shortcuts import render
 
 from .services.scrapy_news import scrapy_ukr_news, scrapy_sport_news, scrapy_tech_news, scrapy_python_books, \
@@ -37,7 +36,7 @@ def get_tech_news(request):
 # @login_required
 def get_python_books(request):
     python_books = scrapy_python_books()
-    page_obj = get_paginator(request, python_books, 10)
+    page_obj = get_paginator(request, python_books, 8)
     return render(request, 'scrapping/scrape_python_books.html', {'page_obj': page_obj})
 
 

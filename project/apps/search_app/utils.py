@@ -20,36 +20,37 @@ def get_filter_query_conditions(fields: list, query_string: str):
 
 
 class SearchAppMixin:
+    paginate_by = 3
+    template_name = "search_app/search_model_result.html"
+    extra_context = {"title": "Search"}
+
+    query_name = "query"
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
-        query_string = self.request.GET.get("search", None)
+        query_string = self.request.GET.get(self.query_name, None)
         if query_string:
-            query_list = query_string.split()
-            context.update({"query": query_list})
+            context.update({"query": query_string})
+
+        context.update({"model_name": self.model.__name__, "fields": self.search_fields})
 
         context.update(
             **self.get_pages(page_obj=context["page_obj"]),
         )
 
-        model_class = globals()[self.model["model"]] if isinstance(self.model["model"], str) else self.model["model"]
-        context.update({"model_name": model_class.__name__, "fields": self.model["search_fields"]})
-
         return context
 
     def get_queryset(self):
-        query = self.request.GET.get("search", None)
+        query = self.request.GET.get(self.query_name, None)
         if query is None:
             messages.error(self.request, "Please enter some keyword to search")
             redirect(self.request.META.get("HTTP_REFERER"))
 
-        filter_conditions = get_filter_query_conditions(self.model["search_fields"], query)
+        filter_conditions = get_filter_query_conditions(self.search_fields, query)
 
-        model_class = globals()[self.model["model"]] if isinstance(self.model["model"], str) else self.model["model"]
-
-        if self.model["auth_required"]:
-            query_set = model_class.objects.filter(and_(model_class.user == self.request.user, filter_conditions))
+        if self.auth_required:
+            query_set = self.model.objects.filter(Q(owner=self.request.user) & filter_conditions)
         else:
-            query_set = model_class.objects.filter(filter_conditions)
+            query_set = self.model.objects.filter(filter_conditions)
 
         return query_set

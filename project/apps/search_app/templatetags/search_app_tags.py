@@ -7,12 +7,13 @@ register = template.Library()
 
 
 @register.filter(name='highlight')
-def highlight(text: str, searches: List[str]):
+def highlight(text: str, search_string: str):
+    searches = search_string.split()
     for search in searches:
         if isinstance(text, list):
-            text = [highlight(el, searches) for el in text]
+            text = [highlight(el, search_string) for el in text]
         else:
-            text = text.replace(search, f'<mark>{search}</mark>')
+            text = text.replace(search, f'<mark style="background: yellow">{search}</mark>')
     return mark_safe(text)
 
 

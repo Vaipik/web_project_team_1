@@ -8,7 +8,7 @@ from ..factories import random_file
 class CategoryTest(TestCase):
 
     def test_determine_file_category_ok(self):
-        "File with valid extension"
+        """File with valid extension"""
         for _ in range(10):
             file = random_file()
             result = determine_file_category(file)

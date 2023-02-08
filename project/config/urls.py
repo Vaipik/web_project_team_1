@@ -7,6 +7,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     re_path(r"^files/", include("apps.file_storage.urls", namespace="file_storage")),
     re_path(r"^auth/", include("apps.user_auth.urls", namespace="user_auth")),
+    path("notes/", include("apps.notes.urls", namespace="notes"))
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

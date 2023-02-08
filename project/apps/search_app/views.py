@@ -55,7 +55,7 @@ class SearchUniView(LoginRequiredMixin, PaginationMixin, ListView):
             "model": File,
             "search_fields": ["description",
                               ],
-            "auth_required": False
+            "auth_required": True
         },
     ]
 

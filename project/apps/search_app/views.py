@@ -4,7 +4,7 @@ from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 # Create your views here.
-from django.db.models import Q
+from django.db.models import Q, QuerySet
 from django.shortcuts import redirect
 from django.views.generic import ListView
 
@@ -17,7 +17,7 @@ from ..file_storage.models import File
 
 
 class SearchUniView(LoginRequiredMixin, PaginationMixin, ListView):
-    paginate_by = 3
+    paginate_by = 1
     extra_context = {"title": "Search for all categories"}
     template_name = "search_app/search_results.html"
 
@@ -69,10 +69,6 @@ class SearchUniView(LoginRequiredMixin, PaginationMixin, ListView):
             **self.get_pages(page_obj=context["page_obj"]),
         )
 
-        # print(context["page_obj"].__dict__)
-        """{'object_list': [('TempNote', ['description', 'text', 'tags'], <QuerySet []>), ('TempContact', ['description', 'text', 'tags'], <QuerySet []>), ('Contact', ['name', 'address', 'phones'], <QuerySet []>)], 
-        'number': 1, 
-        'paginator': <django.core.paginator.Paginator object at 0x7fc032f59900>}"""
         return context
 
     def get_queryset(self):

@@ -9,7 +9,7 @@ from django.views.generic import ListView
 
 from .models import TempNote, TempContact
 from ..contacts.models import Contact
-from .utils import get_filter_query_conditions
+from .utils import get_filter_query_conditions, SearchAppMixin
 from utils.pagination import PaginationMixin
 
 
@@ -79,3 +79,21 @@ class SearchUniView(LoginRequiredMixin, PaginationMixin, ListView):
             object_list.append((model_class.__name__, model["search_fields"], query_set))
 
         return object_list
+
+
+class SearchContactView(LoginRequiredMixin, PaginationMixin, SearchAppMixin,  ListView):
+    template_name = "search_app/search_contacts.html"
+    """
+    "model" - model class name for search
+    "search_fields" - model fields for search. It should be CharField type or ArrayField type of CharField type
+    "auth_required" - if model stores personal users data, 
+        True - require authentication, 
+        False - not require authentication 
+    """
+    model = {
+            "model": "Contact",
+            "search_fields": ["name",
+                              "address",
+                              "phones"],
+            "auth_required": False
+        }

@@ -9,8 +9,15 @@ from .models import Tag, Note
 @login_required
 def main(request):
     tags = Tag.objects.filter(user=request.user).all()
-    notes = Note.objects.filter(user=request.user).all() if request.user.is_authenticated else []
-    return render(request, 'notes/notes_list.html', context={'notes': notes, 'tags': tags})
+    choice_tags = Tag.objects.filter(name__in=request.POST.getlist('tags'), user=request.user)
+    if len(choice_tags) == 0:
+        notes = Note.objects.filter(user=request.user).all() if request.user.is_authenticated else []
+        return render(request, 'notes/notes_list.html', context={'notes': notes, 'tags': tags})
+    else:
+        notes = Note.objects.filter(user=request.user,
+                                    tags__in=choice_tags).distinct() if request.user.is_authenticated else []
+        return render(request, 'notes/notes_list.html',
+                      context={'notes': notes, 'tags': tags, 'choice_tags': request.POST.getlist('tags')})
 
 
 @login_required
@@ -39,6 +46,7 @@ def add_note(request):
             note.user = request.user
             note.save()
             choice_tags = Tag.objects.filter(name__in=request.POST.getlist('tags'), user=request.user)
+            print(request.POST.getlist('tags'))
             for tag in choice_tags:
                 note.tags.add(tag)
 

@@ -1,14 +1,21 @@
 {% load extract_tags %}
 
-<h5>Choice filter by tag</h5>
+<h5>Filter by tag</h5>
+<form method="POST" action="{% url 'notes:main' %}">
+    {% csrf_token %}
 
     <div style="padding: 10px">
-        <label> Select tags:
-            <select name="tags" multiple="multiple" required>
+        <label> Select tags:<br>
+            <select name="tags" multiple="multiple" size="10" style="width: max-content">
                 {% for tag in tags %}
-                <option value="{{tag.name}}">{{tag.name}}</option>
+                    {%if tag.name in choice_tags%}
+                    <option value="{{tag.name}}" selected>{{tag.name}}</option>
+                    {% else %}
+                    <option value="{{tag.name}}">{{tag.name}}</option>
+                    {% endif %}
                 {% endfor %}
             </select>
         </label>
-
     </div>
+    <button type="submit" role="button" class="btn btn-outline-primary ms-2 me-3">Accept</button>
+</form>

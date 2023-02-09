@@ -15,28 +15,28 @@ def index(request):
 @login_required
 def get_news(request):
     news = scrapy_ukr_news()
-    page_obj, page_range = get_paginator(request, news, 10)
+    page_obj, pages = get_paginator(request, news, 10)
     return render(request, 'scrapping/scrape_news.html', {'page_obj': page_obj})
 
 
 @login_required
 def get_sport_news(request):
     sport_news = scrapy_sport_news()
-    page_obj, page_range = get_paginator(request, sport_news, 10)
+    page_obj, pages = get_paginator(request, sport_news, 10)
     return render(request, 'scrapping/scrape_sport_news.html', {'page_obj': page_obj})
 
 
 @login_required
 def get_tech_news(request):
     tech_news = scrapy_tech_news()
-    page_obj, page_range = get_paginator(request, tech_news, 10)
+    page_obj, pages = get_paginator(request, tech_news, 10)
     return render(request, 'scrapping/scrape_tech_news.html', {'page_obj': page_obj})
 
 
 @login_required
 def get_python_books(request):
     python_books = scrapy_python_books()
-    page_obj, page_range = get_paginator(request, python_books, 8)
+    page_obj, pages = get_paginator(request, python_books, 8)
     return render(request, 'scrapping/scrape_python_books.html', {'page_obj': page_obj})
 
 

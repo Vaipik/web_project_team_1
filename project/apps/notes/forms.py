@@ -5,12 +5,6 @@ from .libs import constants
 
 
 class TagForm(ModelForm):
-    # name = CharField(
-    #     min_length=constants.TAG_MIN_LENGTH,
-    #     max_length=constants.TAG_MAX_LENGTH,
-    #     required=True,
-    #     widget=TextInput(attrs={"class": "test_class"}))
-
     class Meta:
         model = models.Tag
         fields = ['name']
@@ -26,27 +20,16 @@ class TagForm(ModelForm):
 
         def clean_name(self):
             name = self.cleaned_data["name"]
-            if len(name) <= constants.TAG_MIN_LENGTH:
+            if len(name) < constants.TAG_MIN_LENGTH:
                 raise ValidationError(
                     f"Minimum tag length {constants.TAG_MIN_LENGTH} characters!")
-            if len(name) >= constants.TAG_MAX_LENGTH:
+            if len(name) > constants.TAG_MAX_LENGTH:
                 raise ValidationError(
                     f"Maximum tag length {constants.TAG_MAX_LENGTH} characters!")
             return name
 
 
 class NoteForm(ModelForm):
-    # name = CharField(
-    #     min_length=constants.NAME_MIN_LENGTH,
-    #     max_length=constants.NAME_MAX_LENGTH,
-    #     required=True,
-    #     widget=TextInput())
-    # description = CharField(
-    #     min_length=constants.DESCRIPTION_MIN_LENGTH,
-    #     max_length=constants.DESCRIPTION_MAX_LENGTH,
-    #     required=True,
-    #     widget=TextInput())
-
     class Meta:
         model = models.Note
         fields = ['name', 'description']
@@ -71,20 +54,20 @@ class NoteForm(ModelForm):
 
     def clean_name(self):
         name = self.cleaned_data["name"]
-        if len(name) <= constants.NAME_MIN_LENGTH:
+        if len(name) < constants.NAME_MIN_LENGTH:
             raise ValidationError(
                 f"Minimum name length {constants.NAME_MIN_LENGTH} characters!")  # отримати помилку можна в через {% for error in field.errors %} {{ error }} {% endfor %}
-        if len(name) >= constants.NAME_MAX_LENGTH:
+        if len(name) > constants.NAME_MAX_LENGTH:
             raise ValidationError(
                 f"Maximum name length {constants.NAME_MAX_LENGTH} characters!")
         return name
 
     def clean_description(self):
         description = self.cleaned_data["description"]
-        if len(description) <= constants.DESCRIPTION_MIN_LENGTH:
+        if len(description) < constants.DESCRIPTION_MIN_LENGTH:
             raise ValidationError(
                 f"Minimum description length {constants.DESCRIPTION_MIN_LENGTH} characters!")
-        if len(description) >= constants.DESCRIPTION_MAX_LENGTH:
+        if len(description) > constants.DESCRIPTION_MAX_LENGTH:
             raise ValidationError(
                 f"Maximum description length {constants.DESCRIPTION_MAX_LENGTH} characters!")
         return description

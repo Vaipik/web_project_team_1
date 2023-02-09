@@ -56,7 +56,7 @@ class Note(models.Model):
     class Meta:
         verbose_name = 'Note'
         verbose_name_plural = 'Notes'
-        ordering = ['name']
+        ordering = ['-created_at']
 
     def __str__(self):
         return self.name

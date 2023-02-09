@@ -8,12 +8,13 @@ from .models import Tag, Note
 # Create your views here.
 @login_required
 def main(request):
+    tags = Tag.objects.filter(user=request.user).all()
     notes = Note.objects.filter(user=request.user).all() if request.user.is_authenticated else []
-    return render(request, 'notes/notes_list.html', context={"notes": notes})
+    return render(request, 'notes/notes_list.html', context={'notes': notes, 'tags': tags})
 
 
 @login_required
-def tag(request):
+def add_tag(request):
     if request.method == 'POST':
         form = TagForm(request.POST)
         if form.is_valid():
@@ -22,9 +23,9 @@ def tag(request):
             tag.save()
             return redirect(to="notes:main")
         else:
-            return render(request, 'notes/pages/tag.html', context={'form': form})
+            return render(request, 'notes/tag.html', context={'form': form})
 
-    return render(request, 'notes/pages/tag.html', context={'form': TagForm()})
+    return render(request, 'notes/tag.html', context={'form': TagForm()})
 
 
 @login_required
@@ -43,9 +44,9 @@ def add_note(request):
 
             return redirect(to="notes:main")
         else:
-            return render(request, 'notes/pages/note.html',  context={'form': form, 'tags': tags})
+            return render(request, 'notes/add_note.html',  context={'form': form, 'tags': tags})
 
-    return render(request, 'notes/pages/note.html', context={'form': NoteForm(), 'tags': tags})
+    return render(request, 'notes/add_note.html', context={'form': NoteForm(), 'tags': tags})
 
 
 @login_required

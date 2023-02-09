@@ -2,7 +2,8 @@
 
 {% block content %}
 
-<form method="POST" action="{% url 'notes:tag' %}">
+<form method="POST" action="{% url 'notes:add_tag' %}">
+    {% include '_base_form.html' %}
     {% csrf_token %}
     <div style="padding: 10px">
         <label for="id_name">Enter the tag name: </label>
@@ -10,9 +11,9 @@
         <span>{{form.errors.name}}</span>
     </div>
     <div class="grid">
-        <button type="submit" class="btn btn-outline-primary ms-2 me-3">Submit</button>
+        <button type="submit" class="btn btn-outline-primary ms-2 me-3">Add</button>
         <button type="reset" class="btn btn-outline-primary ms-2 me-3">Reset</button>
     </div>
 </form>
 
-{% endblock %}
+{% endblock content %}

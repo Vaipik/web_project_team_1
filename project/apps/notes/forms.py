@@ -5,38 +5,69 @@ from .libs import constants
 
 
 class TagForm(ModelForm):
-    name = CharField(
-        min_length=constants.TAG_MIN_LENGTH,
-        max_length=constants.TAG_MAX_LENGTH,
-        required=True,
-        widget=TextInput(attrs={"class": "test_class"}))
-
-    def clean_name(self):
-        name = self.cleaned_data["name"]
-        if len(name) <= constants.TAG_MIN_LENGTH:
-            raise ValidationError(
-                f"Minimum tag length {constants.TAG_MIN_LENGTH} characters!")
-        if len(name) >= constants.TAG_MAX_LENGTH:
-            raise ValidationError(
-                f"Maximum tag length {constants.TAG_MAX_LENGTH} characters!")
-        return name
+    # name = CharField(
+    #     min_length=constants.TAG_MIN_LENGTH,
+    #     max_length=constants.TAG_MAX_LENGTH,
+    #     required=True,
+    #     widget=TextInput(attrs={"class": "test_class"}))
 
     class Meta:
         model = models.Tag
         fields = ['name']
+        widgets = {
+            "name": TextInput(attrs={
+                "class": "form-control mt-3",
+                "placeholder": "Enter name tag"
+            }),
+        }
+        labels = {
+            "tag": "Enter tag",
+        }
+
+        def clean_name(self):
+            name = self.cleaned_data["name"]
+            if len(name) <= constants.TAG_MIN_LENGTH:
+                raise ValidationError(
+                    f"Minimum tag length {constants.TAG_MIN_LENGTH} characters!")
+            if len(name) >= constants.TAG_MAX_LENGTH:
+                raise ValidationError(
+                    f"Maximum tag length {constants.TAG_MAX_LENGTH} characters!")
+            return name
 
 
 class NoteForm(ModelForm):
-    name = CharField(
-        min_length=constants.NAME_MIN_LENGTH,
-        max_length=constants.NAME_MAX_LENGTH,
-        required=True,
-        widget=TextInput())
-    description = CharField(
-        min_length=constants.DESCRIPTION_MIN_LENGTH,
-        max_length=constants.DESCRIPTION_MAX_LENGTH,
-        required=True,
-        widget=TextInput())
+    # name = CharField(
+    #     min_length=constants.NAME_MIN_LENGTH,
+    #     max_length=constants.NAME_MAX_LENGTH,
+    #     required=True,
+    #     widget=TextInput())
+    # description = CharField(
+    #     min_length=constants.DESCRIPTION_MIN_LENGTH,
+    #     max_length=constants.DESCRIPTION_MAX_LENGTH,
+    #     required=True,
+    #     widget=TextInput())
+
+    class Meta:
+        model = models.Note
+        fields = ['name', 'description']
+        exclude = ['tags']
+        widgets = {
+            "name": TextInput(attrs={
+                "class": "form-control mt-3",
+                "placeholder": "Enter name note"
+            }),
+            "description": TextInput(attrs={
+                "class": "form-control mt-3",
+                "placeholder": "Enter note description"
+            }),
+            "tags": TextInput(attrs={
+                "class": "form-control mt-3",
+                "placeholder": "Enter note description"
+            }),
+        }
+        labels = {
+            "note": "Enter note",
+        }
 
     def clean_name(self):
         name = self.cleaned_data["name"]
@@ -57,8 +88,3 @@ class NoteForm(ModelForm):
             raise ValidationError(
                 f"Maximum description length {constants.DESCRIPTION_MAX_LENGTH} characters!")
         return description
-
-    class Meta:
-        model = models.Note
-        fields = ['name', 'description']
-        exclude = ['tags']

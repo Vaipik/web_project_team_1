@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<form method="POST" action="{% url 'notes:main' %}">
+    {% include '_base_form.html' %}
+    {% csrf_token %}
+    {% for note in notes%}
+    <ul>
+        <li>
+            {%if not note.done%}
+            <a href="{% url 'notes:detail' note.uuid %}" role="button" class="btn btn-outline-primary ms-2 me-3">{{note.name}}</a>
+            <a href="{% url 'notes:set_done' note.uuid %}" role="button" class="btn btn-outline-secondary ms-2 me-3">Mark Done</a>
+            <a href="{% url 'notes:delete' note.uuid %}" role="button" class="btn btn-outline-danger ms-2 me-3">Delete note</a>
+            {% else %}
+
+            <a href="{% url 'notes:detail' note.uuid %}" role="button" class="btn btn-outline-secondary ms-2 me-3"><s>{{note.name}}</s></a>
+            <a href="{% url 'notes:delete' note.uuid %}" role="button" class="btn btn-outline-danger ms-2 me-3">Delete note</a>
+            {% endif %}
+        </li>
+    </ul>
+    {% endfor %}
+</form>
+
+{% endblock %}

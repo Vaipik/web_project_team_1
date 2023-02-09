@@ -6,9 +6,10 @@ from .models import Tag, Note
 
 
 # Create your views here.
+@login_required
 def main(request):
     notes = Note.objects.filter(user=request.user).all() if request.user.is_authenticated else []
-    return render(request, 'notes/pages/notes_list.html', context={"notes": notes})
+    return render(request, 'notes/notes_list.html', context={"notes": notes})
 
 
 @login_required
@@ -27,7 +28,7 @@ def tag(request):
 
 
 @login_required
-def note(request):
+def add_note(request):
     tags = Tag.objects.filter(user=request.user).all()
 
     if request.method == 'POST':
@@ -50,7 +51,7 @@ def note(request):
 @login_required
 def detail(request, note_id):
     note = get_object_or_404(Note, pk=note_id, user=request.user)
-    return render(request, 'notes/pages/detail.html', context={"note": note})
+    return render(request, 'notes/detail.html', context={"note": note})
 
 
 @login_required

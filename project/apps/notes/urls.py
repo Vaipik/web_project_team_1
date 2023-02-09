@@ -5,12 +5,12 @@ from . import views
 app_name = "notes"
 
 urlpatterns = [
-    path("", views.main, name="note"),
-    path('tag/', views.tag, name="tag"),
-    path('note/', views.note, name="note"),
-    path('detail/<int:note_id>', views.detail, name="detail"),
-    path('done/<int:note_id>', views.set_done, name="set_done"),
-    path('delete/<int:note_id>', views.delete_note, name="delete"),
+    path("", views.main, name="main"),
+    # path('add_tag/', views.add_tag, name="add_tag"),
+    # path('add_note/', views.add_note, name="add_note"),
+    path('detail/<slug:note_id>', views.detail, name="detail"),
+    path('done/<slug:note_id>', views.set_done, name="set_done"),
+    path('delete/<slug:note_id>', views.delete_note, name="delete"),
 ]
 
 # path("delete/<uuid:file_uuid>/", views.DeleteFileView.as_view(), name="delete_file"),

@@ -24,8 +24,7 @@ class ScrapyNewsTestCase(TestCase):
                              '<a href="/news1">news1</a></div><div class="article_subheader">' \
                              '</div></div></div>'
         soup = BeautifulSoup(ukr_news_data_soup, 'html.parser')
-        data = soup.find_all('div', class_='article_news_list')
-        news = scrapy_ukr_news(data)
+        news = scrapy_ukr_news(soup)
         self.assertEqual(len(news), 1)
         self.assertEqual(news, ukr_news_data)
 
@@ -40,8 +39,7 @@ class ScrapyNewsTestCase(TestCase):
                                '<div class="item-title item-title--b newsline-title">' \
                                '<a href="https://sport.ua/uk/news/news1"><span>News1</span></a></div></div></div>'
         soup = BeautifulSoup(sport_news_data_soup, 'html.parser')
-        data = soup.find_all('div', class_='item')
-        news = scrapy_sport_news(data)
+        news = scrapy_sport_news(soup)
         self.assertEqual(len(news), 1)
         self.assertEqual(news, sport_news_data)
 
@@ -51,7 +49,7 @@ class ScrapyNewsTestCase(TestCase):
             {'created': '17:05', 'title': 'News2', 'link': 'https://ain.ua/post-list/news2'},
         ]
 
-        path = Path(__file__).parent / 'test_tech_news_data.html'
+        path = Path(__file__).parent / 'test_libs' / 'test_tech_news_data.html'
         with open(path, encoding='utf-8') as html:
             tech_news_data_soup = html.read()
         soup = BeautifulSoup(tech_news_data_soup, 'html.parser')
@@ -67,37 +65,17 @@ class ScrapyNewsTestCase(TestCase):
              'link': 'https://www.goodreads.com/some-python-book',
              'image': 'https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1111.jpg'},
         ]
-        path = Path(__file__).parent / 'test_python_books_data.html'
+        path = Path(__file__).parent / 'test_libs' / 'test_python_books_data.html'
         with open(path, encoding='utf-8') as f:
             python_books_data_soup = f.read()
         soup = BeautifulSoup(python_books_data_soup, 'html.parser')
-        data = soup.select('tr[itemtype="http://schema.org/Book"]')
-        books = scrapy_python_books(data)
+        books = scrapy_python_books(soup)
         self.assertEqual(len(books), 1)
         self.assertEqual(books, python_books_data)
 
-    def test_currency(self):
-        currency_data = [
-            {'bank': 'Some Bank', 'link': 'http://some_bank/currency', 'currency': 'USD', 'buy': '27.0000',
-             'sell': '27.5000', 'updated': '2020-10-10 12:00:00'}
-        ]
-        path = Path(__file__).parent / 'test_currency_data.html'
-        with open(path, encoding='utf-8') as f:
-            currency_data_soup = f.read()
-        soup = BeautifulSoup(currency_data_soup, 'html.parser')
-        data = soup.find_all('tr', class_='row--collapse')
-        currency = find_currency_data(data)
-        self.assertEqual(len(currency), 1)
-        self.assertEqual(currency, currency_data)
-
 
 class ScrapyCurrencyTestCase(TestCase):
-
-    def find_currency_data(self, full_url: str) -> list:
-        response = requests.get(full_url, headers=headers)
-        soup = BeautifulSoup(response.content, 'html.parser')
-        currency_data = soup.find('tbody', class_='list').find_all('tr')
-        return currency_data
+    """This test class checks if the scraping function saves currency data to a dictionary."""
 
     def test_scrapy_currency(self):
         currency = 'USD'

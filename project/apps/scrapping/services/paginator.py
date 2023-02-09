@@ -12,4 +12,9 @@ def get_paginator(request, scrape_list, count):
     paginator = Paginator(scrape_list, count)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
-    return page_obj
+    page_range = paginator.get_elided_page_range(
+        number=page_number,
+        on_each_side=1,
+        on_ends=1
+    )
+    return page_obj, page_range

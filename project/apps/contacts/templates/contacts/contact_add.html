@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+<main>
+
+    {% block app_header_content %}
+        <div class="container" style="margin: 20px;">
+            <a class="btn btn-secondary" href="{% url 'contacts:contacts' %}" role="button">All Contacts</a>
+        </div>
+    {% endblock app_header_content %}
+
+    {% block content %}
+        <div class="container">
+        <form method="POST" action="{% url 'contacts:add_contact' %}">
+            {% csrf_token %}
+            {% include 'contacts/contact_form.html' %}
+        </form>
+        </div>
+    {% endblock %}
+</main>

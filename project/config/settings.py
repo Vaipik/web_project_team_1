@@ -17,8 +17,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-# SECRET_KEY = os.environ.get("SECRET_KEY")
-SECRET_KEY = 123
+SECRET_KEY = os.environ.get("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -35,14 +34,14 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    "storages",  # django-storages
-    "apps.contacts",
-    "apps.file_storage",
-    "apps.notes",
-    "apps.scrapping",
-    "apps.search_app",
-    "apps.user_auth",
-    "apps.user_profile",
+    'storages',  # django-storages
+    'apps.contacts',
+    'apps.file_storage',
+    'apps.notes',
+    'apps.scrapping',
+    'apps.search_app',
+    'apps.user_auth',
+    'apps.user_profile',
 ]
 
 MIDDLEWARE = [
@@ -87,8 +86,8 @@ DATABASES = {
         'NAME': os.environ.get("DB_NAME"),
         'USER': os.environ.get("DB_USER"),
         'PASSWORD': os.environ.get("DB_PASSWORD"),
-        "HOST": "db",
-        "PORT": os.environ.get("DB_PORT"),
+        'HOST': "db",
+        'PORT': os.environ.get("DB_PORT"),
         # 'NAME': "postgres",
         # 'USER': "postgres",
         # 'PASSWORD': "root",

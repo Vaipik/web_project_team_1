@@ -30,7 +30,7 @@
         <li><a href="#" class="btn btn-outline-info ms-2 me-3">Home</a></li>
         <li><a href="#" class="btn btn-outline-info ms-2 me-3">About</a></li>
 
-        {% if user.is_authenticated %}}
+        {% if user.is_authenticated %}
           {% block app_header_content %}
           {% endblock app_header_content %}
         {% endif %}

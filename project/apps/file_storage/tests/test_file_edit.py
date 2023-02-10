@@ -1,11 +1,13 @@
-from django.test import TestCase
+from django.test import TestCase, override_settings
 from django.urls import reverse
 
 from apps.user_auth.factories import UserFactory
 from ..factories import FileFactory
 from ..forms import FileEditForm
+from .dropbox_env_settings import dropbox_env
 
 
+@override_settings(**dropbox_env)
 class TestFileEdit(TestCase):
 
     @classmethod
@@ -54,7 +56,3 @@ class TestFileEdit(TestCase):
         self.assertEqual(response.status_code, 200)
         # Edited description match to POST form data -> form was updated
         self.assertEqual(response.context_data["form"].initial["description"], edited_description)
-
-    def tearDown(self) -> None:
-        """Delete created file"""
-        self.file.delete()

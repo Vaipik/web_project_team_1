@@ -2,9 +2,13 @@
 <main>
 
     {% block app_header_content %}
-        <div class="container" style="margin: 20px;">
-            <a class="btn btn-dark" href="{% url 'contacts:add_contact' %}" role="button">Add New Contact</a>
-        </div>
+
+        <li>
+            <a class="btn btn-dark position-relative" href="{% url 'contacts:add_contact' %}" role="button">
+                Add New Contact
+            </a>
+        </li>
+
     {% endblock app_header_content %}
 
     {% block content %}

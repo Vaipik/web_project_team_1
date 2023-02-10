@@ -36,10 +36,18 @@
               {{ file.description }}
             </div>
             <div class="col-3 text-center">
-              <a href="{% url 'file_storage:edit_file' file_uuid=file.uuid %}"
-                 class="badge text-bg-warning text-decoration-none"
-              >Edit
-              </a>
+              <div class="row">
+                <a href="{% url 'file_storage:edit_file' file_uuid=file.uuid %}"
+                   class="badge text-bg-warning text-decoration-none"
+                >Edit
+                </a>
+              </div>
+              <div class="row mt-2">
+                <a href="{{ file.file.url }}"
+                   class="badge bg-success text-decoration-none"
+                >Download
+                </a>
+              </div>
             </div>
           </div>
 

@@ -5,8 +5,7 @@ from .models import File
 from .services import determine_file_category
 
 
-class FileForm(forms.ModelForm):
-
+class FileUploadForm(forms.ModelForm):
     class Meta:
         model = File
         fields = ["description", "file"]
@@ -30,7 +29,7 @@ class FileForm(forms.ModelForm):
         return file
 
 
-class EditFileForm(forms.ModelForm):
+class FileEditForm(forms.ModelForm):
     class Meta:
         model = File
         fields = ["description"]

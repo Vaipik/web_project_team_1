@@ -42,7 +42,3 @@ class TestFileServices(TestCase):
         self.assertIsInstance(result, QuerySet)  # check return instance
         self.assertIsInstance(result.first(), File)  # check return item
         self.assertEqual(result.first(), self.file)  # check if files are equal
-
-    def tearDown(self) -> None:
-        """Delete created files"""
-        self.file.delete()

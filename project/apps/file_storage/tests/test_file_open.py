@@ -1,11 +1,13 @@
-from django.test import TestCase
+from django.test import TestCase, override_settings
 from django.urls import reverse
 
 from apps.user_auth.factories import UserFactory
 from ..factories import FileFactory
 from ..views import FileDetailView
+from .dropbox_env_settings import dropbox_env
 
 
+@override_settings(**dropbox_env)
 class TestFileOpen(TestCase):
 
     @classmethod
@@ -44,7 +46,3 @@ class TestFileOpen(TestCase):
         self.client.login(**self.credentials)
         response = self.client.post(self.file_open_url)
         self.assertEqual(response.status_code, 405)  # Not allowed
-
-    def tearDown(self) -> None:
-        """Delete created files"""
-        self.file.delete()

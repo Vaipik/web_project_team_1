@@ -1,4 +1,4 @@
-from django.forms import CharField, ChoiceField
+from django.forms import CharField, ChoiceField, ModelForm
 from django.core.validators import RegexValidator
 
 from apps.contacts.models import Phone
@@ -6,7 +6,7 @@ from apps.contacts.constants import PHONE_MAX_LENGTH
 from apps.contacts.choices import TYPES_OF_PHONE
 
 
-class PhoneForm:
+class PhoneForm(ModelForm):
     phone_number = CharField(
         max_length=PHONE_MAX_LENGTH,
         validators=[
@@ -22,4 +22,7 @@ class PhoneForm:
 
     class Meta:
         model = Phone
-        fields = "__all__"
+        exclude = (
+            "owner",
+            "id",
+        )

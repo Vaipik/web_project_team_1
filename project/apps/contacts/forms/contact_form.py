@@ -12,7 +12,6 @@ from django.core.validators import RegexValidator
 from apps.contacts.models import Contact
 from apps.contacts.constants import (
     NAME_MAX_LENGTH,
-    PHONE_MAX_LENGTH,
     ADDRESS_MAX_LENGTH,
 )
 from apps.contacts.choices import SEX_CHOICES
@@ -30,8 +29,8 @@ class ContactForm(ModelForm):
         required=True,
         validators=[
             RegexValidator(
-                regex=r"^[\w ]{2,100}$",
-                message="Name must be between 2 and 100 characters.",
+                regex=r"^[\w .]{2,100}$",
+                message="Name must be between 2 and 100 characters. And contain only letters.",
             )
         ],
     )
@@ -40,10 +39,8 @@ class ContactForm(ModelForm):
         validators=[validate_birthdate],
         widget=SelectDateWidget(years=range(2023, 1923, -1)),
     )
-    sex = ChoiceField(
-        choices=SEX_CHOICES, label="Contact's Sex", initial="", required=True
-    )
+    sex = ChoiceField(choices=SEX_CHOICES, label="Sex", initial="")
 
     class Meta:
         model = Contact
-        fields = "__all__"
+        exclude = ("owner",)

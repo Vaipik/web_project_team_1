@@ -1,12 +1,20 @@
 from django.shortcuts import render
-from django.core.exceptions import PermissionDenied
+from django.contrib.auth.decorators import login_required
 
-from apps.contacts.models import Contact, Email, Phone
+from apps.contacts.models import Contact
+from utils.pagination import get_paginator
+from apps.contacts.constants import CONTACTS_PER_PAGE
 
 
+@login_required
 def show_contacts(request):
-    if request.user.is_authenticated:
-        contacts = Contact.objects.filter(user=request.user).all()
-        return render(request, "contacts/contact_book.html", {"contacts": contacts})
+    contacts = Contact.objects.filter(owner=request.user)
+    if contacts.exists():
+        page_obj, pages = get_paginator(request, contacts, CONTACTS_PER_PAGE)
+        return render(
+            request,
+            "contacts/contact_book.html",
+            {"contacts": contacts, "page_obj": page_obj, "pages": pages},
+        )
     else:
-        raise PermissionDenied
+        return render(request, "contacts/contact_book.html")

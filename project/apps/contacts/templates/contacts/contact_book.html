@@ -1,6 +1,12 @@
 {% extends 'base.html' %}
 <main>
 
+    {% block app_header_content %}
+        <div class="container" style="margin: 20px;">
+            <a class="btn btn-dark" href="{% url 'contacts:add_contact' %}" role="button">Add New Contact</a>
+        </div>
+    {% endblock app_header_content %}
+
     {% block content %}
 
         {% block messages %}
@@ -19,9 +25,13 @@
             </ul>
         {% endblock %}
 
-        <div class="container" style="margin: 20px;">
-            <a class="btn btn-dark" href="{% url 'contacts:add_contact' %}" role="button">Add New Contact</a>
-        </div>
+        <form action="{% url 'contacts:show_contacts_bd' %}" method="post">
+            {% csrf_token %}
+            <label for="period">Show people who have birthdays in the next</label>
+                <input id="period" type="number" min="1" max="365" value="1" name="period"> days
+            <button type="submit" class="btn btn-primary">Show</button>
+        </form>
+
         <div class="container">
             <table class="table">
                 <thead>
@@ -35,34 +45,36 @@
                     </tr>
                 </thead>
                 <tbody>
-                {% for contact in contacts %}
-                    <tr>
-                        <td>{{ contact.name }}</td>
-                        <td>
-                            <ul>
-                            {% for phone in contact.phones.all %}
-                                <li>{{ phone.phone_number }}, {{ phone.type }} </li>
-                            {% endfor %}
-                            </ul>
-                        <td>
-                            <ul>
-                            {% for email in contact.emails.all %}
-                                <li>{{ email.email_addr }}, {{ email.type }}</li>
-                            {% endfor %}
-                            </ul>
-                        <td>{{ contact.birthday|date:"Y-m-d" }}</td>
-                        <td>{{ contact.address }}</td>
-                        <td>
-                            <a href="{% url 'contacts:update_contact' contact.id %}" type="button" class="btn btn-warning">
-                                Update</a>
-                        </td>
-                        <td>
-                            <a href="{% url 'contacts:delete_contact' contact.id %}" type="button" class="btn btn-danger">
-                                Delete</a>
-                        </td>
-                    </tr>
-                    <span id="error"></span>
-                {% endfor %}
+                {% if contacts %}
+                    {% for contact in page_obj %}
+                        <tr>
+                            <td>{{ contact.name }}</td>
+                            <td>
+                                <ul>
+                                {% for phone in contact.phones.all %}
+                                    <li>{{ phone.phone_number }}, {{ phone.type }} </li>
+                                {% endfor %}
+                                </ul>
+                            <td>
+                                <ul>
+                                {% for email in contact.emails.all %}
+                                    <li>{{ email.email_addr }}, {{ email.type }}</li>
+                                {% endfor %}
+                                </ul>
+                            <td>{{ contact.birthday|date:"Y-m-d" }}</td>
+                            <td>{{ contact.address }}</td>
+                            <td>
+                                <a href="{% url 'contacts:update_contact' contact.id %}" type="button" class="btn btn-warning">
+                                    Update</a>
+                            </td>
+                            <td>
+                                <a href="{% url 'contacts:delete_contact' contact.id %}" type="button" class="btn btn-danger">
+                                    Delete</a>
+                            </td>
+                        </tr>
+                        <span id="error"></span>
+                    {% endfor %}
+                {% endif %}
             </table>
         </div>
     {% endblock %}

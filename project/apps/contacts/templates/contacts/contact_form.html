@@ -1,33 +1,120 @@
-{% extends 'base.html' %}
+<div class="card">
+    <div class="card-header card-header-secondary">
+        <h4 class="card-title">Add Contact's Info</h4>
+    </div>
+    {% for field in cont_form %}
+        <div class="form-group card-body">
+            <label>{{field.label}}</label>
+            {% if field.field.required %}
+                <span style="color: red;" class="required">*</span>
+            {% endif %}
 
-<main>
-    {% block content %}
+            {{field}}
 
-        {% block messages %}
-            <ul class="messages" id="messages-list">
-                {% if messages %}
-                    {% for message in messages %}
-                        <li>
-                            {% if message.tags %}
-                                <div class="alert alert-{{ message.tags }} msg fade show">{{ message }}</div>
-                            {% else %}
-                                <div class="alert alert-info msg fade show" role="alert">{{ message }}</div>
-                            {% endif %}
-                        </li>
+            {% if field.help_text %}
+                <small style="color: grey">{{ field.help_text }}</small>
+            {% endif %}
+
+            {% for error in field.errors %}
+                <p style="color: red">{{ error }}</p>
+            {% endfor %}
+
+        </div>
+    {% endfor %}
+</div>
+
+{% with email_form as formset %}
+    {{ formset.management_form }}
+    <script type="text/html" id="email-template">
+        <tr id="email-__prefix__" class= hide_all>
+            {% for fields in formset.empty_form.hidden_fields %}
+                {{ fields }}
+            {% endfor %}
+
+            {% for fields in formset.empty_form.visible_fields %}
+                <td>{{fields}}</td>
+            {% endfor %}
+        </tr>
+    </script>
+
+    <div class="table-responsive card mt-4">
+        <div class="card-header card-header-secondary">
+            <h4 class="card-title">Add Emails</h4>
+        </div>
+        <table class="table card-body">
+            <thead class="text-secondary">
+                <th>Email Address<span style="color: red;" class="required">*</span></th>
+                <th>Type</th>
+                <th>Delete?</th>
+            </thead>
+        <tbody id="item-email">
+            {% for error in formset.non_form_errors %}
+                <span style="color: red">{{ error }}</span>
+            {% endfor %}
+            {% for form in formset %}
+                {{ form.management_form }}
+                <tr id="email-{{ forloop.counter0 }}" class= hide_all>
+                    {{ form.id }}
+                    {% for field in form.visible_fields %}
+                        <td>
+                            {{field}}
+                            {% for error in field.errors %}
+                                <span style="color: red">{{ error }}</span>
+                            {% endfor %}
+                        </td>
                     {% endfor %}
-                {% endif %}
-            </ul>
-        {% endblock %}
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endwith %}
 
-        <div class="container" style="margin: 20px;">
-            <a class="btn btn-secondary" href="{% url 'contacts:main' %}" role="button">All Contacts</a>
+{% with phone_form as formset %}
+    {{ formset.management_form }}
+    <script type="text/html" id="phone-template">
+        <tr id="phone-__prefix__" class= hide_all>
+            {% for fields in formset.empty_form.hidden_fields %}
+                {{ fields }}
+            {% endfor %}
+
+            {% for fields in formset.empty_form.visible_fields %}
+                <td>{{fields}}</td>
+            {% endfor %}
+        </tr>
+    </script>
+
+    <div class="table-responsive card mt-4">
+        <div class="card-header card-header-secondary">
+            <h4 class="card-title">Add Phones</h4>
         </div>
-        <div class="container">
-            <form method="POST" action="{% url 'contacts:add_contact' %}">
-                {% csrf_token %}
-                <table class="table table-sm table-borderless">{{ form.as_table }}</table>
-                <button type="submit" class="btn btn-primary">Submit</button>
-            </form>
-        </div>
-    {% endblock %}
-</main>
+        <table class="table card-body">
+            <thead class="text-secondary">
+            <th>Phone Number<span style="color: red;" class="required">*</span></th>
+            <th>Type</th>
+            <th>Delete?</th>
+            </thead>
+            <tbody id="item-phone">
+            {% for error in formset.non_form_errors %}
+                <span style="color: red">{{ error }}</span>
+            {% endfor %}
+            {% for form in formset %}
+                {{ form.management_form }}
+                <tr id="phone-{{ forloop.counter0 }}" class= hide_all>
+                    {{ form.id }}
+                    {% for field in form.visible_fields %}
+                        <td>
+                            {{field}}
+                            {% for error in field.errors %}
+                                <span style="color: red">{{ error }}</span>
+                            {% endfor %}
+                        </td>
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endwith %}
+
+<button type="submit" class="btn btn-primary" style="margin: 20px;">Submit</button>

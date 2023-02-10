@@ -28,6 +28,7 @@ def add_tag(request):
         if form.is_valid():
             tag = form.save(commit=False)
             tag.user = request.user
+            tag.name = str(tag.name).lower()
             tag.save()
             return redirect(to="notes:main")
         else:

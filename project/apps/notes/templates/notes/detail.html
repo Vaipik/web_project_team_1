@@ -6,6 +6,10 @@
   <li><a href="{% url 'notes:add_tag' %}" class="btn btn-outline-warning ms-2 me-3">Add tag</a></li>
 {% endblock app_header_content%}
 
+{% block app_sidebar_content %}
+  {% include 'notes/_sidebar.html' %}
+{% endblock %}
+
 {% load extract_tags %}
 
 {% block content %}

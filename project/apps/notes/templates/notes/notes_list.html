@@ -17,9 +17,7 @@
     <div class="row  fw-bold p-2">
         {%if choice_tags %}
             Notes with tags [
-            {% for choice_tag in choice_tags %}
-            "{{choice_tag}}"
-            {% endfor %}
+            {{ choice_tags|join:', ' }}
         ]:
         {% endif %}
     </div>

@@ -1,12 +1,10 @@
 from pathlib import Path
 
-import requests
 from bs4 import BeautifulSoup
 from django.test import TestCase
 
 from ...scrapping.services.scrapy_news import scrapy_ukr_news, scrapy_sport_news, scrapy_tech_news, \
-    scrapy_python_books, find_currency_data, scrapy_currency
-from ...scrapping.libs.scrapy_headers import headers
+    scrapy_python_books, scrapy_currency
 
 
 # Create your tests here.

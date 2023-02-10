@@ -25,10 +25,9 @@
             </ul>
         {% endblock %}
 
-        <form action="{% url 'contacts:show_contacts_bd' %}" method="post">
-            {% csrf_token %}
+        <form action="{% url 'contacts:show_contacts_bd' %}" method="get">
             <label for="period">Show people who have birthdays in the next</label>
-                <input id="period" type="number" min="1" max="365" value="1" name="period"> days
+                <input id="period" type="number" min="1" max="365" value="1" name="query"> days
             <button type="submit" class="btn btn-primary">Show</button>
         </form>
 
@@ -45,36 +44,35 @@
                     </tr>
                 </thead>
                 <tbody>
-                {% if contacts %}
-                    {% for contact in page_obj %}
-                        <tr>
-                            <td>{{ contact.name }}</td>
-                            <td>
-                                <ul>
-                                {% for phone in contact.phones.all %}
-                                    <li>{{ phone.phone_number }}, {{ phone.type }} </li>
-                                {% endfor %}
-                                </ul>
-                            <td>
-                                <ul>
-                                {% for email in contact.emails.all %}
-                                    <li>{{ email.email_addr }}, {{ email.type }}</li>
-                                {% endfor %}
-                                </ul>
-                            <td>{{ contact.birthday|date:"Y-m-d" }}</td>
-                            <td>{{ contact.address }}</td>
-                            <td>
-                                <a href="{% url 'contacts:update_contact' contact.id %}" type="button" class="btn btn-warning">
-                                    Update</a>
-                            </td>
-                            <td>
-                                <a href="{% url 'contacts:delete_contact' contact.id %}" type="button" class="btn btn-danger">
-                                    Delete</a>
-                            </td>
-                        </tr>
-                        <span id="error"></span>
-                    {% endfor %}
-                {% endif %}
+
+                {% for contact in page_obj %}
+                    <tr>
+                        <td>{{ contact.name }}</td>
+                        <td>
+                            <ul>
+                            {% for phone in contact.phones.all %}
+                                <li>{{ phone.phone_number }}, {{ phone.type }} </li>
+                            {% endfor %}
+                            </ul>
+                        <td>
+                            <ul>
+                            {% for email in contact.emails.all %}
+                                <li>{{ email.email_addr }}, {{ email.type }}</li>
+                            {% endfor %}
+                            </ul>
+                        <td>{{ contact.birthday|date:"Y-m-d" }}</td>
+                        <td>{{ contact.address }}</td>
+                        <td>
+                            <a href="{% url 'contacts:update_contact' contact.id %}" type="button" class="btn btn-warning">
+                                Update</a>
+                        </td>
+                        <td>
+                            <a href="{% url 'contacts:delete_contact' contact.id %}" type="button" class="btn btn-danger">
+                                Delete</a>
+                        </td>
+                    </tr>
+                    <span id="error"></span>
+                {% endfor %}
             </table>
         </div>
     {% endblock %}

@@ -7,6 +7,9 @@ from apps.contacts.choices import TYPES_OF_PHONE
 
 
 class PhoneForm(ModelForm):
+    """
+    Form for person's phone.
+    """
     phone_number = CharField(
         max_length=PHONE_MAX_LENGTH,
         validators=[

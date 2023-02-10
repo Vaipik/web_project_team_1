@@ -24,6 +24,9 @@ def validate_birthdate(date):
 
 
 class ContactForm(ModelForm):
+    """
+    Form for information about a person.
+    """
     name = CharField(
         max_length=NAME_MAX_LENGTH,
         required=True,

@@ -6,6 +6,9 @@ from apps.contacts.choices import TYPES_OF_PHONE
 
 
 class Phone(models.Model):
+    """
+    Person's phone.
+    """
     id = models.AutoField(primary_key=True)
     owner = models.ForeignKey(Contact, on_delete=models.CASCADE, related_name="phones")
     phone_number = models.CharField(max_length=PHONE_MAX_LENGTH)

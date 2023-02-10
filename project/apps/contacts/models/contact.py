@@ -13,6 +13,9 @@ from apps.contacts.choices import SEX_CHOICES
 
 
 class Contact(models.Model):
+    """
+    Information about a person.
+    """
     id = models.UUIDField(
         default=uuid.uuid4,
         primary_key=True,

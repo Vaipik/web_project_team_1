@@ -9,6 +9,9 @@ from apps.contacts.models import Contact, Email, Phone
 
 @login_required
 def update_contact(request, pk):
+    """
+    Updates person's data.
+    """
     contact = Contact.objects.get(pk=pk, owner=request.user)
     EmailsFormSet = inlineformset_factory(
         parent_model=Contact, model=Email, form=EmailForm, fields="__all__", extra=1

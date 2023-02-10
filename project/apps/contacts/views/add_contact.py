@@ -9,6 +9,9 @@ from apps.contacts.models import Email, Contact, Phone
 
 @login_required
 def add_contact(request):
+    """
+    Adds new contacts to the contact book.
+    """
     contact_form = ContactForm(prefix="cont_form")
     EmailFormSet = inlineformset_factory(
         parent_model=Contact,

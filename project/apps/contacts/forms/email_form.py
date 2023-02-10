@@ -7,6 +7,9 @@ from apps.contacts.choices import TYPES_OF_EMAIL
 
 
 class EmailForm(ModelForm):
+    """
+    Form for person's email.
+    """
     email_addr = EmailField(max_length=EMAIL_MAX_LENGTH, validators=[validate_email])
     type = ChoiceField(
         choices=TYPES_OF_EMAIL, label="Work or personal", initial="", required=True

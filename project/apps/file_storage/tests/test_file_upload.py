@@ -1,18 +1,16 @@
 from django.core.files.uploadedfile import SimpleUploadedFile
-from django.test import TestCase
-from django.urls import reverse, resolve
-from dotenv import dotenv_values
+from django.test import TestCase, override_settings
+from django.urls import reverse
 
 from apps.user_auth.factories import UserFactory
 from ..views import UploadFileView
 from ..forms import FileUploadForm
 
-from ..models import File
 from ..factories import random_file
+from .dropbox_env_settings import dropbox_env
 
-UPLOAD_URL = reverse("file_storage:upload_file")
 
-
+@override_settings(**dropbox_env)
 class TestFileUpload(TestCase):
 
     @classmethod
@@ -35,16 +33,17 @@ class TestFileUpload(TestCase):
         }
         cls.valid_payload = dict(**payload, file=valid_file)  # updating data payload for invalid file
         cls.invalid_payload = dict(**payload, file=invalid_file)  # updating data payload for valid file
+        cls.upload_url = reverse("file_storage:upload_file")
 
     def test_get_unauthorized(self):
         """Unauthorized file upload -> 302 sign up page"""
-        response = self.client.get(UPLOAD_URL)
+        response = self.client.get(self.upload_url)
         self.assertEqual(response.status_code, 302)
 
     def test_get_authorized(self):
         """GET request authorized user"""
         self.client.login(**self.credentials)
-        response = self.client.get(UPLOAD_URL)
+        response = self.client.get(self.upload_url)
 
         self.assertEqual(response.status_code, 200)
         self.assertIsInstance(response.context_data["form"], FileUploadForm)  # Form for file uploading
@@ -53,7 +52,7 @@ class TestFileUpload(TestCase):
     def test_post_invalid(self):
         """POST request for invalid file type"""
         self.client.login(**self.credentials)
-        response = self.client.post(UPLOAD_URL, data=self.invalid_payload)
+        response = self.client.post(self.upload_url, data=self.invalid_payload)
 
         self.assertEqual(response.status_code, 200)
         self.assertTrue(response.context_data["form"].errors)  # checks that form returns with validation errors
@@ -61,7 +60,7 @@ class TestFileUpload(TestCase):
     def test_post_valid(self):
         """POST request for valid file type"""
         self.client.login(**self.credentials)
-        response = self.client.post(UPLOAD_URL, data=self.valid_payload)
+        response = self.client.post(self.upload_url, data=self.valid_payload)
 
         self.assertEqual(response.status_code, 302)  # redirect after success file upload
         self.assertEqual(response.url, reverse("file_storage:file_list"))  # checks redirect url

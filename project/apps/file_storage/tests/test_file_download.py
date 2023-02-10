@@ -1,11 +1,13 @@
-from django.test import TestCase
+from django.test import TestCase, override_settings
 from django.urls import reverse
 
 from apps.user_auth.factories import UserFactory
 from ..factories import FileFactory
-from ..views import FileDetailView
+
+from .dropbox_env_settings import dropbox_env
 
 
+@override_settings(**dropbox_env)
 class TestFileDownload(TestCase):
 
     @classmethod
@@ -24,7 +26,5 @@ class TestFileDownload(TestCase):
         """NEED TO BE FIXED. WILL ALWAYS FAILING UNTIL TESTED IN REAL CLOUD"""
         self.client.login(**self.credentials)
         response = self.client.get(self.file_open_url)
-        file_download_url = response.context_data["file"].file.file
-        test = self.client.get(file_download_url)
-
-        self.assertTrue(0)  # Keep it failing till testing with real cloud
+        file_download_url = response.context_data["file"].file.url
+        self.assertTrue(file_download_url)

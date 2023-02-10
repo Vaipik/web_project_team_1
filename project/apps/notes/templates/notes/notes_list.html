@@ -14,14 +14,15 @@
 <form method="POST" action="{% url 'notes:main' %}">
     {% include '_base_form.html' %}
     {% csrf_token %}
-    <p>
-    {%if choice_tags %}
-        Notes with tags:
-        {% for choice_tag in choice_tags %}
-        {{choice_tag}},
-        {% endfor %}
-    {% endif %}
-    </p>
+    <div class="row  fw-bold p-2">
+        {%if choice_tags %}
+            Notes with tags [
+            {% for choice_tag in choice_tags %}
+            "{{choice_tag}}"
+            {% endfor %}
+        ]:
+        {% endif %}
+    </div>
     {% for note in notes%}
     <ul>
         <li>

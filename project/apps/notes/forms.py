@@ -1,5 +1,5 @@
 from django.core.exceptions import ValidationError
-from django.forms import ModelForm, CharField, TextInput
+from django.forms import ModelForm, CharField, TextInput, Select
 from . import models
 from .libs import constants
 
@@ -15,7 +15,7 @@ class TagForm(ModelForm):
             }),
         }
         labels = {
-            "tag": "Enter tag",
+            "tag": "Tag name",
         }
 
         def clean_name(self):
@@ -32,7 +32,7 @@ class TagForm(ModelForm):
 class NoteForm(ModelForm):
     class Meta:
         model = models.Note
-        fields = ['name', 'description']
+        fields = ['name', 'description', 'tags']
         exclude = ['tags']
         widgets = {
             "name": TextInput(attrs={
@@ -43,13 +43,17 @@ class NoteForm(ModelForm):
                 "class": "form-control mt-3",
                 "placeholder": "Enter note description"
             }),
-            "tags": TextInput(attrs={
+            "tags": Select(attrs={
                 "class": "form-control mt-3",
-                "placeholder": "Enter note description"
+                "multiple": "multiple",
+                "size": "10",
+                "placeholder": "Select tags"
             }),
         }
         labels = {
-            "note": "Enter note",
+            "note": "Note name",
+            "description": "Note description",
+            "tags": "",
         }
 
     def clean_name(self):

@@ -1,6 +1,5 @@
 {% load extract_tags %}
-
-<h5>Filter by tag</h5>
+<div class="row  fw-bold p-2">Filter by tag</div>
 <form method="POST" action="{% url 'notes:main' %}">
     {% csrf_token %}
 

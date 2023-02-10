@@ -11,18 +11,37 @@ from .services import get_user_tag, get_user_notes, get_user_choice_tags, get_us
 @login_required
 def main(request):
     tags = get_user_tag(request.user)
-    choice_tags = get_user_choice_tags(request.user, request.POST.getlist('tags'))
-    if len(choice_tags) == 0:
-        notes = get_user_notes(request.user) if request.user.is_authenticated else []
-        return render(request, 'notes/notes_list.html', context={'notes': notes, 'tags': tags})
+    if request.method == 'POST':
+        choice_tags = get_user_choice_tags(request.user, request.POST.getlist('tags'))
+        if len(choice_tags) == 0:
+            notes = get_user_notes(request.user) if request.user.is_authenticated else []
+            return render(request, 'notes/notes_list.html', context={'notes': notes, 'tags': tags})
+        else:
+            notes = get_user_notes_with_tags(request.user, choice_tags) if request.user.is_authenticated else []
+            return render(request, 'notes/notes_list.html',
+                          context={'notes': notes, 'tags': tags, 'choice_tags': request.POST.getlist('tags')})
     else:
-        notes = get_user_notes_with_tags(request.user, choice_tags) if request.user.is_authenticated else []
+        notes = get_user_notes(request.user) if request.user.is_authenticated else []
+        return render(request, 'notes/notes_list.html',
+                      context={'notes': notes, 'tags': tags, 'choice_tags': []})
+
+
+@login_required
+def filter_notes(request):
+    tags = get_user_tag(request.user)
+    choice_tags = get_user_choice_tags(request.user, request.POST.getlist('tags'))
+    notes = get_user_notes_with_tags(user=request.user, choice_tags=choice_tags) if request.user.is_authenticated else []
+    if request.method == 'POST':
         return render(request, 'notes/notes_list.html',
                       context={'notes': notes, 'tags': tags, 'choice_tags': request.POST.getlist('tags')})
+    else:
+        return render(request, 'notes/notes_list.html',
+                      context={'notes': notes, 'tags': tags, 'choice_tags': []})
 
 
 @login_required
 def add_tag(request):
+    tags = get_user_tag(request.user)
     if request.method == 'POST':
         form = TagForm(request.POST)
         if form.is_valid():
@@ -32,15 +51,14 @@ def add_tag(request):
             tag.save()
             return redirect(to="notes:main")
         else:
-            return render(request, 'notes/tag.html', context={'form': form})
+            return render(request, 'notes/tag.html', context={'form': form, 'tags': tags})
 
-    return render(request, 'notes/tag.html', context={'form': TagForm()})
+    return render(request, 'notes/tag.html', context={'form': TagForm(), 'tags': tags})
 
 
 @login_required
 def add_note(request):
-    tags = Tag.objects.filter(user=request.user).all()
-
+    tags = get_user_tag(request.user)
     if request.method == 'POST':
         form = NoteForm(request.POST)
         if form.is_valid():

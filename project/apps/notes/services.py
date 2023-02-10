@@ -5,16 +5,16 @@ def get_user_tag(user):
     return Tag.objects.filter(user=user).all()
 
 
-def get_user_choice_tags(user, choice_tags_list):
-    return Tag.objects.filter(user=user, name__in=choice_tags_list)
+def get_user_choice_tags(user, choice_tags):
+    return Tag.objects.filter(user=user, name__in=choice_tags)
 
 
 def get_user_notes(user):
     return Note.objects.filter(user=user).all()
 
 
-def get_user_notes_with_tags(user, tags):
-    return Note.objects.filter(user=user, tags__in=tags).distinct()
+def get_user_notes_with_tags(user, choice_tags):
+    return Note.objects.filter(user=user, tags__in=choice_tags).distinct()
 
 
 def set_done_user_note(user, note_id):

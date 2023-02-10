@@ -1,20 +1,16 @@
 {% load extract_tags %}
 <div class="row  fw-bold p-2">Filter by tag</div>
-<form method="POST" action="{% url 'notes:main' %}">
+<form method="POST" action="{% url 'notes:filter_note' %}">
     {% csrf_token %}
-
-    <div style="padding: 10px">
-        <label> Select tags:<br>
-            <select name="tags" multiple="multiple" size="10" style="width: max-content">
-                {% for tag in tags %}
-                    {%if tag.name in choice_tags%}
-                    <option value="{{tag.name}}" selected>{{tag.name}}</option>
-                    {% else %}
-                    <option value="{{tag.name}}">{{tag.name}}</option>
-                    {% endif %}
-                {% endfor %}
-            </select>
-        </label>
-    </div>
+        <div>
+            {% for tag in tags %}
+                {%if tag.name in choice_tags%}
+                <div class="checkbox"><label><input type="checkbox" name="tags" value="{{tag.name}}" checked > {{tag.name}}</label></div>
+                {% else %}
+                <div class="checkbox"><label><input type="checkbox" name="tags" value="{{tag.name}}"> {{tag.name}}</label></div>
+                {% endif %}
+            {% endfor %}
+        </div>
+    <br>
     <button type="submit" role="button" class="btn btn-outline-primary ms-2 me-3">Accept</button>
 </form>

@@ -17,18 +17,25 @@
     <div class="row">
         <div class="col-4"></div>
         <div class="col-4">
-            <label> Select tags:
-                <select name="tags" multiple="multiple" class="form-select form-select-sm mb-3" size="10" required>
-                    {% for tag in tags %}
-                    <option value="{{tag.name}}">{{tag.name}}</option>
-                    {% endfor %}
-                </select>
-            </label>
+            <div class="floating">
+                <label> Select tags:
+                </label>
+                    <select name="tags"
+                            multiple="multiple"
+                            class="form-select mb-3"
+                            size="10"
+                            required>
+                        {% for tag in tags %}
+                        <option value="{{tag.name}}">{{tag.name}}</option>
+                        {% endfor %}
+                    </select>
+
+            </div>
         </div>
     </div>
     <div class="row">
         <div class="col-4"></div>
-        <div class="col-4 grid">
+        <div class="col-4 grid text-center">
             <button type="submit" role="button" class="btn btn-outline-primary ms-2 me-3">Add</button>
             <button type="reset" role="button" class="btn btn-outline-primary ms-2 me-3">Reset</button>
         </div>

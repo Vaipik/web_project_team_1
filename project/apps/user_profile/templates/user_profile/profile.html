@@ -112,7 +112,7 @@
             {% for note in notes %}
               <p class="text-muted">{{ note }}</p>
             {% endfor %}
-            <a href="#" class="badge">Open</a>
+            <a href="{% url 'notes:main' %}" class="badge">Open</a>
           {% else %}
             <p class="text-muted fw-lighter fs-4">Here will be displayed your last five notes</p>
           {% endif %}

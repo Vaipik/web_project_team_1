@@ -92,11 +92,11 @@
           </div>
           {% if contacts %}
             {% for contact in contacts %}
-              <p class="text-muted">
+              <span class="text-muted mt-2">
                 {{ contact.name }}, {{ contact.get_sex_display }}
-              </p>
+              </span>
             {% endfor %}
-            <a href="{% url 'contacts:contacts' %}" class="badge bg-warning">Open</a>
+            <a href="{% url 'contacts:contacts' %}" class="badge bg-warning text-decoration-none text-dark">Open</a>
           {% else %}
             <p class="text-muted fw-lighter fs-4">Here will be displayed your first five contacts</p>
           {% endif %}
@@ -110,7 +110,7 @@
           </div>
           {% if notes %}
             {% for note in notes %}
-              <p class="text-muted">{{ note }}</p>
+              <span class="text-muted">{{ note }}</span>
             {% endfor %}
             <a href="{% url 'notes:main' %}" class="badge">Open</a>
           {% else %}
@@ -127,10 +127,10 @@
           </div>
           {% if files %}
             {% for file in files %}
-              <p class="text-muted">
+              <span class="text-muted text-decoration-none">
                 {{ file.description|truncatechars:10 }}
                 <span class="fw-light">category: {{ file.category.name }}</span>
-              </p>
+              </span>
             {% endfor %}
             <a href="#" class="badge">Open</a>
           {% else %}

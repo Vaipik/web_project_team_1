@@ -14,14 +14,14 @@ def show_contacts_bd(request):
     Shows people who have birthdays n days from now.
     """
     if request.method == "GET":
-        all_contacts = Contact.objects.filter(owner=request.user).prefetch_related("phones", "emails")
+        all_contacts = Contact.objects.filter(owner=request.user).prefetch_related(
+            "phones", "emails"
+        )
         days = request.GET.get("query", "")
 
         if not days:
             birthday_list = all_contacts
-            messages.add_message(
-                request, messages.INFO, "Choose a period."
-            )
+            messages.add_message(request, messages.INFO, "Choose a period.")
         else:
             birthday_list = get_birthday_list(all_contacts, days)
 

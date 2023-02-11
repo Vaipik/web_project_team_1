@@ -9,13 +9,14 @@ from apps.contacts.constants import (
     URL_MAX_LENGTH,
     TYPE_MAX_LENGTH,
 )
-from apps.contacts.choices import SEX_CHOICES
+from utils.choices import SEX_CHOICES
 
 
 class Contact(models.Model):
     """
     Information about a person.
     """
+
     id = models.UUIDField(
         default=uuid.uuid4,
         primary_key=True,
@@ -31,8 +32,8 @@ class Contact(models.Model):
 
     owner = models.ForeignKey(User, on_delete=models.CASCADE, default=None)
     name = models.CharField(max_length=NAME_MAX_LENGTH, unique=True)
-    address = models.CharField(max_length=ADDRESS_MAX_LENGTH)
-    birthday = models.DateField()
+    address = models.CharField(max_length=ADDRESS_MAX_LENGTH, null=True)
+    birthday = models.DateField(null=True)
     sex = models.CharField(max_length=TYPE_MAX_LENGTH, choices=SEX_CHOICES, default="u")
 
     class Meta:

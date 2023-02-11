@@ -11,7 +11,9 @@ def show_contacts(request):
     """
     Shows all contacts.
     """
-    contacts = Contact.objects.filter(owner=request.user).prefetch_related("phones", "emails")
+    contacts = Contact.objects.filter(owner=request.user).prefetch_related(
+        "phones", "emails"
+    )
     if contacts:
         page_obj, pages = get_paginator(request, contacts, CONTACTS_PER_PAGE)
         return render(

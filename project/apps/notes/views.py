@@ -4,7 +4,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from .forms import TagForm, NoteForm
 from .models import Tag, Note
 from .services import get_user_tag, get_user_notes, get_user_choice_tags, get_user_notes_filter, set_done_user_note, \
-    delete_user_note
+    set_undone_user_note, delete_user_note
 
 
 # Create your views here.
@@ -74,6 +74,11 @@ def detail(request, note_id):
 @login_required
 def set_done(request, note_id):
     set_done_user_note(request.user, note_id)
+    return redirect(to="notes:main")
+
+@login_required
+def set_undone(request, note_id):
+    set_undone_user_note(request.user, note_id)
     return redirect(to="notes:main")
 
 

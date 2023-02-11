@@ -31,8 +31,10 @@
             {% else %}
 
             <a href="{% url 'notes:detail' note.uuid %}" role="button" class="btn btn-outline-secondary ms-2 me-3"><s>{{note.name}}</s></a>
+            <a href="{% url 'notes:set_undone' note.uuid %}" role="button" class="btn btn-outline-secondary ms-2 me-3">Mark Undone</a>
             <a href="{% url 'notes:delete' note.uuid %}" role="button" class="btn btn-outline-danger ms-2 me-3">Delete note</a>
             {% endif %}
+            <a role="button" class="btn btn-outline-info ms-2 me-3">{{note.created_at}}</a>
         </li>
     </ul>
     {% endfor %}

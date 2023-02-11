@@ -28,5 +28,9 @@ def set_done_user_note(user, note_id):
     Note.objects.filter(user=user, pk=note_id).update(done=True)
 
 
+def set_undone_user_note(user, note_id):
+    Note.objects.filter(user=user, pk=note_id).update(done=False)
+
+
 def delete_user_note(user, note_id):
     Note.objects.get(user=user, pk=note_id).delete()

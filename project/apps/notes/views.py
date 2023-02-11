@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 
 from .forms import TagForm, NoteForm
 from .models import Tag, Note
-from .services import get_user_tag, get_user_notes, get_user_choice_tags, get_user_notes_with_tags, set_done_user_note, \
+from .services import get_user_tag, get_user_notes, get_user_choice_tags, get_user_notes_filter, set_done_user_note, \
     delete_user_note
 
 
@@ -11,32 +11,22 @@ from .services import get_user_tag, get_user_notes, get_user_choice_tags, get_us
 @login_required
 def main(request):
     tags = get_user_tag(request.user)
-    if request.method == 'POST':
-        choice_tags = get_user_choice_tags(request.user, request.POST.getlist('tags'))
-        if len(choice_tags) == 0:
-            notes = get_user_notes(request.user) if request.user.is_authenticated else []
-            return render(request, 'notes/notes_list.html', context={'notes': notes, 'tags': tags})
-        else:
-            notes = get_user_notes_with_tags(request.user, choice_tags) if request.user.is_authenticated else []
-            return render(request, 'notes/notes_list.html',
-                          context={'notes': notes, 'tags': tags, 'choice_tags': request.POST.getlist('tags')})
-    else:
-        notes = get_user_notes(request.user) if request.user.is_authenticated else []
-        return render(request, 'notes/notes_list.html',
-                      context={'notes': notes, 'tags': tags, 'choice_tags': []})
-
-
-@login_required
-def filter_notes(request):
-    tags = get_user_tag(request.user)
     choice_tags = get_user_choice_tags(request.user, request.POST.getlist('tags'))
-    notes = get_user_notes_with_tags(user=request.user, choice_tags=choice_tags) if request.user.is_authenticated else []
+    choice_done = request.POST.getlist('done_or_not')
+    notes = get_user_notes_filter(user=request.user, choice_tags=choice_tags,
+                                  choice_done=choice_done) if request.user.is_authenticated else []
     if request.method == 'POST':
         return render(request, 'notes/notes_list.html',
-                      context={'notes': notes, 'tags': tags, 'choice_tags': request.POST.getlist('tags')})
+                      context={'notes': notes,
+                               'tags': tags,
+                               'choice_tags': request.POST.getlist('tags'),
+                               'choice_done': choice_done})
     else:
         return render(request, 'notes/notes_list.html',
-                      context={'notes': notes, 'tags': tags, 'choice_tags': []})
+                      context={'notes': notes,
+                               'tags': tags,
+                               'choice_tags': [],
+                               'choice_done': []})
 
 
 @login_required

@@ -16,7 +16,7 @@
     {% csrf_token %}
     <div class="row  fw-bold p-2">
         {%if choice_tags %}
-            Notes with tags [
+            Notes {{choice_done|join:' and '}} with tags [
             {{ choice_tags|join:', ' }}
         ]:
         {% endif %}

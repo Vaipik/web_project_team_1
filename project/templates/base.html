@@ -27,7 +27,7 @@
     <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
 
       <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-        <li><a href="#" class="btn btn-outline-info ms-2 me-3">Home</a></li>
+        <li><a href="{% url 'user_profile:profile' %}" class="btn btn-outline-info ms-2 me-3">Profile</a></li>
         <li><a href="#" class="btn btn-outline-info ms-2 me-3">About</a></li>
 
         {% if user.is_authenticated %}

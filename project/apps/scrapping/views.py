@@ -7,12 +7,12 @@ from .services.scrapy_news import scrapy_ukr_news, scrapy_sport_news, scrapy_tec
 
 
 # Create your views here.
-# @login_required
+@login_required
 def index(request):
     return render(request, 'scrapping/index.html')
 
 
-# @login_required
+@login_required
 def get_news(request):
     news = scrapy_ukr_news()
     page_obj, pages = get_paginator(request, news, 10)
@@ -46,5 +46,6 @@ def get_currency(request):
         currency = request.POST.get('currency')
         date = request.POST.get('date')
         currency_list = scrapy_currency(currency, date)
-        return render(request, 'scrapping/scrape_currency.html', {'currency_list': currency_list})
+        return render(request, 'scrapping/scrape_currency.html',
+                      {'currency_list': currency_list, 'date': date, 'currency': currency})
     return render(request, 'scrapping/scrape_currency.html')

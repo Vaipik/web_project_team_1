@@ -22,7 +22,7 @@ class SignInAjaxView(View):
                     data={
                         "message": "Logged in",
                         "status": 200,
-                        # "url": redirect("user_profile:profile", username=username).url
+                        "url": redirect("user_profile:profile").url
                     },
                     status=200
                 )
@@ -41,7 +41,7 @@ class SignUpView(CreateView):
     def get_success_url(self):
         login(self.request, self.object)  # To login created user, self.object -> created user
         """Redirects user to created profile page"""
-        return reverse_lazy("file_storage:file_list")  # profile/user_prfofile
+        return reverse_lazy("user_profile:profile")  #
 
 
 class SignOutAjaxView(LoginRequiredMixin, View):

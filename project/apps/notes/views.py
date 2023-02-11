@@ -4,7 +4,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from .forms import TagForm, NoteForm
 from .models import Tag, Note
 from .services import get_user_tag, get_user_notes, get_user_choice_tags, get_user_notes_filter, set_done_user_note, \
-    set_undone_user_note, delete_user_note
+    set_undone_user_note, delete_user_note, get_user_id_note, get_user_note_tags
 
 
 # Create your views here.
@@ -48,6 +48,7 @@ def add_tag(request):
 
 @login_required
 def add_note(request):
+    # print(request.POST)
     tags = get_user_tag(request.user)
     if request.method == 'POST':
         form = NoteForm(request.POST)
@@ -66,9 +67,52 @@ def add_note(request):
 
 
 @login_required
+def edit_note(request, note_id):
+    tags = get_user_tag(request.user)
+    note = get_user_id_note(request.user, note_id)
+    form = NoteForm({'name': note.name, 'description': note.description})
+    note_tags = []
+    tags_note = get_user_note_tags(request.user, note)
+    for tag in tags_note:
+        note_tags.append(tag.name)
+    return render(request, 'notes/edit_note.html', context={'form': form, 'tags': tags, 'note': note,
+                                                            'note_tags': note_tags})
+
+
+@login_required
+def save_note(request, note_id):
+    tags = get_user_tag(request.user)
+    if request.method == 'POST':
+        form = NoteForm(request.POST)
+        note = get_user_id_note(request.user, note_id)
+        if form.is_valid():
+            note.name = request.POST['name']
+            note.description = request.POST['description']
+            choice_tags = get_user_choice_tags(request.user, request.POST.getlist('tags'))
+            note.tags.set(choice_tags)
+            note.save()
+
+            # for tag in choice_tags:
+            #     note.tags.add(tag)
+
+            return redirect(to="notes:main")
+        else:
+            note_tags = []
+            tags_note = get_user_note_tags(request.user, note)
+            for tag in tags_note:
+                note_tags.append(tag.name)
+            return render(request, 'notes/edit_note.html', context={'form': form, 'tags': tags, 'note': note,
+                                                                    'note_tags': note_tags})
+
+    return render(request, 'notes/add_note.html', context={'form': NoteForm(), 'tags': tags})
+
+
+
+@login_required
 def detail(request, note_id):
+    tags = get_user_tag(request.user)
     note = get_object_or_404(Note, pk=note_id, user=request.user)
-    return render(request, 'notes/detail.html', context={"note": note})
+    return render(request, 'notes/detail.html', context={"note": note, 'tags': tags})
 
 
 @login_required

@@ -27,4 +27,6 @@
 
 <p>Tags: <small> {{ note.tags|tags }} </small></p>
 
+    <a href="{% url 'notes:edit' note.uuid %}" role="button" class="btn btn-outline-primary ms-2 me-3">Edit</a>
+
 {% endblock %}

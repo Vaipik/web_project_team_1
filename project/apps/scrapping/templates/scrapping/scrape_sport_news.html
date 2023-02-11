@@ -1,0 +1,34 @@
+<title>Sport news</title>
+
+{% extends 'base.html' %}
+
+{% block content %}
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="#">Home</a></li>
+            <li class="breadcrumb-item"><a href="/scrapping">Scrapping</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Sport news</li>
+        </ol>
+    </nav>
+    <h1 class="display-1" style="text-align: center">Sport news</h1>
+    <div>
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th scope="col">Time</th>
+                <th scope="col">News</th>
+                <th scope="col">Category</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for i in page_obj %}
+                <tr>
+                    <th scope="row">{{ i.created }}</th>
+                    <td><a href="{{ i.link }}">{{ i.title }}</a></td>
+                    <td>{{ i.category }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

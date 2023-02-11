@@ -22,7 +22,6 @@ class EmailForm(ModelForm):
         choices=TYPES_OF_EMAIL,
         label="Work or personal",
         initial="",
-        required=True,
         widget=Select(attrs={"class": "form-select"}),
     )
 

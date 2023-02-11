@@ -25,7 +25,6 @@ class PhoneForm(ModelForm):
         choices=TYPES_OF_PHONE,
         label="Work or personal",
         initial="",
-        required=True,
         widget=Select(attrs={"class": "form-select"}),
     )
 

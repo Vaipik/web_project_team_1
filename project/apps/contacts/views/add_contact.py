@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.forms import inlineformset_factory
+from django.forms.utils import ErrorDict
 
 from apps.contacts.forms import ContactForm, EmailForm, PhoneForm
 from apps.contacts.models import Email, Contact, Phone
@@ -58,6 +59,16 @@ def add_contact(request):
             )
             return redirect(to="contacts:contacts")
         else:
+            for email_form in email_forms:
+                if hasattr(email_form, "cleaned_data") and email_form.cleaned_data.get(
+                    "DELETE", False
+                ):
+                    email_form._errors = ErrorDict()
+            for phone_form in phone_forms:
+                if hasattr(phone_form, "cleaned_data") and phone_form.cleaned_data.get(
+                    "DELETE", False
+                ):
+                    phone_form._errors = ErrorDict()
             return render(
                 request,
                 "contacts/contact_add.html",

@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.forms import inlineformset_factory
+from django.forms.utils import ErrorDict
 
 from apps.contacts.forms import ContactForm, EmailForm, PhoneForm
 from apps.contacts.models import Contact, Email, Phone
@@ -25,37 +26,47 @@ def update_contact(request, pk):
             instance=contact,
             prefix="cont_form",
         )
-        emails_form = EmailsFormSet(
+        email_forms = EmailsFormSet(
             request.POST,
             instance=contact,
             prefix="email_form",
         )
-        phones_form = PhonesFormSet(
+        phone_forms = PhonesFormSet(
             request.POST,
             instance=contact,
             prefix="phone_form",
         )
         if (
             contact_form.is_valid()
-            and emails_form.is_valid()
-            and phones_form.is_valid()
+            and email_forms.is_valid()
+            and phone_forms.is_valid()
         ):
             contact.save()
-            emails_form.save()
-            phones_form.save()
+            email_forms.save()
+            phone_forms.save()
             messages.add_message(
                 request, messages.INFO, "The contact updated successfully!"
             )
             return redirect(to="contacts:contacts")
         else:
+            for email_form in email_forms:
+                if hasattr(email_form, "cleaned_data") and email_form.cleaned_data.get(
+                        "DELETE", False
+                ):
+                    email_form._errors = ErrorDict()
+            for phone_form in phone_forms:
+                if hasattr(phone_form, "cleaned_data") and phone_form.cleaned_data.get(
+                        "DELETE", False
+                ):
+                    phone_form._errors = ErrorDict()
             return render(
                 request,
                 "contacts/contact_update.html",
                 {
                     "contact": contact,
                     "cont_form": contact_form,
-                    "email_form": emails_form,
-                    "phone_form": phones_form,
+                    "email_form": email_forms,
+                    "phone_form": phone_forms,
                 },
             )
 

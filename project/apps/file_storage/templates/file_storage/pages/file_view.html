@@ -3,81 +3,70 @@
 {% block app_header_content %}
   <li><a href="{% url 'file_storage:file_list' %}" class="btn btn-outline-warning ms-2 me-3">Files list</a></li>
   <li><a href="{% url 'file_storage:upload_file' %}" class="btn btn-outline-warning ms-2 me-3">Upload new file</a></li>
+  <button type="button" class="btn btn-outline-warning"
+          data-bs-toggle="modal" data-bs-target="#extensions_modal">
+    Extensions
+  </button>
 {% endblock %}
 
 {% block app_sidebar_content %}
   {% include 'file_storage/_sidebar_content.html' %}
+
 {% endblock %}
 
 {% block content %}
 
-  <div class="row justify-content-center">
-    <div class="col-2"></div>
-    <div class="col-8">
-      <div class="row  align-items-center fw-bold p-2">
-        <div class="col-4 text-center">Description</div>
-        <div class="col-2 text-center">Category</div>
-        <div class="col-4 text-center">Uploaded time</div>
-        <div class="col-2"></div>
-      </div>
-    </div>
-    <div class="col-2"></div>
-  </div>
 
-  <div class="row justify-content-around">
+  <div>
+    <table class="table table-striped">
+      <thead>
+      <tr>
+        <th scope="col"></th>
+        <th scope="col">Description</th>
+        <th scope="col"></th>
+        <th scope="col">Category</th>
+        <th scope="col">Uploaded</th>
+        <th scope="col"></th>
+      </tr>
+      </thead>
+      <tbody>
 
-    <div class="col-2"></div>
-    <div class="col-8">
-      <div class="row align-items-center fw-normal m-2">
+      <tr>
+        <td style="vertical-align: middle">
+          <a href="{% url 'file_storage:edit_file' file_uuid=file.uuid %}"
+             class="badge text-bg-warning text-decoration-none"
+          >Edit
+          </a>
+        </td>
 
-        <div class="col-4 text-center">
-          <div class="row">
-            <div class="col-9 text-center">
-              {{ file.description }}
-            </div>
-            <div class="col-3 text-center">
-              <div class="row">
-                <a href="{% url 'file_storage:edit_file' file_uuid=file.uuid %}"
-                   class="badge text-bg-warning text-decoration-none"
-                >Edit
-                </a>
-              </div>
-              <div class="row mt-2">
-                <a href="{{ file.file.url }}"
-                   class="badge bg-success text-decoration-none"
-                >Download
-                </a>
-              </div>
-            </div>
-          </div>
+        <td style="vertical-align: middle; word-wrap: break-word">
+          <span class="fw-light">{{ file.description }}</span>
+        </td>
 
-        </div>
+        <td style="vertical-align: middle">
+          <a href="{{ file.file.url }}"
+             class="badge bg-success text-decoration-none"
+          >Download
+          </a>
+        </td>
 
-        <div class="col-2 text-center">
+        <td style="vertical-align: middle">
           <a href="{% url 'file_storage:show_category_files' category_url=file.category.slug %}"
-             class="text-muted text-decoration-none">{{ file.category.name }}</a>
-        </div>
-
-        <div class="col-4 fw-light text-center">
-          {{ file.uploaded_at|date:"d E, Y H:m" }}
-        </div>
-
-        <div class="col-2 text-end">
+             class="text-dark fw-bolder text-decoration-none">{{ file.category.name }}</a>
+        </td>
+        <td style="vertical-align: middle">{{ file.uploaded_at|date:"d E, Y H:m" }}</td>
+        <td style="vertical-align: middle">
           <button type="button" class="btn btn-outline-danger"
                   data-bs-toggle="modal" data-bs-target="#ajax_delete_file">
             Delete file
           </button>
-        </div>
-
-      </div>
-    </div>
-
-    <div class="col-2">
-
-      {% include 'file_storage/file_delete_modal.html' %}
-    </div>
-
+        </td>
+      </tr>
+      </tbody>
+    </table>
   </div>
 
 
+  {% include 'file_storage/file_delete_modal.html' %}
+  {% include 'file_storage/extensions_modal.html' %}
 {% endblock %}

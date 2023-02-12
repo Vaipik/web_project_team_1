@@ -11,9 +11,9 @@
 
 {% block content %}
 
-  <form action="{% url 'file_storage:edit_file' file_uuid=file.uuid%}" method="post">
+  <form action="{% url 'file_storage:edit_file' file_uuid=file.uuid %}" method="post">
     {% include '_base_form.html' %}
-      <div class="row">
+    <div class="row">
       <div class="col-4"></div>
       <div class="col-4 text-center">
         {% csrf_token %}
@@ -22,5 +22,6 @@
       <div class="col-4"></div>
     </div>
   </form>
+{% include 'file_storage/extensions_modal.html' %}
 
 {% endblock %}

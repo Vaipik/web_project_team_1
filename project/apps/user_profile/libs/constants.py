@@ -18,3 +18,4 @@ EMAIL_MAX_LENGTH = 254
 
 # Profile
 PROFILE_MAX_URL = 20
+DEFAULT_AVATAR_URL = "http://pic.onlinewebfonts.com/svg/img_264157.png"

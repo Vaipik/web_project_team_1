@@ -6,15 +6,27 @@
     <h2 class="pb-2 border-bottom fw-lighter">Welcome to your profile, dear <span>{{ user.username }}</span></h2>
 
     <div class="row row-cols-1 row-cols-md-2 align-items-md-center py-5">
-      <div class="d-flex flex-column align-items-start gap-2">
+      <div class="align-items-start gap-2">
         <div class="card mb-3" style="border-radius: .5rem;">
           <div class="row g-0">
-            <div class="col-md-4 bg-warning text-center text-dark"
+            <div class="col-lg-4 bg-warning text-center text-dark"
                  style="border-top-left-radius: .5rem; border-bottom-left-radius: .5rem;">
-              <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava1-bg.webp"
-                   alt="Avatar" class="img-fluid my-5" style="width: 80px;"/>
-              <h5>Marie Horwitz</h5>
-              <p>Web Designer</p>
+              {% if profile.avatar.url %}
+                <img src="{{ profile.avatar.url }}"
+                     class="img-fluid my-5" style="width: 180px;"/>
+              {% else %}
+                <img src="{{ profile.avatar }}"
+                     class="img-fluid my-5" style="width: 180px;"/>
+              {% endif %}
+
+              {% if profile.fullname %}
+                <h5>{{ profile.fullname }}</h5>
+              {% else %}
+                <p class="text-muted fw-light">Name Surname</p>
+              {% endif %}
+              <p>
+                <span class="fw-light">sex: </span> <span class="text-capitalize">{{ profile.get_sex_display }}</span>
+              </p>
               <i class="far fa-edit mb-5"></i>
             </div>
             <div class="col-md-8">
@@ -24,11 +36,19 @@
                 <div class="row pt-1">
                   <div class="col-6 mb-3">
                     <h6>Email</h6>
-                    <p class="text-muted">info@example.com</p>
+                    {% if profile.email %}
+                      <p class="text-muted">{{ profile.email }}</p>
+                    {% else %}
+                      <p class="text-muted fw-light">info@example.com</p>
+                    {% endif %}
                   </div>
                   <div class="col-6 mb-3">
                     <h6>Phone</h6>
-                    <p class="text-muted">123 456 789</p>
+                    {% if profile.phone %}
+                      <p class="text-muted">{{ profile.phone }}</p>
+                    {% else %}
+                      <p class="text-muted fw-light">123 456 789</p>
+                    {% endif %}
                   </div>
                 </div>
                 <h6>Profile info</h6>
@@ -75,7 +95,8 @@
                     </p>
                   </div>
                 </div>
-                <a href="#" class="btn btn-warning btn-lg fw-lighter">Edit profile</a>
+                <a href="{% url 'user_profile:edit_profile' %}" class="btn btn-warning btn-lg fw-lighter">Edit
+                  profile</a>
               </div>
             </div>
           </div>

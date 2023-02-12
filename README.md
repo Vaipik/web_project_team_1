@@ -35,3 +35,4 @@ Postgres is used as the database. User are able to do following things:
    * DROPBOX_OAUTH2_REFRESH_TOKEN=R7n6o5G8dHgAAAAAAAAAAayq5ls6uMKzGuVJxYO6vLRRG6DTpam_0t3nAIVoWPo3
    * DROPBOX_ROOT_PATH=/uploads
 5. And finally run `app.py` and visit `/doc` to see further information
+

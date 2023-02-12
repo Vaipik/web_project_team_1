@@ -3,9 +3,11 @@
 <main>
 
     {% block app_header_content %}
-        <div class="container" style="margin: 20px;">
-            <a class="btn btn-secondary" href="{% url 'contacts:contacts' %}" role="button">All Contacts</a>
-        </div>
+
+        <li>
+            <a class="btn btn-dark position-relative" href="{% url 'contacts:contacts' %}" role="button">All Contacts</a>
+        </li>
+
     {% endblock app_header_content %}
 
     {% block content %}

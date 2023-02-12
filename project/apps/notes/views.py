@@ -119,19 +119,19 @@ def detail(request, note_id):
 @login_required
 def set_done(request, note_id):
     set_done_user_note(request.user, note_id)
-    return redirect(to="notes:main")
+    return main(request)
 
 
 @login_required
 def set_undone(request, note_id):
     set_undone_user_note(request.user, note_id)
-    return redirect(to="notes:main")
+    return main(request)
 
 
 @login_required
 def delete_note(request, note_id):
     delete_user_note(request.user, note_id)
-    return redirect(to="notes:main")
+    return main(request)
 
 
 @login_required

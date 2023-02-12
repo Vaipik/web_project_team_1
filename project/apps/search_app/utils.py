@@ -30,7 +30,10 @@ class SearchAppMixin:
         if query_string:
             context.update({"query": query_string})
 
-        context.update({"model_name": self.model.__name__, "fields": self.fields})
+        context.update({"model_name": self.model.__name__,
+                        "fields": self.fields,
+                        "url_name": self.url_name,
+                        "uuid": self.uuid})
 
         context.update(
             **self.get_pages(page_obj=context["page_obj"]),
@@ -49,8 +52,8 @@ class SearchAppMixin:
         if self.auth_required:
             query_set = self.model.objects.filter(
                 Q(**{self.user_model_name: self.request.user})
-                & filter_conditions)
+                & filter_conditions).distinct()
         else:
-            query_set = self.model.objects.filter(filter_conditions)
+            query_set = self.model.objects.filter(filter_conditions).distinct()
 
         return query_set

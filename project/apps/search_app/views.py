@@ -15,58 +15,99 @@ from ..file_storage.models import File
 from ..notes.models import Note
 
 
-class SearchUniView(LoginRequiredMixin, PaginationMixin, ListView):
-    paginate_by = 1
-    extra_context = {"title": "Search for all categories"}
-    template_name = "search_app/search_results.html"
-
+class SearchContactView(LoginRequiredMixin, PaginationMixin, SearchAppMixin, ListView):
     """
     "model" - model class name for search
     "search_fields" - model fields for search. It should be CharField type or ArrayField type of CharField type
     "fields" - model fields for show in template.
-    "auth_required" - if model stores personal users data, 
+    "auth_required" - if model stores personal users data,
         True - require authentication, if True there must be declare model field name related to User
-        False - not require authentication 
+        False - not require authentication
     "user_model_name" - model field name related to User
+    "url_name" - url name for url tag that link to item page by uuid
+    "uuid" - model field name with unique item id
     """
+    model = Contact
+    search_fields = ["name",
+                     "address",
+                     "emails__email_addr",
+                     "phones__phone_number",
+                     ]
+    fields = ["name",
+              "address",
+              "emails__email_addr",
+              "phones__phone_number",
+              ]
+    auth_required = False
+    user_model_name = "owner"
+    url_name = "contacts:update_contact"
+    uuid = "id"
+
+
+class SearchFileView(LoginRequiredMixin, PaginationMixin, SearchAppMixin, ListView):
+    model = File
+    search_fields = ["description",
+                     ]
+    fields = ["description",
+              "uploaded_at",
+              "category",
+              ]
+    auth_required = True
+    user_model_name = "owner"
+    url_name = "file_storage:show_file"
+    uuid = "uuid"
+
+
+class SearchNoteView(LoginRequiredMixin, PaginationMixin, SearchAppMixin, ListView):
+    model = Note
+    search_fields = ["name",
+                     "description",
+                     "tags__name",
+                     ]
+    fields = ["name",
+              "description",
+              "tags__name",
+              "created_at"
+              ]
+    auth_required = True
+    user_model_name = "user"
+    url_name = "notes:detail"
+    uuid = "uuid"
+
+
+class SearchUniView(LoginRequiredMixin, PaginationMixin, ListView):
+    paginate_by = 3
+    extra_context = {"title": "Search for all categories"}
+    template_name = "search_app/search_results.html"
+
     query_name = "query"
     models = [
         {
-            "model": Contact,
-            "search_fields": ["name",
-                              "address",
-                              ],
-            "fields": ["name",
-                       "address",
-                       "birthday",
-                       "sex",
-                       ],
-            "auth_required": False,
-            "user_model_name": "owner",
+            "model": SearchContactView.model,
+            "search_fields": SearchContactView.search_fields,
+            "fields": SearchContactView.fields,
+            "auth_required": SearchContactView.auth_required,
+            "user_model_name": SearchContactView.user_model_name,
+            "url_name": SearchContactView.url_name,
+            "uuid": SearchContactView.uuid
         },
         {
-            "model": File,
-            "search_fields": ["description",
-                              ],
-            "fields": ["description",
-                       "uploaded_at",
-                       "category",
-                       ],
-            "auth_required": True,
-            "user_model_name": "owner",
+            "model": SearchFileView.model,
+            "search_fields": SearchFileView.search_fields,
+            "fields": SearchFileView.fields,
+            "auth_required": SearchFileView.auth_required,
+            "user_model_name": SearchFileView.user_model_name,
+            "url_name": SearchFileView.url_name,
+            "uuid": SearchFileView.uuid
         },
         {
-            "model": Note,
-            "search_fields": ["name",
-                              "description",
-                              ],
-            "fields": ["name",
-                       "description",
-                       "created_at",
-                       "edited_at",
-                       ],
-            "auth_required": True,
-            "user_model_name": "user",
+            "model": SearchNoteView.model,
+            "search_fields": SearchNoteView.search_fields,
+            "fields": SearchNoteView.fields,
+            "auth_required": SearchNoteView.auth_required,
+            "user_model_name": SearchNoteView.user_model_name,
+            "url_name": SearchNoteView.url_name,
+            "uuid": SearchNoteView.uuid
         },
     ]
 
@@ -98,71 +139,17 @@ class SearchUniView(LoginRequiredMixin, PaginationMixin, ListView):
             if model["auth_required"]:
                 query_set = model_class.objects.filter(
                     Q(**{model['user_model_name']: self.request.user})
-                    & filter_conditions)
+                    & filter_conditions).distinct()
             else:
-                query_set = model_class.objects.filter(filter_conditions)
+                query_set = model_class.objects.filter(filter_conditions).distinct()
 
-            object_list.append((model_class.__name__, model["fields"], query_set))
+            object_list.append((model_class.__name__,
+                                model["fields"],
+                                model['url_name'],
+                                model['uuid'],
+                                query_set,
+                                ))
 
         return object_list
 
 
-class SearchContactView(LoginRequiredMixin, PaginationMixin, SearchAppMixin, ListView):
-    """
-    "model" - model class name for search
-    "search_fields" - model fields for search. It should be CharField type or ArrayField type of CharField type
-    "fields" - model fields for show in template.
-    "auth_required" - if model stores personal users data, 
-        True - require authentication, if True there must be declare model field name related to User
-        False - not require authentication
-    "user_model_name" - model field name related to User
-    """
-    model = Contact
-    search_fields = ["name",
-                     "address",
-                     ]
-    fields = ["name",
-              "address",
-              ]
-    auth_required = False
-    user_model_name = "owner"
-
-
-class SearchFileView(LoginRequiredMixin, PaginationMixin, SearchAppMixin, ListView):
-    """
-    "model" - model class name for search
-    "search_fields" - model fields for search. It should be CharField type or ArrayField type of CharField type
-    "fields" - model fields for show in template.
-    "auth_required" - if model stores personal users data,
-        True - require authentication, if True there must be declare model field name related to User
-        False - not require authentication
-    "user_model_name" - model field name related to User
-    """
-    model = File
-    search_fields = ["description",
-                     ]
-    fields = ["description",
-              ]
-    auth_required = True
-    user_model_name = "owner"
-
-
-class SearchNoteView(LoginRequiredMixin, PaginationMixin, SearchAppMixin, ListView):
-    """
-    "model" - model class name for search
-    "search_fields" - model fields for search. It should be CharField type or ArrayField type of CharField type
-    "fields" - model fields for show in template.
-    "auth_required" - if model stores personal users data,
-        True - require authentication, if True there must be declare model field name related to User
-        False - not require authentication
-    "user_model_name" - model field name related to User
-    """
-    model = Note
-    search_fields = ["name",
-                     "description",
-                     ]
-    fields = ["name",
-              "description",
-              ]
-    auth_required = True
-    user_model_name = "user"

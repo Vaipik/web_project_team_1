@@ -1,4 +1,5 @@
 import re
+from datetime import datetime
 from typing import List
 
 from django import template
@@ -21,8 +22,18 @@ def highlight(text: str, search_string: str):
 
 @register.filter(name='attr')
 def attr(item, attribute):
-
-    return mark_safe(vars(item)[attribute])
+    if "__" in attribute:
+        fk, field = attribute.split("__")
+        values = [el.__getattribute__(field) for el in item.__getattribute__(fk).all()]
+        if len(values) > 1:
+            result = ", ".join(values)
+        else:
+            result = values[0]
+        return mark_safe(result)
+    result = item.__getattribute__(attribute)
+    if isinstance(result, datetime):
+        result = result.strftime("%Y.%m.%d %H:%M:%S")
+    return mark_safe(result)
 
 
 @register.filter(name='width')

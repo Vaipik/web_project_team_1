@@ -10,12 +10,12 @@
             <li class="breadcrumb-item active" aria-current="page">Python books</li>
         </ol>
     </nav>
-    <h1 class="display-1" style="text-align: center">Best Python programming books</h1>
+    <h1 class="display-3" style="text-align: center">Best Python programming books</h1>
     <div>
         <table class="table table-striped">
             <thead>
             <tr>
-                <th scope="col">Image</th>
+                <th scope="col"></th>
                 <th scope="col">Link on Goodreads.com</th>
                 <th scope="col">Author</th>
                 <th scope="col">Rating</th>
@@ -25,9 +25,9 @@
             {% for i in page_obj %}
                 <tr>
                     <td><img src="{{ i.image }}" alt="{{ i.title }}"></td>
-                    <td><a href="{{ i.link }}">{{ i.title }}</a></td>
-                    <td>{{ i.author }}</td>
-                    <td>{{ i.rating }}</td>
+                    <td style="vertical-align: middle"><a href="{{ i.link }}" class="text-decoration-none text-dark fw-lighter">{{ i.title }}</a></td>
+                    <td style="vertical-align: middle">{{ i.author }}</td>
+                    <td style="vertical-align: middle">{{ i.rating }}</td>
                 </tr>
             {% endfor %}
             </tbody>

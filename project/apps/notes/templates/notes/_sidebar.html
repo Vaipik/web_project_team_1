@@ -1,0 +1,29 @@
+{% load extract_tags %}
+<form method="POST" action="{% url 'notes:main' %}">
+    {% csrf_token %}
+    <div>
+        <div class="row  fw-bold p-2">Filter for notes</div>
+
+        <div class="checkbox"><label><input type="checkbox"
+                                            name="done_or_not"
+                                            value="done"
+                                            {% if 'done' in choice_done %} checked {% endif %}>Done</label></div>
+        <div class="checkbox"><label><input type="checkbox"
+                                            name="done_or_not"
+                                            value="not done"
+                                            {% if 'not done' in choice_done %} checked {% endif %}>Not Done</label></div>
+    </div>
+    <div class="row  fw-bold p-2">Tags</div>
+    <div>
+        {% for tag in tags %}
+        {%if tag.name in choice_tags%}
+        <div class="checkbox"><label><input type="checkbox" name="tags" value="{{tag.name}}" checked>
+            {{tag.name}}</label></div>
+        {% else %}
+        <div class="checkbox"><label><input type="checkbox" name="tags" value="{{tag.name}}"> {{tag.name}}</label></div>
+        {% endif %}
+        {% endfor %}
+    </div>
+    <br>
+    <button type="submit" role="button" class="btn btn-outline-primary ms-2 me-3">Accept</button>
+</form>

@@ -27,8 +27,10 @@
     <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
 
       <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-        <li><a href="{% url 'user_profile:profile' %}" class="btn btn-outline-info ms-2 me-3">Profile</a></li>
-        <li><a href="#" class="btn btn-outline-info ms-2 me-3">About</a></li>
+        {% if user.is_authenticated %}
+          <li><a href="{% url 'user_profile:profile' %}" class="btn btn-outline-info ms-2 me-3">Profile</a></li>
+        {% endif %}
+        <li><a href="{% url 'about' %}" class="btn btn-outline-info ms-2 me-3">About</a></li>
 
         {% if user.is_authenticated %}
           {% block app_header_content %}
@@ -75,43 +77,45 @@
     </span>
       <hr>
       <ul class="nav nav-pills flex-column">
-        <li class="nav-item">
-          <a href="{% url 'contacts:contacts' %}" class="nav-link text-dark fw-normal fs-4" aria-current="page">
-            <svg class="bi pe-none me-2" width="16" height="16">
-            </svg>
-            Contacts
-          </a>
-        </li>
-        <li>
-          <a href="{% url 'file_storage:file_list' %}" class="nav-link text-dark fw-normal fs-4">
-            <svg class="bi pe-none me-2" width="16" height="16">
-            </svg>
-            Files
-          </a>
-        </li>
-        <li>
-          <a href="{% url 'notes:main' %}" class="nav-link text-dark fw-normal fs-4">
-            <svg class="bi pe-none me-2" width="16" height="16">
-            </svg>
-            Notes
-          </a>
-        </li>
-        <li>
-          <a href="{% url 'scrapping:index' %}" class="nav-link text-dark fw-normal fs-4">
-            <svg class="bi pe-none me-2" width="16" height="16">
-            </svg>
-            Scrapping
-          </a>
-        </li>
-        <li>
-          <a href="#" class="nav-link text-dark fw-normal fs-4">
-            <svg class="bi pe-none me-2" width="16" height="16">
-            </svg>
-            Search
-          </a>
-        </li>
+        {% if user.is_authenticated %}
+          <li class="nav-item">
+            <a href="{% url 'contacts:contacts' %}" class="nav-link text-dark fw-normal fs-4" aria-current="page">
+              <svg class="bi pe-none me-2" width="16" height="16">
+              </svg>
+              Contacts
+            </a>
+          </li>
+          <li>
+            <a href="{% url 'file_storage:file_list' %}" class="nav-link text-dark fw-normal fs-4">
+              <svg class="bi pe-none me-2" width="16" height="16">
+              </svg>
+              Files
+            </a>
+          </li>
+          <li>
+            <a href="{% url 'notes:main' %}" class="nav-link text-dark fw-normal fs-4">
+              <svg class="bi pe-none me-2" width="16" height="16">
+              </svg>
+              Notes
+            </a>
+          </li>
+          <li>
+            <a href="{% url 'scrapping:index' %}" class="nav-link text-dark fw-normal fs-4">
+              <svg class="bi pe-none me-2" width="16" height="16">
+              </svg>
+              Scrapping
+            </a>
+          </li>
+          <li>
+            <a href="#" class="nav-link text-dark fw-normal fs-4">
+              <svg class="bi pe-none me-2" width="16" height="16">
+              </svg>
+              Search
+            </a>
+          </li>
+        {% endif %}
       </ul>
-        <hr>
+      <hr>
 
       {% block app_sidebar_content %}
       {% endblock %}
@@ -161,9 +165,14 @@
 </div>
 
 
-<footer class="footer mt-auto py-3 bg-light">
-  <div class="container">
-    <span class="text-muted">Place sticky footer content here.</span>
+<footer class="footer mt-auto py-3 bg-dark">
+  <div class="container text-center">
+    <span class="text-muted">
+      &copy; 2023 DreamTeam
+      <a href="https://github.com/Vaipik/web_project_team_1" class="text-muted text-decoration-none fw-lighter"
+      >Github
+      </a>
+    </span>
   </div>
 </footer>
 
@@ -175,7 +184,6 @@
 <script src="https://code.jquery.com/jquery-3.6.3.min.js"
         integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous">
 </script>
-<script src="{% static 'user_auth/static/js/sign_out.js' %}"></script>
 <script src="{% static 'user_auth/static/js/sign_in.js' %}"></script>
 </body>
 </html>

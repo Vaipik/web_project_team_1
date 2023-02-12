@@ -1,3 +1,7 @@
+"""
+Options for choice fields in forms.
+"""
+
 SEX_CHOICES = (
     ("f", "female"),
     ("m", "male"),

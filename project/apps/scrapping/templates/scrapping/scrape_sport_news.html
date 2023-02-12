@@ -24,7 +24,7 @@
             {% for i in page_obj %}
                 <tr>
                     <th scope="row">{{ i.created }}</th>
-                    <td><a href="{{ i.link }}">{{ i.title }}</a></td>
+                    <td><a href="{{ i.link }}" class="text-decoration-none text-dark fw-lighter">{{ i.title }}</a></td>
                     <td>{{ i.category }}</td>
                 </tr>
             {% endfor %}

@@ -1,12 +1,16 @@
-from django.forms import CharField, ChoiceField, ModelForm
+from django.forms import CharField, ChoiceField, ModelForm, TextInput, Select
 from django.core.validators import RegexValidator
 
 from apps.contacts.models import Phone
 from apps.contacts.constants import PHONE_MAX_LENGTH
-from apps.contacts.choices import TYPES_OF_PHONE
+from utils.choices import TYPES_OF_PHONE
 
 
 class PhoneForm(ModelForm):
+    """
+    Form for person's phone.
+    """
+
     phone_number = CharField(
         max_length=PHONE_MAX_LENGTH,
         validators=[
@@ -15,9 +19,13 @@ class PhoneForm(ModelForm):
                 message="Invalid phone format. Try +123456789012 or 1234567890.",
             )
         ],
+        widget=TextInput(attrs={"class": "form-control"}),
     )
     type = ChoiceField(
-        choices=TYPES_OF_PHONE, label="Work or personal", initial="", required=True
+        choices=TYPES_OF_PHONE,
+        label="Work or personal",
+        initial="",
+        widget=Select(attrs={"class": "form-select"}),
     )
 
     class Meta:

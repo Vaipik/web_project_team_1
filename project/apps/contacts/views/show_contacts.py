@@ -8,8 +8,13 @@ from apps.contacts.constants import CONTACTS_PER_PAGE
 
 @login_required
 def show_contacts(request):
-    contacts = Contact.objects.filter(owner=request.user)
-    if contacts.exists():
+    """
+    Shows all contacts.
+    """
+    contacts = Contact.objects.filter(owner=request.user).prefetch_related(
+        "phones", "emails"
+    )
+    if contacts:
         page_obj, pages = get_paginator(request, contacts, CONTACTS_PER_PAGE)
         return render(
             request,

@@ -20,7 +20,7 @@ def get_last_five_files(user: User):
 
 
 def get_last_five_notes(user: User):
-    return Note.objects.filter(owner=user)[:5]
+    return Note.objects.filter(user=user)[:5]
 
 
 def count_user_contacts(user: User):
@@ -32,8 +32,7 @@ def count_user_files(user: User):
 
 
 def count_user_notes(user: User):
-    return Note.objects.filter(owner=user).count()
-
+    return Note.objects.filter(user=user).count()
 
 
 def get_profile_context(user: User):

@@ -7,7 +7,7 @@
     {% for model_name, fields, query_set in object_list %}
     <h3>{{ query_set|length }} results in {{ model_name }}</h3>
         {% if query_set|length %}
-    <div class="row row-cols-1 row-cols-md-3 gx-4 text-center">
+    <div class="row row-cols-1 row-cols-md-3 gx-4 text-left">
         {% for field in fields %}
         <div class="col-md-{{ fields|width }} themed-grid-col"><b>{{ field|capfirst }}</b></div>
         {% endfor %}

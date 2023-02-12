@@ -8,12 +8,11 @@ from django.db.models import Q, QuerySet
 from django.shortcuts import redirect
 from django.views.generic import ListView
 
-from .models import TempNote, TempContact
-from ..contacts.models import Contact
 from .utils import get_filter_query_conditions, SearchAppMixin
 from utils.pagination import PaginationMixin
-
+from ..contacts.models import Contact
 from ..file_storage.models import File
+from ..notes.models import Note
 
 
 class SearchUniView(LoginRequiredMixin, PaginationMixin, ListView):
@@ -24,38 +23,50 @@ class SearchUniView(LoginRequiredMixin, PaginationMixin, ListView):
     """
     "model" - model class name for search
     "search_fields" - model fields for search. It should be CharField type or ArrayField type of CharField type
+    "fields" - model fields for show in template.
     "auth_required" - if model stores personal users data, 
-        True - require authentication, 
+        True - require authentication, if True there must be declare model field name related to User
         False - not require authentication 
+    "user_model_name" - model field name related to User
     """
     query_name = "query"
     models = [
         {
-            "model": "TempNote",
-            "search_fields": ["description",
-                              "text",
-                              "tags"],
-            "auth_required": False
-        },
-        {
-            "model": "TempContact",
-            "search_fields": ["description",
-                              "text",
-                              "tags"],
-            "auth_required": False
-        },
-        {
-            "model": "Contact",
+            "model": Contact,
             "search_fields": ["name",
                               "address",
-                              "phones"],
-            "auth_required": False
+                              ],
+            "fields": ["name",
+                       "address",
+                       "birthday",
+                       "sex",
+                       ],
+            "auth_required": False,
+            "user_model_name": "owner",
         },
         {
             "model": File,
             "search_fields": ["description",
                               ],
-            "auth_required": True
+            "fields": ["description",
+                       "uploaded_at",
+                       "category",
+                       ],
+            "auth_required": True,
+            "user_model_name": "owner",
+        },
+        {
+            "model": Note,
+            "search_fields": ["name",
+                              "description",
+                              ],
+            "fields": ["name",
+                       "description",
+                       "created_at",
+                       "edited_at",
+                       ],
+            "auth_required": True,
+            "user_model_name": "user",
         },
     ]
 
@@ -85,11 +96,13 @@ class SearchUniView(LoginRequiredMixin, PaginationMixin, ListView):
             model_class = globals()[model["model"]] if isinstance(model["model"], str) else model["model"]
 
             if model["auth_required"]:
-                query_set = model_class.objects.filter(Q(owner=self.request.user) & filter_conditions)
+                query_set = model_class.objects.filter(
+                    Q(**{model['user_model_name']: self.request.user})
+                    & filter_conditions)
             else:
                 query_set = model_class.objects.filter(filter_conditions)
 
-            object_list.append((model_class.__name__, model["search_fields"], query_set))
+            object_list.append((model_class.__name__, model["fields"], query_set))
 
         return object_list
 
@@ -98,26 +111,58 @@ class SearchContactView(LoginRequiredMixin, PaginationMixin, SearchAppMixin, Lis
     """
     "model" - model class name for search
     "search_fields" - model fields for search. It should be CharField type or ArrayField type of CharField type
+    "fields" - model fields for show in template.
     "auth_required" - if model stores personal users data, 
-        True - require authentication, 
-        False - not require authentication 
+        True - require authentication, if True there must be declare model field name related to User
+        False - not require authentication
+    "user_model_name" - model field name related to User
     """
     model = Contact
     search_fields = ["name",
                      "address",
-                     "phones"],
+                     ]
+    fields = ["name",
+              "address",
+              ]
     auth_required = False
+    user_model_name = "owner"
 
 
 class SearchFileView(LoginRequiredMixin, PaginationMixin, SearchAppMixin, ListView):
     """
     "model" - model class name for search
     "search_fields" - model fields for search. It should be CharField type or ArrayField type of CharField type
+    "fields" - model fields for show in template.
     "auth_required" - if model stores personal users data,
-        True - require authentication,
+        True - require authentication, if True there must be declare model field name related to User
         False - not require authentication
+    "user_model_name" - model field name related to User
     """
     model = File
     search_fields = ["description",
                      ]
+    fields = ["description",
+              ]
     auth_required = True
+    user_model_name = "owner"
+
+
+class SearchNoteView(LoginRequiredMixin, PaginationMixin, SearchAppMixin, ListView):
+    """
+    "model" - model class name for search
+    "search_fields" - model fields for search. It should be CharField type or ArrayField type of CharField type
+    "fields" - model fields for show in template.
+    "auth_required" - if model stores personal users data,
+        True - require authentication, if True there must be declare model field name related to User
+        False - not require authentication
+    "user_model_name" - model field name related to User
+    """
+    model = Note
+    search_fields = ["name",
+                     "description",
+                     ]
+    fields = ["name",
+              "description",
+              ]
+    auth_required = True
+    user_model_name = "user"

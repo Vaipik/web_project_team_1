@@ -1,5 +1,3 @@
-from operator import and_
-
 from django.contrib import messages
 from django.db.models import Q
 from django.shortcuts import redirect
@@ -32,7 +30,7 @@ class SearchAppMixin:
         if query_string:
             context.update({"query": query_string})
 
-        context.update({"model_name": self.model.__name__, "fields": self.search_fields})
+        context.update({"model_name": self.model.__name__, "fields": self.fields})
 
         context.update(
             **self.get_pages(page_obj=context["page_obj"]),
@@ -49,7 +47,9 @@ class SearchAppMixin:
         filter_conditions = get_filter_query_conditions(self.search_fields, query)
 
         if self.auth_required:
-            query_set = self.model.objects.filter(Q(owner=self.request.user) & filter_conditions)
+            query_set = self.model.objects.filter(
+                Q(**{self.user_model_name: self.request.user})
+                & filter_conditions)
         else:
             query_set = self.model.objects.filter(filter_conditions)
 

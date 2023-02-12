@@ -1,7 +1,8 @@
+import re
 from typing import List
 
 from django import template
-from django.utils.safestring import mark_safe
+from django.utils.safestring import mark_safe, SafeString
 
 register = template.Library()
 
@@ -13,7 +14,8 @@ def highlight(text: str, search_string: str):
         if isinstance(text, list):
             text = [highlight(el, search_string) for el in text]
         else:
-            text = text.replace(search, f'<mark style="background: yellow">{search}</mark>')
+            for i_search in re.findall(search, text, re.I):
+                text = text.replace(i_search, f'<mark style="background: yellow">{i_search}</mark>')
     return mark_safe(text)
 
 

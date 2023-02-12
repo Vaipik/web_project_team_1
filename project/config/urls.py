@@ -11,7 +11,8 @@ urlpatterns = [
     re_path(r"^notes/", include("apps.notes.urls", namespace="notes")),
     re_path(r'^scrapping/', include('apps.scrapping.urls', namespace='scrapping')),
     re_path(r"^contacts/", include('apps.contacts.urls', namespace="contacts")),
-    path("", include("apps.user_profile.urls", namespace="user_profile"))
+    path("", include("apps.user_profile.urls", namespace="user_profile")),
+    path("", include("apps.search_app.urls", namespace="search_app"))
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

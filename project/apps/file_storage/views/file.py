@@ -3,7 +3,7 @@ from django.urls import reverse_lazy
 from django.views.generic import FormView, ListView, DetailView, UpdateView, DeleteView
 
 from utils.pagination import PaginationMixin
-from ..forms import FileForm, EditFileForm
+from ..forms import FileUploadForm, FileEditForm
 from ..models import File
 from .. import services
 from ..mixins import UserCategoryMixin
@@ -46,7 +46,7 @@ class FileDetailView(LoginRequiredMixin, UserCategoryMixin, DetailView):
 
 class UploadFileView(LoginRequiredMixin, UserCategoryMixin, FormView):
     template_name = 'file_storage/pages/upload_page.html'
-    form_class = FileForm
+    form_class = FileUploadForm
     success_url = reverse_lazy("file_storage:file_list")
     extra_context = {"title": "Uploading file"}
 
@@ -75,7 +75,7 @@ class DeleteFileView(LoginRequiredMixin, DeleteView):
 class EditFileDescriptionView(LoginRequiredMixin, UserCategoryMixin, UpdateView):
     template_name = "file_storage/pages/editing_file.html"
     pk_url_kwarg = "file_uuid"
-    form_class = EditFileForm
+    form_class = FileEditForm
     model = File
     extra_context = {"title": "Editing file"}
     success_url = reverse_lazy("file_storage:file_list")

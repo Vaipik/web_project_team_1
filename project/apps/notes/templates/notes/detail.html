@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block app_header_content %}
+  <li><a href="{% url 'notes:main' %}" class="btn btn-outline-warning ms-2 me-3">Notes</a></li>
+  <li><a href="{% url 'notes:add_note' %}" class="btn btn-outline-warning ms-2 me-3">Add note</a></li>
+  <li><a href="{% url 'notes:add_tag' %}" class="btn btn-outline-warning ms-2 me-3">Add tag</a></li>
+{% endblock app_header_content%}
+
+{% block app_sidebar_content %}
+  {% include 'notes/_sidebar.html' %}
+{% endblock %}
+
+{% load extract_tags %}
+
+{% block content %}
+
+<h1>{{note.name}}</h1>
+<p>Description: <i>{{note.description}}</i></p>
+<p>Time of creation: <kbd>{{note.created_at}}</kbd></p>
+{% if note.done %}
+<p>Status:
+    <ins>Completed</ins>
+</p>
+{% else %}
+<p>Status: <i>Not implemented</i></p>
+{% endif %}
+
+<p>Tags: <small> {{ note.tags|tags }} </small></p>
+
+{% endblock %}

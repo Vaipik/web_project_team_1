@@ -1,0 +1,66 @@
+<title>Currency</title>
+
+{% extends 'base.html' %}
+
+{% block content %}
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="#">Home</a></li>
+            <li class="breadcrumb-item"><a href="/scrapping">Scrapping</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Currency</li>
+        </ol>
+    </nav>
+    <h1 class="display-1" style="text-align: center">Currency</h1>
+    <form action="{% url 'scrapping:currency' %}" method="post">
+        {% csrf_token %}
+        <div class="d-flex justify-content-center">
+            <div style="display:flex; flex-direction: row; justify-content: center; align-items: center; margin: 25px; white-space: nowrap">
+                <label style="margin: 15px" for="currency">Select currency:</label>
+                <select class="form-control" name="currency" id="currency">
+                    <option value="USD">USD</option>
+                    <option value="EUR">EUR</option>
+                    <option value="PLN">PLN</option>
+                </select>
+            </div>
+            <div style="display:flex; flex-direction: row; justify-content: center; align-items: center; margin: 25px; white-space: nowrap">
+                <label style="margin: 15px" for="">Select date for report:</label>
+                <input type="date" name="date" class="form-control" id="starterId" required>
+                <script>
+                    document.getElementById('starterId').value = new Date().toISOString().slice(0, 10);
+                </script>
+            </div>
+            <div style="margin: 50px">
+                <button class="btn btn-primary" type="submit">Submit</button>
+            </div>
+        </div>
+    </form>
+    {% if currency_list %}
+        <div>
+            <div style="text-align: center">
+                <h3 class="display-5">Report for {{ currency }} on {{ date }}</h3>
+            </div>
+        </div>
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th scope="col">Bank</th>
+                <th scope="col">Buy</th>
+                <th scope="col">Sell</th>
+                <th scope="col">Update</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for i in currency_list %}
+                <tr>
+                    <th scope="row"><a href="{{ i.link }}"
+                                       class="text-decoration-none text-dark fw-lighter">{{ i.bank }}</a></th>
+                    <td>{{ i.buy }}</td>
+                    <td>{{ i.sell }}</td>
+                    <td>{{ i.update }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        </div>
+    {% endif %}
+{% endblock %}

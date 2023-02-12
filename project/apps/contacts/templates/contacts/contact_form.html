@@ -1,0 +1,121 @@
+<div class="col-md-7 col-lg-8">
+    <h4 class="mb-3">Add Contact's Info</h4>
+    <div class="row g-3">
+        {% for field in cont_form %}
+            <div class="col-sm-6">
+                <label class="form-label">{{field.label}}</label>
+                {% if field.field.required %}
+                    <span style="color: red;" class="required">*</span>
+                {% endif %}
+
+                {{field}}
+
+                {% if field.help_text %}
+                    <small style="color: grey">{{ field.help_text }}</small>
+                {% endif %}
+
+                {% for error in field.errors %}
+                    <span style="color: red">{{ error }}</span>
+                {% endfor %}
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% with email_form as formset %}
+    {{ formset.management_form }}
+    <script type="text/html" id="email-template">
+        <tr id="email-__prefix__" class= hide_all>
+            {% for fields in formset.empty_form.hidden_fields %}
+                {{ fields }}
+            {% endfor %}
+
+            {% for fields in formset.empty_form.visible_fields %}
+                <td>{{fields}}</td>
+            {% endfor %}
+        </tr>
+    </script>
+
+    <div class="col-md-7 col-lg-8">
+        <div class="row g-3">
+            <table class="table table-borderless">
+                <thead class="text-secondary">
+                    <tr>
+                        <th scope="col">Email Address<span style="color: red;" class="required">*</span></th>
+                        <th scope="col">Type</th>
+                        <th scope="col">Delete?</th>
+                    </tr>
+                </thead>
+                <tbody id="item-email">
+                    {% for error in formset.non_form_errors %}
+                        <span style="color: red">{{ error }}</span>
+                    {% endfor %}
+                    {% for form in formset %}
+                        {{ form.management_form }}
+                        <tr id="email-{{ forloop.counter0 }}" class= hide_all>
+                            {{ form.id }}
+                            {% for field in form.visible_fields %}
+                                <td>
+                                    {{field}}
+                                    {% for error in field.errors %}
+                                        <span style="color: red">{{ error }}</span>
+                                    {% endfor %}
+                                </td>
+                            {% endfor %}
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endwith %}
+
+{% with phone_form as formset %}
+    {{ formset.management_form }}
+    <script type="text/html" id="phone-template">
+        <tr id="phone-__prefix__" class= hide_all>
+            {% for fields in formset.empty_form.hidden_fields %}
+                {{ fields }}
+            {% endfor %}
+
+            {% for fields in formset.empty_form.visible_fields %}
+                <td>{{fields}}</td>
+            {% endfor %}
+        </tr>
+    </script>
+
+    <div class="col-md-7 col-lg-8">
+        <div class="row g-3">
+            <table class="table table-borderless">
+                <thead class="text-secondary">
+                    <tr>
+                        <th scope="col">Phone Number<span style="color: red;" class="required">*</span></th>
+                        <th scope="col">Type</th>
+                        <th scope="col">Delete?</th>
+                    </tr>
+                </thead>
+                <tbody id="item-phone">
+                    {% for error in formset.non_form_errors %}
+                        <span style="color: red">{{ error }}</span>
+                    {% endfor %}
+                    {% for form in formset %}
+                        {{ form.management_form }}
+                        <tr id="email-{{ forloop.counter0 }}" class= hide_all>
+                            {{ form.id }}
+                            {% for field in form.visible_fields %}
+                                <td>
+                                    {{field}}
+                                    {% for error in field.errors %}
+                                        <span style="color: red">{{ error }}</span>
+                                    {% endfor %}
+                                </td>
+                            {% endfor %}
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endwith %}
+
+<button type="submit" class="w-100 btn btn-primary btn-lg">Submit</button>

@@ -1,0 +1,32 @@
+<title>Tech news</title>
+
+{% extends 'base.html' %}
+
+{% block content %}
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="#">Home</a></li>
+            <li class="breadcrumb-item"><a href="/scrapping">Scrapping</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Tech news</li>
+        </ol>
+    </nav>
+    <h1 class="display-1" style="text-align: center">Tech news</h1>
+    <div>
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th scope="col">Time</th>
+                <th scope="col">News</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for i in page_obj %}
+                <tr>
+                    <th scope="row">{{ i.created }}</th>
+                    <td><a href="{{ i.link }}" class="text-decoration-none text-dark fw-lighter">{{ i.title }}</a></td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

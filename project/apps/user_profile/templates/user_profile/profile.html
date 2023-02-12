@@ -1,0 +1,159 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+  <div class="container px-4 py-5">
+    <h2 class="pb-2 border-bottom fw-lighter">Welcome to your profile, dear <span>{{ user.username }}</span></h2>
+
+    <div class="row row-cols-1 row-cols-md-2 align-items-md-center py-5">
+      <div class="d-flex flex-column align-items-start gap-2">
+        <div class="card mb-3" style="border-radius: .5rem;">
+          <div class="row g-0">
+            <div class="col-md-4 bg-warning text-center text-dark"
+                 style="border-top-left-radius: .5rem; border-bottom-left-radius: .5rem;">
+              <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava1-bg.webp"
+                   alt="Avatar" class="img-fluid my-5" style="width: 80px;"/>
+              <h5>Marie Horwitz</h5>
+              <p>Web Designer</p>
+              <i class="far fa-edit mb-5"></i>
+            </div>
+            <div class="col-md-8">
+              <div class="card-body p-4">
+                <h6>Information</h6>
+                <hr class="mt-0 mb-4">
+                <div class="row pt-1">
+                  <div class="col-6 mb-3">
+                    <h6>Email</h6>
+                    <p class="text-muted">info@example.com</p>
+                  </div>
+                  <div class="col-6 mb-3">
+                    <h6>Phone</h6>
+                    <p class="text-muted">123 456 789</p>
+                  </div>
+                </div>
+                <h6>Profile info</h6>
+                <hr class="mt-0 mb-4">
+                <div class="row pt-1">
+                  <div class="col-6 mb-3">
+                    <h6>Total contacts</h6>
+                  </div>
+                  <div class="col-6 mb-3">
+                    <p class="text-muted">
+                      {% if contacts_amount %}
+                        {{ contacts_amount }}
+                      {% else %}
+                        0
+                      {% endif %}
+                    </p>
+                  </div>
+                </div>
+                <div class="row pt-1">
+                  <div class="col-6 mb-3">
+                    <h6>Total files</h6>
+                  </div>
+                  <div class="col-6 mb-3">
+                    <p class="text-muted">
+                      {% if files_amount %}
+                        {{ files_amount }}
+                      {% else %}
+                        0
+                      {% endif %}
+                    </p>
+                  </div>
+                </div>
+                <div class="row pt-1">
+                  <div class="col-6 mb-3">
+                    <h6>Total notes</h6>
+                  </div>
+                  <div class="col-6 mb-3">
+                    <p class="text-muted">
+                      {% if notes_amount %}
+                        {{ notes_amount }}
+                      {% else %}
+                        0
+                      {% endif %}
+                    </p>
+                  </div>
+                </div>
+                <a href="#" class="btn btn-warning btn-lg fw-lighter">Edit profile</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="row row-cols-1 row-cols-sm-2 g-4">
+        <div class="d-flex flex-column">
+          <div
+                  class="feature-icon-small d-inline-flex align-items-center justify-content-center text-bg-primary
+              text-dark fw-lighter bg-gradient fs-4 rounded-3">
+            Contacts
+          </div>
+          {% if contacts %}
+            {% for contact in contacts %}
+              <p class="text-muted">
+                {{ contact.name }}, {{ contact.get_sex_display }}
+              </p>
+            {% endfor %}
+            <a href="{% url 'contacts:contacts' %}" class="badge bg-warning">Open</a>
+          {% else %}
+            <p class="text-muted fw-lighter fs-4">Here will be displayed your first five contacts</p>
+          {% endif %}
+        </div>
+
+        <div class="d-flex flex-column gap-2">
+          <div
+                  class="feature-icon-small d-inline-flex align-items-center justify-content-center text-bg-primary
+              text-dark fw-lighter bg-gradient fs-4 rounded-3">
+            Notes
+          </div>
+          {% if notes %}
+            {% for note in notes %}
+              <p class="text-muted">{{ note }}</p>
+            {% endfor %}
+            <a href="{% url 'notes:main' %}" class="badge">Open</a>
+          {% else %}
+            <p class="text-muted fw-lighter fs-4">Here will be displayed your last five notes</p>
+          {% endif %}
+
+        </div>
+
+        <div class="d-flex flex-column gap-2">
+          <div
+                  class="feature-icon-small d-inline-flex align-items-center justify-content-center text-bg-primary
+              text-dark fw-lighter bg-gradient fs-4 rounded-3">
+            Files
+          </div>
+          {% if files %}
+            {% for file in files %}
+              <p class="text-muted">
+                {{ file.description|truncatechars:10 }}
+                <span class="fw-light">category: {{ file.category.name }}</span>
+              </p>
+            {% endfor %}
+            <a href="#" class="badge">Open</a>
+          {% else %}
+            <p class="text-muted fw-lighter fs-4">Here will be displayed your last five uploaded files.</p>
+          {% endif %}
+        </div>
+
+        <div class="d-flex flex-column gap-2">
+          <div
+                  class="feature-icon-small d-inline-flex align-items-center justify-content-center text-bg-primary
+              text-dark fw-lighter bg-gradient fs-4 rounded-3">
+            Web-scrapper
+          </div>
+          <a href="{% url 'scrapping:news' %}" class="text-decoration-none text-muted fw-bolder">Ukrainian news</a>
+          <a href="{% url 'scrapping:tech_news' %}" class="text-decoration-none text-muted fw-bolder">Technical news</a>
+          <a href="{% url 'scrapping:sport_news' %}" class="text-decoration-none text-muted fw-bolder">Sport news</a>
+          <a href="{% url 'scrapping:python_books' %}" class="text-decoration-none text-muted fw-bolder">Python
+            books</a>
+          <a href="{% url 'scrapping:currency' %}" class="text-decoration-none text-muted fw-bolder">Currency
+            checker</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+{% endblock %}

@@ -1,0 +1,36 @@
+<title>Best Python programming books</title>
+
+{% extends 'base.html' %}
+
+{% block content %}
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="#">Home</a></li>
+            <li class="breadcrumb-item"><a href="/scrapping">Scrapping</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Python books</li>
+        </ol>
+    </nav>
+    <h1 class="display-3" style="text-align: center">Best Python programming books</h1>
+    <div>
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th scope="col"></th>
+                <th scope="col">Link on Goodreads.com</th>
+                <th scope="col">Author</th>
+                <th scope="col">Rating</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for i in page_obj %}
+                <tr>
+                    <td><img src="{{ i.image }}" alt="{{ i.title }}"></td>
+                    <td style="vertical-align: middle"><a href="{{ i.link }}" class="text-decoration-none text-dark fw-lighter">{{ i.title }}</a></td>
+                    <td style="vertical-align: middle">{{ i.author }}</td>
+                    <td style="vertical-align: middle">{{ i.rating }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

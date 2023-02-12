@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+<main>
+
+    {% block app_header_content %}
+
+        <li>
+            <a class="btn btn-dark position-relative" href="{% url 'contacts:contacts' %}" role="button">All Contacts</a>
+        </li>
+
+    {% endblock app_header_content %}
+
+    {% block content %}
+        <div class="container">
+            <form method="POST" action="{% url 'contacts:update_contact' contact.id %}">
+                {% csrf_token %}
+                {% include 'contacts/contact_form.html' %}
+            </form>
+        </div>
+    {% endblock %}
+</main>

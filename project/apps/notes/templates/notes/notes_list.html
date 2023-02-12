@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block app_header_content %}
+  <li><a href="{% url 'notes:add_note' %}" class="btn btn-outline-warning ms-2 me-3">Add note</a></li>
+  <li><a href="{% url 'notes:add_tag' %}" class="btn btn-outline-warning ms-2 me-3">Add tag</a></li>
+{% endblock app_header_content%}
+
+{% block app_sidebar_content %}
+  {% include 'notes/_sidebar.html' %}
+{% endblock %}
+
+{% block content %}
+
+<form method="POST" action="{% url 'notes:main' %}">
+    {% include '_base_form.html' %}
+    {% csrf_token %}
+    <div class="row  fw-bold p-2">
+        {%if choice_tags %}
+            Notes {{choice_done|join:' and '}} with tags [
+            {{ choice_tags|join:', ' }}
+        ]:
+        {% endif %}
+    </div>
+    {% for note in notes%}
+    <ul>
+        <li>
+            {%if not note.done%}
+            <a href="{% url 'notes:detail' note.uuid %}" role="button" class="btn btn-outline-primary ms-2 me-3">{{note.name}}</a>
+            <a href="{% url 'notes:set_done' note.uuid %}" role="button" class="btn btn-outline-secondary ms-2 me-3">Mark Done</a>
+            <a href="{% url 'notes:delete' note.uuid %}" role="button" class="btn btn-outline-danger ms-2 me-3">Delete note</a>
+            {% else %}
+
+            <a href="{% url 'notes:detail' note.uuid %}" role="button" class="btn btn-outline-secondary ms-2 me-3"><s>{{note.name}}</s></a>
+            <a href="{% url 'notes:set_undone' note.uuid %}" role="button" class="btn btn-outline-secondary ms-2 me-3">Mark Undone</a>
+            <a href="{% url 'notes:delete' note.uuid %}" role="button" class="btn btn-outline-danger ms-2 me-3">Delete note</a>
+            {% endif %}
+            <a role="button" class="btn btn-outline-info ms-2 me-3">{{note.created_at}}</a>
+        </li>
+    </ul>
+    {% endfor %}
+</form>
+
+{% endblock %}

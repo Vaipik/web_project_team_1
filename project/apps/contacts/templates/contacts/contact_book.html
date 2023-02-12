@@ -1,0 +1,118 @@
+{% extends 'base.html' %}
+<main>
+
+    {% block app_header_content %}
+
+        <li>
+            <a class="btn btn-dark position-relative" href="{% url 'contacts:add_contact' %}" role="button">
+                Add New Contact
+            </a>
+        </li>
+
+    {% endblock app_header_content %}
+
+    {% block content %}
+
+        {% block messages %}
+            <ul class="messages" id="messages-list">
+                {% if messages %}
+                    {% for message in messages %}
+                        <li>
+                            {% if message.tags %}
+                                <div class="alert alert-{{ message.tags }} msg fade show">{{ message }}</div>
+                            {% else %}
+                                <div class="alert alert-info msg fade show" role="alert">{{ message }}</div>
+                            {% endif %}
+                        </li>
+                    {% endfor %}
+                {% endif %}
+            </ul>
+        {% endblock %}
+
+        <form action="{% url 'contacts:show_contacts_bd' %}" method="get">
+            <div class="input-group mb-3">
+                <label for="period" class="form-label" style="margin: 5px;">Show people who have birthdays in the next ... days </label>
+                <div class="col-xs-2">
+                    <input class="form-control" id="period" type="number" min="1" max="365" value="1" name="query"/>
+                </div>
+                <div class="input-group-append">
+                    <button type="submit" class="btn btn-primary">Show</button>
+                </div>
+            </div>
+        </form>
+
+        <div class="container">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Name</th>
+                        <th scope="col">Sex</th>
+                        <th scope="col">Phones</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Birthday</th>
+                        <th scope="col">Address</th>
+                        <th scope="col">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                {% for contact in page_obj %}
+                    <tr>
+                        <td>{{ contact.name }}</td>
+                        <td> {{ contact.get_sex_display }}</td>
+                        <td>
+                            <ul>
+                            {% for phone in contact.phones.all %}
+                                <li>{{ phone.phone_number }}, {{ phone.get_type_display }} </li>
+                            {% endfor %}
+                            </ul>
+                        <td>
+                            <ul>
+                            {% for email in contact.emails.all %}
+                                <li>{{ email.email_addr }}, {{ email.get_type_display }}</li>
+                            {% endfor %}
+                            </ul>
+                        <td>{{ contact.birthday|date:"Y-m-d" }}</td>
+                        <td>{{ contact.address }}</td>
+                        <td>
+                            <a href="{% url 'contacts:update_contact' contact.id %}" type="button" class="btn btn-warning">
+                                Update</a>
+                        </td>
+                        <td>
+                            <a href="{% url 'contacts:delete_contact' contact.id %}" type="button" class="btn btn-danger">
+                                Delete</a>
+                        </td>
+                    </tr>
+                    <span id="error"></span>
+                {% endfor %}
+            </table>
+        </div>
+    {% endblock %}
+
+    {% block pagination %}
+        <div class="container-fluid align-content-center">
+            <ul class="pagination text-center d-lg-flex justify-content-center">
+
+                {% if page_obj.has_previous %}
+                    <li class="page-item">
+                        <a class="page-link" href="?query={{ search_query }}&page={{ page_obj.previous_page_number }}">Previous</a>
+                    </li>
+                {% endif %}
+
+                {% for page in pages %}
+                    <li class="page-item">
+                        {% if page == page_obj.number %}
+                            <a class="page-link disabled" href="?query={{ search_query }}&page={{ page }}">{{ page }}</a>
+                        {% else %}
+                            <a class="page-link" href="?query={{ search_query }}&page={{ page }}">{{ page }}</a>
+                        {% endif %}
+                    </li>
+                {% endfor %}
+                {% if page_obj.has_next %}
+                    <li class="page-item"><a class="page-link" href="?query={{ search_query }}&page={{ page_obj.next_page_number }}">Next</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    {% endblock pagination %}
+
+</main>

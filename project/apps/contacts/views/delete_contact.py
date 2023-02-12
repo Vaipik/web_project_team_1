@@ -7,6 +7,9 @@ from apps.contacts.models import Contact
 
 @login_required
 def delete_contact(request, pk):
+    """
+    Deletes contact.
+    """
     Contact.objects.get(pk=pk, owner=request.user).delete()
     messages.add_message(request, messages.INFO, "Deleted successfully!")
     return redirect(to="contacts:contacts")

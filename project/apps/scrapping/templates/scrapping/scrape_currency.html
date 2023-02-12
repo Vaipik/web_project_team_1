@@ -24,7 +24,10 @@
             </div>
             <div style="display:flex; flex-direction: row; justify-content: center; align-items: center; margin: 25px; white-space: nowrap">
                 <label style="margin: 15px" for="">Select date for report:</label>
-                <input type="date" name="date" class="form-control">
+                <input type="date" name="date" class="form-control" id="starterId" required>
+                <script>
+                    document.getElementById('starterId').value = new Date().toISOString().slice(0, 10);
+                </script>
             </div>
             <div style="margin: 50px">
                 <button class="btn btn-primary" type="submit">Submit</button>
@@ -33,26 +36,31 @@
     </form>
     {% if currency_list %}
         <div>
-            <table class="table table-striped">
-                <thead>
+            <div style="text-align: center">
+                <h3 class="display-5">Report for {{ currency }} on {{ date }}</h3>
+            </div>
+        </div>
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th scope="col">Bank</th>
+                <th scope="col">Buy</th>
+                <th scope="col">Sell</th>
+                <th scope="col">Update</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for i in currency_list %}
                 <tr>
-                    <th scope="col">Bank</th>
-                    <th scope="col">Buy</th>
-                    <th scope="col">Sell</th>
-                    <th scope="col">Update</th>
+                    <th scope="row"><a href="{{ i.link }}"
+                                       class="text-decoration-none text-dark fw-lighter">{{ i.bank }}</a></th>
+                    <td>{{ i.buy }}</td>
+                    <td>{{ i.sell }}</td>
+                    <td>{{ i.update }}</td>
                 </tr>
-                </thead>
-                <tbody>
-                {% for i in currency_list %}
-                    <tr>
-                        <th scope="row"><a href="{{ i.link }}">{{ i.bank }}</a></th>
-                        <td>{{ i.buy }}</td>
-                        <td>{{ i.sell }}</td>
-                        <td>{{ i.update }}</td>
-                    </tr>
-                {% endfor %}
-                </tbody>
-            </table>
+            {% endfor %}
+            </tbody>
+        </table>
         </div>
     {% endif %}
 {% endblock %}

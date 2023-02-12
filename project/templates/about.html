@@ -2,77 +2,100 @@
 
 {% block content %}
 
-  <div class="row mt-3">
-    <div class="col-1"></div>
-    <div class="col-11 text-start">
-      <div class="h5 mb-3 fw-light">
-        This website has been created as team final project in <span class="fw-bolder">GoIT-PyWeb7</span> course.
-        It consists from 6 applications.
-      </div>
-      <ul class="fw-light list-unstyled">
+    <div class="row mt-3">
+        <div class="col-1"></div>
+        <div class="col-11 text-start">
+            <div class="h5 mb-3 fw-light">
+                This website has been created as team final project in <span class="fw-bolder">GoIT-PyWeb7</span>
+                course.
+                It consists from 6 applications.
+            </div>
+            <ul class="fw-light list-unstyled">
 
-        {# Auth block #}
-        <li class="h5 mt-3 fw-bolder">Authentication</li>
-        <div class="ms-3">
-          To use this website user must be authenticated. The only page that can be accessed by unauthorized user is
-          <span class="fw-bolder">this page</span> and <span class="fw-bolder">sign up page</span>.
-          <p>
-            On sign up page user are able to <span class="fw-bolder">sign up</span> and <span class="fw-bolder">
+                {# Auth block #}
+                <li class="h5 mt-3 fw-bolder">Authentication</li>
+                <div class="ms-3">
+                    To use this website user must be authenticated. The only page that can be accessed by unauthorized
+                    user is
+                    <span class="fw-bolder">this page</span> and <span class="fw-bolder">sign up page</span>.
+                    <p>
+                        On sign up page user are able to <span class="fw-bolder">sign up</span> and <span
+                            class="fw-bolder">
             sign in
           </span> using <span class="fw-bolder">modal login form</span> on the top right corner. Although on that corner
-            user are able to sign out.
-          </p>
+                        user are able to sign out.
+                    </p>
+                </div>
+
+                {# Contacts block #}
+                <li class="h5 mt-3 fw-bolder">Contacts</li>
+                <div class="ms-3">
+                    User able to do smth
+                </div>
+
+                {# File storage block #}
+                <li class="h5 mt-3 fw-bolder">File storage</li>
+                <div class="ms-3">
+                    User able to upload files with valid extensions. Valid xtensions can be found in header on the files
+                    page.
+                    Just click on button <span class="fw-bolder">Extensions</span>. Uploaded files are separated into
+                    categories
+                    according to their extensions and stored in the <span class="fw-bolder">DropBox cloud</span>. User
+                    are able to
+                    filter files by category.
+                </div>
+
+                {# Notes block #}
+                <li class="h5 mt-3 fw-bolder">Notes</li>
+                <div class="ms-3">
+                    User able to do smth
+                </div>
+
+                {# Web-scrapper block #}
+                <li class="h5 mt-3 fw-bolder">Web-scrapper</li>
+                <div class="ms-3">
+                    <p style="margin-bottom: 0rem">After authentication, the user has the opportunity to view current
+                        news in the following
+                        categories:</p>
+                    <ul class="list">
+                        <li class="fst-italic">Ukrainian news</li>
+                        <li class="fst-italic">Sports news</li>
+                        <li class="fst-italic">Technology news</li>
+                        <li class="fst-italic">Current books on the Python programming language</li>
+                        <li class="fst-italic">Current exchange rates in banks</li>
+                    </ul>
+                    <p style="margin-bottom: 0rem"><span class="fw-bolder">News</span>, <span class="fw-bolder">book titles</span>, and <span
+                            class="fw-bolder">bank names</span> have links to the corresponding pages that you can go to
+                        for more detailed information.</p>
+                    <p>To display the exchange rate, select the required <span class="fw-bolder">currency</span> and
+                        <span class="fw-bolder">date</span> for the corresponding
+                        report.</p>
+                </div>
+
+                {# Search block #}
+                <li class="h5 mt-3 fw-bolder">Search</li>
+                <div class="ms-3">
+                    User able to do smth
+                </div>
+
+                {# Profile block #}
+                <li class="h5 mt-3 fw-bolder">Profile</li>
+                <div class="ms-3">
+                    After successful signing up or signin in user will be redirect directly to his profile where user
+                    profile can
+                    be edited by adding obligatory fields: <span class="fw-bolder">first name</span> and <span
+                        class="fw-bolder">last name</span>
+                    or not obligatory such as
+                    <span class="fw-bolder">avatar</span>,
+                    <span class="fw-bolder">email</span>,
+                    <span class="fw-bolder">phone</span>,
+                    <span class="fw-bolder">gender</span>. Although user are able to see how much contacts, notes and
+                    files it has.
+                </div>
+
+
+            </ul>
         </div>
-
-        {# Contacts block #}
-        <li class="h5 mt-3 fw-bolder">Contacts</li>
-        <div class="ms-3">
-          User able to do smth
-        </div>
-
-        {# File storage block #}
-        <li class="h5 mt-3 fw-bolder">File storage</li>
-        <div class="ms-3">
-          User able to upload files with valid extensions. Valid xtensions can be found in header on the files page.
-          Just click on button <span class="fw-bolder">Extensions</span>. Uploaded files are separated into categories
-          according to their extensions and stored in the <span class="fw-bolder">DropBox cloud</span>. User are able to
-          filter files by category.
-        </div>
-
-        {# Notes block #}
-        <li class="h5 mt-3 fw-bolder">Notes</li>
-        <div class="ms-3">
-          User able to do smth
-        </div>
-
-        {# Web-scrapper block #}
-        <li class="h5 mt-3 fw-bolder">Web-scrapper</li>
-        <div class="ms-3">
-          User able to do smth
-        </div>
-
-        {# Search block #}
-        <li class="h5 mt-3 fw-bolder">Search</li>
-        <div class="ms-3">
-          User able to do smth
-        </div>
-
-        {# Profile block #}
-        <li class="h5 mt-3 fw-bolder">Profile</li>
-        <div class="ms-3">
-          After successful signing up or signin in user will be redirect directly to his profile where user profile can
-          be edited by adding obligatory fields: <span class="fw-bolder">first name</span> and <span class="fw-bolder">last name</span>
-          or not obligatory such as
-          <span class="fw-bolder">avatar</span>,
-          <span class="fw-bolder">email</span>,
-          <span class="fw-bolder">phone</span>,
-          <span class="fw-bolder">gender</span>. Although user are able to see how much contacts, notes and files it has.
-        </div>
-
-
-
-      </ul>
     </div>
-  </div>
 
 {% endblock %}

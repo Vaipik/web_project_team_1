@@ -1,10 +1,11 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
+from django.db.utils import IntegrityError
 
 from .forms import TagForm, NoteForm
 from .models import Tag, Note
 from .services import get_user_tag, get_user_notes, get_user_choice_tags, get_user_notes_filter, set_done_user_note, \
-    set_undone_user_note, delete_user_note, get_user_id_note, get_user_note_tags
+    set_undone_user_note, delete_user_note, get_user_id_note, get_user_note_tags, unused_tags, delete_user_tag
 
 
 # Create your views here.
@@ -32,18 +33,23 @@ def main(request):
 @login_required
 def add_tag(request):
     tags = get_user_tag(request.user)
+    tags_for_remove = unused_tags(request.user)
     if request.method == 'POST':
         form = TagForm(request.POST)
         if form.is_valid():
-            tag = form.save(commit=False)
-            tag.user = request.user
-            tag.name = str(tag.name).lower()
-            tag.save()
-            return redirect(to="notes:main")
+            try:
+                tag = form.save(commit=False)
+                tag.user = request.user
+                tag.name = str(tag.name).lower()
+                tag.save()
+            except IntegrityError:
+                print(f'Tag {tag.name} already exist')
+            finally:
+                return redirect(to="notes:main")
         else:
             return render(request, 'notes/tag.html', context={'form': form, 'tags': tags})
 
-    return render(request, 'notes/tag.html', context={'form': TagForm(), 'tags': tags})
+    return render(request, 'notes/tag.html', context={'form': TagForm(), 'tags': tags, 'tags_for_remove': tags_for_remove})
 
 
 @login_required
@@ -91,10 +97,6 @@ def save_note(request, note_id):
             choice_tags = get_user_choice_tags(request.user, request.POST.getlist('tags'))
             note.tags.set(choice_tags)
             note.save()
-
-            # for tag in choice_tags:
-            #     note.tags.add(tag)
-
             return redirect(to="notes:main")
         else:
             note_tags = []
@@ -105,7 +107,6 @@ def save_note(request, note_id):
                                                                     'note_tags': note_tags})
 
     return render(request, 'notes/add_note.html', context={'form': NoteForm(), 'tags': tags})
-
 
 
 @login_required
@@ -120,6 +121,7 @@ def set_done(request, note_id):
     set_done_user_note(request.user, note_id)
     return redirect(to="notes:main")
 
+
 @login_required
 def set_undone(request, note_id):
     set_undone_user_note(request.user, note_id)
@@ -129,4 +131,12 @@ def set_undone(request, note_id):
 @login_required
 def delete_note(request, note_id):
     delete_user_note(request.user, note_id)
+    return redirect(to="notes:main")
+
+
+@login_required
+def delete_tag(request):
+    tags_for_remove = request.POST.getlist('tags_for_remove')
+    for tag_name in tags_for_remove:
+        delete_user_tag(request.user, tag_name)
     return redirect(to="notes:main")

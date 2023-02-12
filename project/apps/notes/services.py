@@ -42,3 +42,14 @@ def set_undone_user_note(user, note_id):
 
 def delete_user_note(user, note_id):
     Note.objects.get(user=user, pk=note_id).delete()
+
+
+def unused_tags(user):
+    notes = get_user_notes(user)
+    tags = Tag.objects.filter(user=user).all()
+    tags = tags.exclude(tags_as_note__in=notes)
+    return tags
+
+
+def delete_user_tag(user, tag_name):
+    Tag.objects.get(user=user, name=tag_name).delete()

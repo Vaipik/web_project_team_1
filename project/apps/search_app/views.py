@@ -38,7 +38,7 @@ class SearchContactView(LoginRequiredMixin, PaginationMixin, SearchAppMixin, Lis
               "emails__email_addr",
               "phones__phone_number",
               ]
-    auth_required = False
+    auth_required = True
     user_model_name = "owner"
     url_name = "contacts:update_contact"
     uuid = "id"

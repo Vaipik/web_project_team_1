@@ -131,6 +131,9 @@
         <div class="col-3"></div>
         <div class="col-9">
           {% block pagination %}
+          {% if query %}
+          {% include 'search_app/pagination.html' %}
+          {% else %}
             <div class="container-fluid align-content-center">
               <ul class="pagination text-center d-lg-flex justify-content-center">
 
@@ -154,6 +157,7 @@
                 {% endif %}
               </ul>
             </div>
+          {% endif %}
           {% endblock pagination %}
         </div>
 

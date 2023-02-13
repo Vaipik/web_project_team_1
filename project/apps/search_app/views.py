@@ -125,9 +125,6 @@ class SearchUniView(LoginRequiredMixin, PaginationMixin, ListView):
 
     def get_queryset(self):
         query = self.request.GET.get(self.query_name, None)
-        if query is None:
-            messages.error(self.request, "Please enter some keyword to search")
-            redirect(self.request.META.get("HTTP_REFERER"))
 
         object_list = []
         for model in self.models:

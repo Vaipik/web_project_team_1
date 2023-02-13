@@ -45,7 +45,7 @@ def add_tag(request):
             except IntegrityError:
                 print(f'Tag {tag.name} already exist')
             finally:
-                return redirect(to="notes:main")
+                return redirect(to="notes:tags")
         else:
             return render(request, 'notes/tag.html', context={'form': form, 'tags': tags})
 
@@ -139,4 +139,4 @@ def delete_tag(request):
     tags_for_remove = request.POST.getlist('tags_for_remove')
     for tag_name in tags_for_remove:
         delete_user_tag(request.user, tag_name)
-    return redirect(to="notes:main")
+    return redirect(to="notes:tags")

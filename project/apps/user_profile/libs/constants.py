@@ -1,0 +1,21 @@
+# First name
+
+FIRSTNAME_MIN_LENGTH = 1
+FIRSTNAME_MAX_LENGTH = 15
+
+# Last name
+
+LASTNAME_MIN_LENGTH = 1
+LASTNAME_MAX_LENGTH = 15
+
+# Phone
+
+PHONE_MAX_LENGTH = 20
+
+#Email
+EMAIL_MAX_LENGTH = 254
+
+
+# Profile
+PROFILE_MAX_URL = 20
+DEFAULT_AVATAR_URL = "http://pic.onlinewebfonts.com/svg/img_264157.png"

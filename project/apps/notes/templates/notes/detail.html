@@ -3,7 +3,7 @@
 {% block app_header_content %}
   <li><a href="{% url 'notes:main' %}" class="btn btn-outline-warning ms-2 me-3">Notes</a></li>
   <li><a href="{% url 'notes:add_note' %}" class="btn btn-outline-warning ms-2 me-3">Add note</a></li>
-  <li><a href="{% url 'notes:add_tag' %}" class="btn btn-outline-warning ms-2 me-3">Add tag</a></li>
+  <li><a href="{% url 'notes:tags' %}" class="btn btn-outline-warning ms-2 me-3">Tags</a></li>
 {% endblock app_header_content%}
 
 {% block app_sidebar_content %}
@@ -26,5 +26,7 @@
 {% endif %}
 
 <p>Tags: <small> {{ note.tags|tags }} </small></p>
+
+    <a href="{% url 'notes:edit' note.uuid %}" role="button" class="btn btn-outline-primary ms-2 me-3">Edit</a>
 
 {% endblock %}

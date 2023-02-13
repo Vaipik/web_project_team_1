@@ -2,6 +2,10 @@
 
 {% block app_header_content %}
   <li><a href="{% url 'file_storage:upload_file' %}" class="btn btn-outline-warning ms-2 me-3">Upload new file</a></li>
+  <button type="button" class="btn btn-outline-warning"
+          data-bs-toggle="modal" data-bs-target="#extensions_modal">
+    Extensions
+  </button>
 {% endblock %}
 
 {% block app_sidebar_content %}
@@ -10,4 +14,6 @@
 
 {% block content %}
   {% include "file_storage/_files_list.html" %}
+{% include 'file_storage/extensions_modal.html' %}
+
 {% endblock %}

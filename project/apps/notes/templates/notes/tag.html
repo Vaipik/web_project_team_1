@@ -1,17 +1,17 @@
 {% extends "base.html" %}
 
 {% block app_header_content %}
-  <li><a href="{% url 'notes:main' %}" class="btn btn-outline-warning ms-2 me-3">Notes</a></li>
-  <li><a href="{% url 'notes:add_note' %}" class="btn btn-outline-warning ms-2 me-3">Add note</a></li>
+<li><a href="{% url 'notes:main' %}" class="btn btn-outline-warning ms-2 me-3">Notes</a></li>
+<li><a href="{% url 'notes:add_note' %}" class="btn btn-outline-warning ms-2 me-3">Add note</a></li>
 {% endblock app_header_content%}
 
 {% block app_sidebar_content %}
-  {% include 'notes/_sidebar.html' %}
+{% include 'notes/_sidebar.html' %}
 {% endblock %}
 
 {% block content %}
 
-<form method="POST" action="{% url 'notes:add_tag' %}">
+<form method="POST" action="{% url 'notes:tags' %}">
     {% include '_base_form.html' %}
     {% csrf_token %}
     <div class="text-center" style="padding: 10px">
@@ -20,4 +20,39 @@
     </div>
 </form>
 
+<form method="POST" action="{% url 'notes:delete_tag'%}">
+    {% csrf_token %}
+    <div class="row">
+        <div class="col-4"></div>
+        <div class="col-4">
+            <div class="floating">
+
+                <label> Select tags for remove:
+                </label>
+                <select name="tags_for_remove"
+                        multiple="multiple"
+                        class="form-select mb-3"
+                        size="10"
+                        required>
+                    {% for tag in tags_for_remove %}
+                    {% if tag.name in note_tags %}
+                    <option value="{{tag.name}}" selected>{{tag.name}}</option>
+                    {% else %}
+                    <option value="{{tag.name}}">{{tag.name}}</option>
+                    {% endif %}
+                    {% endfor %}
+                </select>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-4"></div>
+        <div class="col-4 grid text-center">
+            <button type="submit" role="button" class="btn btn-outline-primary ms-2 me-3">Remove</button>
+            <button type="reset" role="button" class="btn btn-outline-primary ms-2 me-3">Reset</button>
+        </div>
+    </div>
+</form>
 {% endblock content %}

@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% load search_app_tags  %}
+
+{% block content %}
+
+<div class="container" style="padding: 10px">
+    <h3>{{ object_list|length }} results in {{ model_name }}</h3>
+    <div class="row row-cols-1 row-cols-md-3 gx-4 text-left">
+        {% for field in fields %}
+        <div class="col-md-{{ fields|width }} themed-grid-col"><b>{{ field|capfirst }}</b></div>
+        {% endfor %}
+    </div>
+    {% for item in object_list %}
+    <div class="row row-cols-1 row-cols-md-3 gx-4 text-left">
+        {% for field in fields %}
+        <div class="col-md-{{ fields|width }} themed-grid-col"><a href="{% url url_name item|attr:uuid %}" >{{ item|attr:field|highlight:query }}</a></div>
+        {% endfor %}
+    </div>
+    {% endfor %}
+</div>
+
+{% endblock %}

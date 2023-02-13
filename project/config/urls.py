@@ -12,7 +12,8 @@ urlpatterns = [
     re_path(r'^scrapping/', include('apps.scrapping.urls', namespace='scrapping')),
     re_path(r"^contacts/", include('apps.contacts.urls', namespace="contacts")),
     re_path(r"^about/", TemplateView.as_view(template_name="about.html"), name="about"),
-    path("", include("apps.user_profile.urls", namespace="user_profile"))
+    path("", include("apps.user_profile.urls", namespace="user_profile")),
+    path("", include("apps.search_app.urls", namespace="search_app"))
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

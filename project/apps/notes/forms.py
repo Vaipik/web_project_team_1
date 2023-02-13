@@ -40,8 +40,8 @@ class NoteForm(ModelForm):
                 "placeholder": "Enter name note"
             }),
             "description": Textarea(attrs={
-                "class": "form-control mt-3",
-                "rows": "3",
+                "class": "form-control mt-3 span4",
+                "style": "height: 150px",
                 "placeholder": "Enter note description",
 
             }),

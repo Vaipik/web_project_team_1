@@ -65,7 +65,7 @@
 {% include 'user_auth/sign_out_ajax.html' %}
 {% include 'user_auth/sign_in_ajax.html' %}
 
-<div class="container-fluid">
+<div class="container-fluid align-items-start">
 
   <div class="row vh-100 vw-100">
 
@@ -106,13 +106,6 @@
               Scrapping
             </a>
           </li>
-          <li>
-            <a href="#" class="nav-link text-dark fw-normal fs-4">
-              <svg class="bi pe-none me-2" width="16" height="16">
-              </svg>
-              Search
-            </a>
-          </li>
         {% endif %}
       </ul>
       <hr>
@@ -124,47 +117,46 @@
 
     <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
       <div class="col-10">
-        {% block content %}
-        {% endblock content %}
-      </div>
-      <div class="row ">
-        <div class="col-3"></div>
-        <div class="col-9 sticky-bottom">
-          {% block pagination %}
-          {% if query %}
-          {% include 'search_app/pagination.html' %}
-          {% else %}
-            <div class="container-fluid align-content-center">
-              <ul class="pagination text-center d-lg-flex justify-content-center">
-
-                {% if page_obj.has_previous %}
-                  <li class="page-item">
-                    <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Previous</a>
-                  </li>
-                {% endif %}
-
-                {% for page in pages %}
-                  <li class="page-item">
-                    {% if page == page_obj.number %}
-                      <a class="page-link disabled" href="?page={{ page }}">{{ page }}</a>
-                    {% else %}
-                      <a class="page-link" href="?page={{ page }}">{{ page }}</a>
-                    {% endif %}
-                  </li>
-                {% endfor %}
-                {% if page_obj.has_next %}
-                  <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a></li>
-                {% endif %}
-              </ul>
-            </div>
-          {% endif %}
-          {% endblock pagination %}
+        <div class="row">
+          {% block content %}
+          {% endblock content %}
         </div>
 
-        <div class="col-1"></div>
+        <div class="row">
+          {% block pagination %}
+            {% if query %}
+              {% include 'search_app/pagination.html' %}
+            {% else %}
+              <div class="container-fluid align-content-center">
+                <ul class="pagination d-lg-flex justify-content-center">
 
+                  {% if page_obj.has_previous %}
+                    <li class="page-item">
+                      <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+                    </li>
+                  {% endif %}
+
+                  {% for page in pages %}
+                    <li class="page-item">
+                      {% if page == page_obj.number %}
+                        <a class="page-link disabled" href="?page={{ page }}">{{ page }}</a>
+                      {% else %}
+                        <a class="page-link" href="?page={{ page }}">{{ page }}</a>
+                      {% endif %}
+                    </li>
+                  {% endfor %}
+                  {% if page_obj.has_next %}
+                    <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a>
+                    </li>
+                  {% endif %}
+                </ul>
+              </div>
+            {% endif %}
+          {% endblock pagination %}
+        </div>
       </div>
     </main>
+
   </div>
 </div>
 
@@ -188,6 +180,6 @@
 <script src="https://code.jquery.com/jquery-3.6.3.min.js"
         integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous">
 </script>
-<script src="{% static 'user_auth/static/js/sign_in.js' %}"></script>
+<script src="{% static 'js/sign_in.js' %}"></script>
 </body>
 </html>

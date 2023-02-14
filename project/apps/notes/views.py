@@ -2,6 +2,8 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
 from django.db.utils import IntegrityError
 
+
+from utils.pagination import get_paginator
 from .forms import TagForm, NoteForm
 from .models import Tag, Note
 from .services import get_user_tag, get_user_notes, get_user_choice_tags, get_user_notes_filter, set_done_user_note, \
@@ -16,15 +18,18 @@ def main(request):
     choice_done = request.POST.getlist('done_or_not')
     notes = get_user_notes_filter(user=request.user, choice_tags=choice_tags,
                                   choice_done=choice_done) if request.user.is_authenticated else []
+    notes, pages = get_paginator(request, notes, 10)
     if request.method == 'POST':
         return render(request, 'notes/notes_list.html',
                       context={'notes': notes,
+                               'pages': pages,
                                'tags': tags,
                                'choice_tags': request.POST.getlist('tags'),
                                'choice_done': choice_done})
     else:
         return render(request, 'notes/notes_list.html',
                       context={'notes': notes,
+                               'pages': pages,
                                'tags': tags,
                                'choice_tags': [],
                                'choice_done': []})
@@ -49,7 +54,8 @@ def add_tag(request):
         else:
             return render(request, 'notes/tag.html', context={'form': form, 'tags': tags})
 
-    return render(request, 'notes/tag.html', context={'form': TagForm(), 'tags': tags, 'tags_for_remove': tags_for_remove})
+    return render(request, 'notes/tag.html',
+                  context={'form': TagForm(), 'tags': tags, 'tags_for_remove': tags_for_remove})
 
 
 @login_required

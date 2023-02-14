@@ -1,6 +1,6 @@
 {% load extract_tags %}
 
-<div class="d-flex justify-content-center">
+<div class="d-flex justify-content-center text-dark">
     <form method="POST" action="{% url 'notes:main' %}" id="filter_to_note">
         {% csrf_token %}
         <div>
@@ -29,6 +29,6 @@
             {% endfor %}
         </div>
         <br>
-        <button type="submit" role="button" class="btn btn-outline-primary ms-2 me-3">Accept</button>
+        <button type="submit" role="button" class="btn btn-outline-dark ms-2 me-3">Accept</button>
     </form>
 </div>

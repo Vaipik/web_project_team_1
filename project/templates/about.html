@@ -17,12 +17,12 @@
                 <div class="ms-3">
                     To use this website a user must be authenticated. The only page that can be accessed by an unauthorized
                     user is
-                    <span class="fw-bolder">this page</span> and <span class="fw-bolder">a sign-up page</span>.
+                    <span class="fw-bolder">this page</span> and <span class="fw-bolder">the sign-up page</span>.
                     <p>
                         On the sign-up page the user is able to <span class="fw-bolder">sign up</span> and <span
                             class="fw-bolder">
             sign in
-          </span> using <span class="fw-bolder">modal login form</span> on the top right corner. Also in that corner
+          </span> using a <span class="fw-bolder">modal login form</span> on the top right corner. Also in that corner
                         the user can sign out.
                     </p>
                 </div>
@@ -44,19 +44,21 @@
                     The user is able to upload files with valid extensions. The list of valid extensions can be found in
                     the header on the files page.
                     Just click on the button <span class="fw-bolder">Extensions</span>. Uploaded files are separated into
-                    categories
-                    according to their extensions and stored in the <span class="fw-bolder">DropBox cloud</span>. The user
-                    also can filter files by category.
+                    categories according to their extensions and stored in the <span class="fw-bolder">DropBox cloud</span>.
+                    The user also can filter their files by category.
                 </div>
 
 
         {# Notes block #}
         <li class="h5 mt-3 fw-bolder">Notes</li>
         <div class="ms-3">
-          The user is able to add notes by clicking on the button <span class="fw-bolder">Add note</span>. Each note has to include a tag that describes the topic and the subject of the entry.
+          The user is able to add notes by clicking on the button <span class="fw-bolder">Add note</span>. Each note has
+            to include a tag that describes the topic and the subject of the entry.
           In the <span class="fw-bolder">Tags</span> section, you can create new tags and delete those that are not used.
-          In the list of notes, you can <span class="fw-bolder">Mark done</span> the completed ones and also <span class="fw-bolder">Delete note</span>
-          When viewing a note in detail, it is possible to start <span class="fw-bolder">Editing</span> it (change the name, the description, and the tags).
+          In the list of notes, you can <span class="fw-bolder">Mark done</span> the completed ones and also
+            <span class="fw-bolder">Delete note</span>.
+          When viewing a note in detail, it is possible to start <span class="fw-bolder">Editing</span> it (change the name,
+            the description, and the tags).
           The sidebar can <span class="fw-bolder">search</span> for notes by tags and by the Done/Undone field.
         </div>
 
@@ -65,8 +67,7 @@
                 <li class="h5 mt-3 fw-bolder">Web-scrapper</li>
                 <div class="ms-3">
                     <p style="margin-bottom: 0rem">After authentication, the user has an opportunity to view current
-                        news in the following
-                        categories:</p>
+                        news in the following categories:</p>
                     <ul class="list">
                         <li class="fst-italic">Ukrainian news</li>
                         <li class="fst-italic">Sports news</li>
@@ -85,7 +86,11 @@
                 {# Search block #}
                 <li class="h5 mt-3 fw-bolder">Search</li>
                 <div class="ms-3">
-                    User able to do smth
+                    If you want to find any info in your personal data you can use search tool. If you are in contacts page
+                    results show all contacts where at least one of info field matches search query. Notes pages and Files
+                    pages have the same functionality. If you are in another block for example About or Scrapping results
+                    show your personal or common info from every blocks that has this app. Every search result has link to
+                    info page about it.
                 </div>
 
                 {# Profile block #}
@@ -99,8 +104,8 @@
                 </div>
 
 
-            </ul>
-        </div>
+        </ul>
     </div>
+</div>
 
 {% endblock %}

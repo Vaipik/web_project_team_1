@@ -1,6 +1,8 @@
 from enum import Enum
 from pathlib import Path
 
+from django.utils import timezone
+
 
 class Categories(Enum):
     """Allowed file categories and their extensions"""
@@ -26,6 +28,8 @@ def _get_folder_name(instance, filename) -> str:
             break
 
     new_filename = f"{instance.uuid}.{extension}"  # UUID.EXT
-    date_path = instance.uploaded_at.date()  # Will be converted in models.FileField
+    # Will be converted in models.FileField
+    date_path = instance.uploaded_at.date() if hasattr(instance, "uploaded_at") else timezone.now().date()
     path = f"{folder_type}/{date_path}/{new_filename}"  # MEDIA/created_date/UUID.EXT
     return path
+

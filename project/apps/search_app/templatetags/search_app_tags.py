@@ -16,7 +16,9 @@ def highlight(text: str, search_string: str):
             text = [highlight(el, search_string) for el in text]
         else:
             for i_search in re.findall(search, text, re.I):
-                text = text.replace(i_search, f'<mark style="background: yellow">{i_search}</mark>')
+                if i_search in text:
+                    text = text.replace(i_search, f'<mark style="background: yellow">{i_search}</mark>')
+                    break
     return mark_safe(text)
 
 

@@ -1,5 +1,5 @@
 from django.core.exceptions import ValidationError
-from django.forms import ModelForm, CharField, TextInput, Select
+from django.forms import ModelForm, CharField, TextInput, Select, Textarea
 from . import models
 from .libs import constants
 
@@ -39,9 +39,11 @@ class NoteForm(ModelForm):
                 "class": "form-control mt-3",
                 "placeholder": "Enter name note"
             }),
-            "description": TextInput(attrs={
-                "class": "form-control mt-3",
-                "placeholder": "Enter note description"
+            "description": Textarea(attrs={
+                "class": "form-control mt-3 span4",
+                "style": "height: 150px",
+                "placeholder": "Enter note description",
+
             }),
             "tags": Select(attrs={
                 "class": "form-control mt-3",

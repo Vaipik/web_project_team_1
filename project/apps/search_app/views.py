@@ -38,7 +38,7 @@ class SearchContactView(LoginRequiredMixin, PaginationMixin, SearchAppMixin, Lis
               "emails__email_addr",
               "phones__phone_number",
               ]
-    auth_required = False
+    auth_required = True
     user_model_name = "owner"
     url_name = "contacts:update_contact"
     uuid = "id"
@@ -125,9 +125,6 @@ class SearchUniView(LoginRequiredMixin, PaginationMixin, ListView):
 
     def get_queryset(self):
         query = self.request.GET.get(self.query_name, None)
-        if query is None:
-            messages.error(self.request, "Please enter some keyword to search")
-            redirect(self.request.META.get("HTTP_REFERER"))
 
         object_list = []
         for model in self.models:

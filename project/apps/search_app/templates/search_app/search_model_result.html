@@ -2,7 +2,7 @@
 {% load search_app_tags  %}
 
 {% block content %}
-
+{% if query %}
 <div class="container" style="padding: 10px">
     <h3>{{ object_list|length }} results in {{ model_name }}</h3>
     <div class="row row-cols-1 row-cols-md-3 gx-4 text-left">
@@ -18,5 +18,7 @@
     </div>
     {% endfor %}
 </div>
-
+{% else %}
+<h3>No search query given</h3>
+{% endif %}
 {% endblock %}

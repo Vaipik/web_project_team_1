@@ -51,12 +51,12 @@ def update_contact(request, pk):
         else:
             for email_form in email_forms:
                 if hasattr(email_form, "cleaned_data") and email_form.cleaned_data.get(
-                        "DELETE", False
+                    "DELETE", False
                 ):
                     email_form._errors = ErrorDict()
             for phone_form in phone_forms:
                 if hasattr(phone_form, "cleaned_data") and phone_form.cleaned_data.get(
-                        "DELETE", False
+                    "DELETE", False
                 ):
                     phone_form._errors = ErrorDict()
             return render(

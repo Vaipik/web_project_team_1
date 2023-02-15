@@ -2,112 +2,106 @@
 
 {% block content %}
 
-<div class="row mt-3">
-    <div class="col-1"></div>
-    <div class="col-11 text-start">
-        <div class="h5 mb-3 fw-light">
-            This website has been created as team final project in <span class="fw-bolder">GoIT-PyWeb7</span>
-            course.
-            It consists from 6 applications.
-        </div>
-        <ul class="fw-light list-unstyled">
+    <div class="row mt-3">
+        <div class="col-1"></div>
+        <div class="col-11 text-start">
+            <div class="h5 mb-3 fw-light">
+                This website has been created as a final team project in <span class="fw-bolder">GoIT-PyWeb7</span>
+                course.
+                It consists of 6 applications.
+            </div>
+            <ul class="fw-light list-unstyled">
 
-            {# Auth block #}
-            <li class="h5 mt-3 fw-bolder">Authentication</li>
-            <div class="ms-3">
-                To use this website user must be authenticated. The only page that can be accessed by unauthorized
-                user is
-                <span class="fw-bolder">this page</span> and <span class="fw-bolder">sign up page</span>.
-                <p>
-                    On sign up page user are able to <span class="fw-bolder">sign up</span> and <span
-                        class="fw-bolder">
+                {# Auth block #}
+                <li class="h5 mt-3 fw-bolder">Authentication</li>
+                <div class="ms-3">
+                    To use this website a user must be authenticated. The only page that can be accessed by an unauthorized
+                    user is
+                    <span class="fw-bolder">this page</span> and <span class="fw-bolder">the sign-up page</span>.
+                    <p>
+                        On the sign-up page the user is able to <span class="fw-bolder">sign up</span> and <span
+                            class="fw-bolder">
             sign in
-          </span> using <span class="fw-bolder">modal login form</span> on the top right corner. Although on that corner
-                    user are able to sign out.
-                </p>
-            </div>
+          </span> using a <span class="fw-bolder">modal login form</span> on the top right corner. Also in that corner
+                        the user can sign out.
+                    </p>
+                </div>
 
-            {# Contacts block #}
-            <li class="h5 mt-3 fw-bolder">Contacts</li>
-            <div class="ms-3">
-                User able to do smth
-            </div>
+                {# Contacts block #}
+                <li class="h5 mt-3 fw-bolder">Contacts</li>
+                <div class="ms-3">
+                    Every user can keep a book of their contacts in <span class="fw-bolder">Contacts</span> section.
+                    Each contact has a name, an address, a birthdate, gender, and a list of emails and phones. A new contact
+                    can be added using the button <span class="fw-bolder">Add New Contact</span>. Then the contact can be
+                    deleted or updated by clicking on the corresponding buttons next to it on the
+                    <span class="fw-bolder">Contacts</span> page. The user can also filter the entries and get a list of people
+                    who have birthdays in the next N days.
+                </div>
 
-            {# File storage block #}
-            <li class="h5 mt-3 fw-bolder">File storage</li>
-            <div class="ms-3">
-                User able to upload files with valid extensions. Valid xtensions can be found in header on the files
-                page.
-                Just click on button <span class="fw-bolder">Extensions</span>. Uploaded files are separated into
-                categories
-                according to their extensions and stored in the <span class="fw-bolder">DropBox cloud</span>. User
-                are able to
-                filter files by category.
-            </div>
-
-
-            {# Notes block #}
-            <li class="h5 mt-3 fw-bolder">Notes</li>
-            <div class="ms-3">
-                User able to add notes just click on button <span class="fw-bolder">Add note</span>. Each note must
-                include a tag that describes the topic and subject of the entry.
-                In the <span class="fw-bolder">Tags</span> section, you can create new tags and delete those that are
-                not used.
-                In the list of notes, you can <span class="fw-bolder">Mark done</span> that are completed and also <span
-                    class="fw-bolder">Delete note</span>
-                When viewing a note in detail, it is possible to start <span class="fw-bolder">Editing</span> it (change
-                the name, description, and tags).
-                The sidebar has the ability to <span class="fw-bolder">search</span> for notes by tags and by the
-                Done/Undone field
-            </div>
+                {# File storage block #}
+                <li class="h5 mt-3 fw-bolder">File storage</li>
+                <div class="ms-3">
+                    The user is able to upload files with valid extensions. The list of valid extensions can be found in
+                    the header on the files page.
+                    Just click on the button <span class="fw-bolder">Extensions</span>. Uploaded files are separated into
+                    categories according to their extensions and stored in the <span class="fw-bolder">DropBox cloud</span>.
+                    The user also can filter their files by category.
+                </div>
 
 
-            {# Web-scrapper block #}
-            <li class="h5 mt-3 fw-bolder">Web-scrapper</li>
-            <div class="ms-3">
-                <p style="margin-bottom: 0rem">After authentication, the user has the opportunity to view current
-                    news in the following
-                    categories:</p>
-                <ul class="list">
-                    <li class="fst-italic">Ukrainian news</li>
-                    <li class="fst-italic">Sports news</li>
-                    <li class="fst-italic">Technology news</li>
-                    <li class="fst-italic">Current books on the Python programming language</li>
-                    <li class="fst-italic">Current exchange rates in banks</li>
-                </ul>
-                <p style="margin-bottom: 0rem"><span class="fw-bolder">News</span>, <span
-                        class="fw-bolder">book titles</span>, and <span
-                        class="fw-bolder">bank names</span> have links to the corresponding pages that you can go to
-                    for more detailed information.</p>
-                <p>To display the exchange rate, select the required <span class="fw-bolder">currency</span> and
-                    <span class="fw-bolder">date</span> for the corresponding
-                    report.</p>
-            </div>
+        {# Notes block #}
+        <li class="h5 mt-3 fw-bolder">Notes</li>
+        <div class="ms-3">
+          The user is able to add notes by clicking on the button <span class="fw-bolder">Add note</span>. Each note has
+            to include a tag that describes the topic and the subject of the entry.
+          In the <span class="fw-bolder">Tags</span> section, you can create new tags and delete those that are not used.
+          In the list of notes, you can <span class="fw-bolder">Mark done</span> the completed ones and also
+            <span class="fw-bolder">Delete note</span>.
+          When viewing a note in detail, it is possible to start <span class="fw-bolder">Editing</span> it (change the name,
+            the description, and the tags).
+          The sidebar can <span class="fw-bolder">search</span> for notes by tags and by the Done/Undone field.
+        </div>
 
-            {# Search block #}
-            <li class="h5 mt-3 fw-bolder">Search</li>
-            <div class="ms-3">
-                If you want to find any info in your personal data you can use search tool. If you are in contacts page
-                results show all contacts where at least one of info field matches search query. Notes pages and Files
-                pages have the same functionality. If you are in another block for example About or Scrapping results
-                show your personal or common info from every blocks that has this app. Every search result has link to
-                info page about it.
-            </div>
 
-            {# Profile block #}
-            <li class="h5 mt-3 fw-bolder">Profile</li>
-            <div class="ms-3">
-                After successful signing up or signin in user will be redirect directly to his profile where user
-                profile can
-                be edited by adding obligatory fields: <span class="fw-bolder">first name</span> and <span
-                    class="fw-bolder">last name</span>
-                or not obligatory such as
-                <span class="fw-bolder">avatar</span>,
-                <span class="fw-bolder">email</span>,
-                <span class="fw-bolder">phone</span>,
-                <span class="fw-bolder">gender</span>. Although user are able to see how much contacts, notes and
-                files it has.
-            </div>
+                {# Web-scrapper block #}
+                <li class="h5 mt-3 fw-bolder">Web-scrapper</li>
+                <div class="ms-3">
+                    <p style="margin-bottom: 0rem">After authentication, the user has an opportunity to view current
+                        news in the following categories:</p>
+                    <ul class="list">
+                        <li class="fst-italic">Ukrainian news</li>
+                        <li class="fst-italic">Sports news</li>
+                        <li class="fst-italic">Technology news</li>
+                        <li class="fst-italic">Current books on the Python programming language</li>
+                        <li class="fst-italic">Current exchange rates in banks</li>
+                    </ul>
+                    <p style="margin-bottom: 0rem"><span class="fw-bolder">The news</span>, <span class="fw-bolder">the book titles</span>, and <span
+                            class="fw-bolder">the bank names</span> have links to the corresponding pages that you can go to
+                        for more detailed information.</p>
+                    <p>To display the exchange rate, select the required <span class="fw-bolder">currency</span> and
+                        <span class="fw-bolder">date</span> to get the corresponding
+                        report.</p>
+                </div>
+
+                {# Search block #}
+                <li class="h5 mt-3 fw-bolder">Search</li>
+                <div class="ms-3">
+                    If you want to find any info in your personal data you can use the search tool. If you are on the contacts
+                    page results show all contacts where at least one of fields matches the search query. The notes page
+                    and the files page have the same functionality. If you are in another block (for example, About or Scrapping)
+                    results show your personal or common info from each block that has this app. Every search result has a link to
+                    the info page about it.
+                </div>
+
+                {# Profile block #}
+                <li class="h5 mt-3 fw-bolder">Profile</li>
+                <div class="ms-3">
+                    After successful signing up or signin in the user will be redirected straight to their profile where they
+                    can add their <span class="fw-bolder">first name</span> and <span class="fw-bolder">last name</span>,
+                    set <span class="fw-bolder">avatar</span>, <span class="fw-bolder">email</span>,
+                    <span class="fw-bolder">phone</span>, and <span class="fw-bolder">gender</span>.
+                    Also, the user is able to see how many contacts, notes, and files they have.
+                </div>
 
 
         </ul>

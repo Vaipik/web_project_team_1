@@ -15,8 +15,8 @@ def happens_in(birthday, days):
     if difference.days >= 0:
         return difference.days <= relativedelta(days=days).days
     else:
-        abs_difference = today + relativedelta(years=1) - difference
-        return abs_difference.day <= relativedelta(days=days).days
+        abs_difference = today + relativedelta(days=difference.days) + relativedelta(years=1)
+        return abs_difference <= relativedelta(days=days) + today
 
 
 def get_birthday_list(list_of_contacts, days):

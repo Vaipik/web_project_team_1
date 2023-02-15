@@ -26,13 +26,19 @@ def highlight(text: str, search_string: str):
 def attr(item, attribute):
     if "__" in attribute:
         fk, field = attribute.split("__")
-        values = [el.__getattribute__(field) for el in item.__getattribute__(fk).all()]
-        if len(values) > 1:
-            result = ", ".join(values)
-        else:
-            result = values[0]
+        try:
+            values = [el.__getattribute__(field) for el in item.__getattribute__(fk).all()]
+            if len(values) > 1:
+                result = ", ".join(values)
+            else:
+                result = values[0]
+        except IndexError:
+            result = ""
         return mark_safe(result)
-    result = item.__getattribute__(attribute)
+    try:
+        result = item.__getattribute__(attribute)
+    except IndexError:
+        result = ""
     if isinstance(result, datetime):
         result = result.strftime("%Y.%m.%d %H:%M:%S")
     return mark_safe(result)

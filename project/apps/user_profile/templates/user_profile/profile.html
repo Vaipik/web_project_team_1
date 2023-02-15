@@ -133,7 +133,7 @@
             {% for note in notes %}
               <span class="text-muted">{{ note }}</span>
             {% endfor %}
-            <a href="{% url 'notes:main' %}" class="badge">Open</a>
+            <a href="{% url 'notes:main' %}" class="badge bg-warning text-decoration-none text-dark">Open</a>
           {% else %}
             <p class="text-muted fw-lighter fs-4">Here will be displayed your last five notes</p>
           {% endif %}
@@ -153,7 +153,7 @@
                 <span class="fw-light">category: {{ file.category.name }}</span>
               </span>
             {% endfor %}
-            <a href="#" class="badge">Open</a>
+            <a href="{% url 'file_storage:file_list' %}" class="badge bg-warning text-decoration-none text-dark">Open</a>
           {% else %}
             <p class="text-muted fw-lighter fs-4">Here will be displayed your last five uploaded files.</p>
           {% endif %}

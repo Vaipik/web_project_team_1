@@ -36,7 +36,7 @@ class ContactForm(ModelForm):
         validators=[
             RegexValidator(
                 regex=r"^[\w .]{2,100}$",
-                message="Name must be between 2 and 100 characters. And contain only letters.",
+                message="Name must be between 2 and 100 characters.",
             )
         ],
         widget=TextInput(attrs={"class": "form-control"}),

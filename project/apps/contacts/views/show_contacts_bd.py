@@ -14,7 +14,8 @@ def show_contacts_bd(request):
     Shows people who have birthdays n days from now.
     """
     if request.method == "GET":
-        all_contacts = Contact.objects.filter(owner=request.user).prefetch_related(
+
+        all_contacts = Contact.objects.filter(owner=request.user, birthday__isnull=False).prefetch_related(
             "phones", "emails"
         )
         days = request.GET.get("query", "")

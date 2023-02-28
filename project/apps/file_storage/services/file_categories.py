@@ -1,11 +1,10 @@
 from pathlib import Path
 
-from django.db.models import QuerySet, Q
 from django.contrib.auth import get_user_model
+from django.contrib.auth.models import User
 
 from utils.file_categories import Categories
-from ..models import FileCategory
-
+from ..models import FileCategory, File
 
 User = get_user_model()
 
@@ -30,3 +29,8 @@ def get_file_category(file: str) -> FileCategory:
     category_name = determine_file_category(file)
     category, created = FileCategory.objects.get_or_create(name=category_name)
     return category
+
+
+def get_owner(owner_id):
+    owner = User.objects.filter(id=owner_id).first()
+    return owner

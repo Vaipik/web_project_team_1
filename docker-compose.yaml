@@ -1,6 +1,10 @@
 version: "3.8"
 services:
-
+  redis:
+    image: redis:latest
+    container_name: redis
+    ports:
+      - "6379:6379"
   db:
     image: postgres
     container_name: postgres
@@ -22,8 +26,23 @@ services:
     ports:
       - "8000:8000"
     volumes:
-      - .:/project/
+      - /app:/app/project/media/
     env_file:
       - .env
     depends_on:
       - db
+
+  celery:
+    restart: always
+    build:
+      context: .
+    command: celery --workdir project -A config worker -l INFO --pool solo
+    volumes:
+      - /app:/app/project/media/
+    container_name: celery
+    env_file:
+      - .env
+    depends_on:
+      - db
+      - redis
+      - django

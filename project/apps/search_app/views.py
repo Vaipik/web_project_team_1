@@ -81,35 +81,27 @@ class SearchUniView(LoginRequiredMixin, PaginationMixin, ListView):
     template_name = "search_app/search_results.html"
 
     query_name = "query"
-    models = [
-        {
-            "model": SearchContactView.model,
-            "search_fields": SearchContactView.search_fields,
-            "fields": SearchContactView.fields,
-            "auth_required": SearchContactView.auth_required,
-            "user_model_name": SearchContactView.user_model_name,
-            "url_name": SearchContactView.url_name,
-            "uuid": SearchContactView.uuid
-        },
-        {
-            "model": SearchFileView.model,
-            "search_fields": SearchFileView.search_fields,
-            "fields": SearchFileView.fields,
-            "auth_required": SearchFileView.auth_required,
-            "user_model_name": SearchFileView.user_model_name,
-            "url_name": SearchFileView.url_name,
-            "uuid": SearchFileView.uuid
-        },
-        {
-            "model": SearchNoteView.model,
-            "search_fields": SearchNoteView.search_fields,
-            "fields": SearchNoteView.fields,
-            "auth_required": SearchNoteView.auth_required,
-            "user_model_name": SearchNoteView.user_model_name,
-            "url_name": SearchNoteView.url_name,
-            "uuid": SearchNoteView.uuid
-        },
+
+    search_views = [
+        SearchContactView,
+        SearchFileView,
+        SearchNoteView,
     ]
+
+    models = []
+
+    for search_view in search_views:
+        models.append(
+            {
+                "model": search_view.model,
+                "search_fields": search_view.search_fields,
+                "fields": search_view.fields,
+                "auth_required": search_view.auth_required,
+                "user_model_name": search_view.user_model_name,
+                "url_name": search_view.url_name,
+                "uuid": search_view.uuid,
+            }
+        )
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)

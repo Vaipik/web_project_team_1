@@ -1,6 +1,4 @@
-from django.contrib import messages
 from django.db.models import Q
-from django.shortcuts import redirect
 
 
 def get_filter_query_conditions(fields: list, query_string: str):

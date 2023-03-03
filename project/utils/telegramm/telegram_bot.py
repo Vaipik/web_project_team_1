@@ -2,8 +2,7 @@ import os
 
 import telebot
 
-API_TOKEN = "5349321740:AAGJCDXLQ-DGd9ojbrizBdrmjNZNtEd4DL4"
-# API_TOKEN = os.environ.get("TELEGRAM_API_TOKEN")
+API_TOKEN = os.environ.get("TELEGRAM_API_TOKEN")
 
 bot = telebot.TeleBot(API_TOKEN)
 

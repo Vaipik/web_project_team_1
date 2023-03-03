@@ -1,5 +1,4 @@
 from pathlib import Path
-from time import sleep
 
 from celery import shared_task
 from django.core.files.storage import FileSystemStorage
@@ -9,7 +8,7 @@ from .models import File
 from .services.file_categories import get_file_category, get_owner
 
 
-@shared_task(bind=True)
+@shared_task(bind=True, name='upload_file_task')
 def upload_file_task(bind, path, filename, description, owner_id):
     print('Uploading file...')
 

@@ -16,7 +16,6 @@ services:
       - "5432:5432"
     volumes:
       - .postgres_data:/var/lib/postgresql/data/
-
   django:
     build:
       context: .
@@ -31,18 +30,46 @@ services:
       - .env
     depends_on:
       - db
-
-  celery:
+  celery_worker:
     restart: always
     build:
       context: .
     command: celery --workdir project -A config worker -l INFO --pool solo
     volumes:
       - /app:/app/project/media/
-    container_name: celery
+    container_name: celery_worker
     env_file:
       - .env
     depends_on:
       - db
       - redis
+      - django
+  celery_beat:
+    restart: always
+    build:
+      context: .
+    command: celery --workdir project -A config beat -l INFO
+    volumes:
+      - /app:/app/project/media/
+    container_name: celery_beat
+    env_file:
+      - .env
+    depends_on:
+      - db
+      - redis
+      - django
+      - celery_worker
+  telegram:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: telegram
+    command: python project/utils/telegramm/telegram_bot.py
+    ports:
+      - "8001:8001"
+    volumes:
+      - /app:/app/project/media/
+    env_file:
+      - .env
+    depends_on:
       - django

@@ -21,22 +21,3 @@ app.autodiscover_tasks()
 def debug_task(self):
     print(f'Request: {self.request!r}')
 
-
-# from celery.signals import worker_process_init, worker_process_shutdown
-#
-# db_conn = None
-#
-#
-# @worker_process_init.connect
-# def init_worker(**kwargs):
-#     global db_conn
-#     print('Initializing database connection for worker.')
-#     db_conn = db.connect(DB_CONNECT_STRING)
-#
-#
-# @worker_process_shutdown.connect
-# def shutdown_worker(**kwargs):
-#     global db_conn
-#     if db_conn:
-#         print('Closing database connectionn for worker.')
-#         db_conn.close()

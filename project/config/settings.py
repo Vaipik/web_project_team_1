@@ -36,7 +36,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'storages',  # django-storages
+    'storages',
     'apps.contacts',
     'apps.file_storage',
     'apps.notes',
@@ -44,6 +44,9 @@ INSTALLED_APPS = [
     'apps.search_app',
     'apps.user_auth',
     'apps.user_profile',
+    'apps.reminder',
+    'django_celery_results',
+    'django_celery_beat'
 ]
 
 MIDDLEWARE = [
@@ -90,11 +93,6 @@ DATABASES = {
         'PASSWORD': os.environ.get("DB_PASSWORD"),
         'HOST': "db",
         'PORT': os.environ.get("DB_PORT"),
-        # 'NAME': "postgres",
-        # 'USER': "postgres",
-        # 'PASSWORD': "postgres",
-        # "HOST": "127.0.0.1",
-        # "PORT": "5432",
     }
 }
 
@@ -165,4 +163,15 @@ DROPBOX_OAUTH2_REFRESH_TOKEN = os.environ.get("DROPBOX_OAUTH2_REFRESH_TOKEN")
 
 # celery settings
 CELERY_BROKER_URL = 'redis://redis:6379'
-CELERY_RESULT_BACKEND = 'redis://redis:6379'
+CELERY_RESULT_BACKEND = 'django-db'
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.redis.RedisCache',
+        'LOCATION': 'redis://127.0.0.1:6379/2',
+    }
+}
+
+CELERY_CACHE_BACKEND = 'default'
+
+CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers:DatabaseScheduler'

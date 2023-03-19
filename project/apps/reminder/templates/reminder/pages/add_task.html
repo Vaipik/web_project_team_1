@@ -7,7 +7,11 @@
 <script type="text/javascript" src="{% static '/admin/js/core.js' %}"></script>
 <link rel="stylesheet" type="text/css" href="{% static '/admin/css/base.css' %}"/>
 <link rel="stylesheet" type="text/css" href="{% static '/admin/css/widgets.css' %}"/>
-<form action="{% url 'reminder:calendar' %}" method="post" enctype="multipart/form-data">
+    {% if object %}
+    <form action="{% url submit_url object.uuid %}" method="post" enctype="multipart/form-data">
+    {% else %}
+    <form action="{% url submit_url %}" method="post" enctype="multipart/form-data">
+    {% endif %}
         {% csrf_token %}
     <div class="col-4 text-center">
         {{ form.media }}

@@ -1,0 +1,45 @@
+{% load reminder_tags %}
+<div class="row justify-content-center">
+    <h3 class="h5 text-center mt-3">
+        Reminder List
+    </h3>
+    <div>
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th scope="col">Event</th>
+                <th scope="col">Message</th>
+                <th scope="col">Date Time</th>
+                <th scope="col">Senders</th>
+                <th scope="col">Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for task in object_list %}
+            <tr>
+                <td style="vertical-align: middle">
+                    <span class="fw-light">{{ task.task_name }}</span>
+                </td>
+
+                <td style="vertical-align: middle">
+                    <span class="fw-lighter">{{ task.periodic_tasks|get_msg }}</span>
+                </td>
+                <td style="vertical-align: middle">{{ task.periodic_tasks|get_datetime }}</td>
+                <td style="vertical-align: middle">{{ task.senders|get_senders }}</td>
+                <td style="vertical-align: middle">
+                    <a href="{% url 'reminder:edit_task' task_uuid=task.uuid %}"><button
+                            class="btn btn-outline-info">
+                    Edit task
+                    </button></a>
+                    <button type="button" class="btn btn-outline-danger"
+                            data-bs-toggle="modal" data-bs-target="#ajax_delete_task">
+                        Delete Task
+                    </button>
+                </td>
+            </tr>
+            {% include 'reminder/task_delete_modal.html' %}
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>

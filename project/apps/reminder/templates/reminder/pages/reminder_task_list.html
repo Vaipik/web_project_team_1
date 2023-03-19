@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block app_header_content %}
+  <li><a href="{% url 'reminder:add_task' %}" class="btn btn-outline-warning ms-2 me-3">Add task</a></li>
+  <li><a href="{% url 'reminder:sender_settings' %}" class="btn btn-outline-warning">Sender settings</a></li>
+{% endblock %}
+
+{% block app_sidebar_content %}
+{% endblock %}
+
+{% block content %}
+  {% include 'reminder/reminder_tasks.html' %}
+
+{% endblock %}

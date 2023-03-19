@@ -1,9 +1,8 @@
 import re
 from datetime import datetime
-from typing import List
 
 from django import template
-from django.utils.safestring import mark_safe, SafeString
+from django.utils.safestring import mark_safe
 
 register = template.Library()
 

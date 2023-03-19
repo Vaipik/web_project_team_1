@@ -28,5 +28,5 @@ class FileCategory(models.Model):
         ordering = ["-name"]
 
     def __str__(self) -> str:
-        return self.name
+        return str(self.name)
 
